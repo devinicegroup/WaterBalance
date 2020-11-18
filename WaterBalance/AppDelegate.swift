@@ -11,10 +11,22 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        if !UserDefaults.standard.bool(forKey: "firstRun") {
+            print("Первый запуск")
+            DispatchQueue.main.async {
+                UserDefaultsService.shared.setVolumes()
+                UserDefaultsService.shared.setSettingsForFirstRun()
+                Drink.saveDrinkables()
+                UserDefaults.standard.set(true, forKey: "firstRun")
+                
+                
+                //TODO переместить в стартовый контроллер
+                UserDefaultsService.shared.setSettingsForStart()
+                UserDefaults.standard.set(1500.0, forKey: "target")
+            }
+        }
+        
         return true
     }
 
