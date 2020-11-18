@@ -17,17 +17,19 @@ class HistoryController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewHightConstraint: NSLayoutConstraint!
     
+    let labelTableViewIsEmpty = UILabel()
+    var dates: [Date]!
     var calendar: FSCalendar!
     var formatter = DateFormatter()
     var drinkUpsForCalendar = [Results<DrinkUp>]()
     var drinkUps = [Results<DrinkUp>]()
-    var dates: [Date]!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tableView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
         tableView.reloadData()
         calendar.reloadData()
+        labelIsHidden()
     }
     
     override func viewDidLoad() {
@@ -41,6 +43,7 @@ class HistoryController: UIViewController {
         drinkUps = StorageService.shared.getDataForMonth(date: Date()).reversed()
         setupCalendar()
         setupTableView()
+        setupLabel()
     }
     
     func setupCalendar() {
@@ -71,6 +74,32 @@ class HistoryController: UIViewController {
         tableView.register(DrinkUpCell.self, forCellReuseIdentifier: DrinkUpCell.reuseId)
         tableView.register(HistoryTableViewHeader.self, forHeaderFooterViewReuseIdentifier: HistoryTableViewHeader.reuseId)
         tableView.separatorColor = UIColor.clear
+    }
+    
+    func setupLabel() {
+        labelTableViewIsEmpty.text = "ffffff"
+        labelIsHidden()
+        
+        labelTableViewIsEmpty.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(labelTableViewIsEmpty)
+        
+        NSLayoutConstraint.activate([
+            labelTableViewIsEmpty.topAnchor.constraint(equalTo: tableView.topAnchor, constant: 16),
+            labelTableViewIsEmpty.centerXAnchor.constraint(equalTo: tableView.centerXAnchor)
+        ])
+    }
+    
+    func labelIsHidden() {
+        var tableIsEmpty = true
+        drinkUps.forEach { (result) in
+            if !result.isEmpty { tableIsEmpty = false }
+        }
+        
+        if tableIsEmpty {
+            labelTableViewIsEmpty.isHidden = false
+        } else {
+            labelTableViewIsEmpty.isHidden = true
+        }
     }
     
     func changeNavTitle() {
@@ -131,6 +160,7 @@ extension HistoryController: FSCalendarDelegate, FSCalendarDataSource {
         changeNavTitle()
         self.calendar.reloadData()
         tableView.reloadData()
+        labelIsHidden()
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
@@ -138,6 +168,7 @@ extension HistoryController: FSCalendarDelegate, FSCalendarDataSource {
         print("Date selected: \(formatter.string(from: date))")
         drinkUps = StorageService.shared.getDataForDay(date: date)
         tableView.reloadData()
+        labelIsHidden()
     }
     
 }
@@ -211,10 +242,12 @@ extension HistoryController: EditingControllerProtocol {
     func deleteDrinkUp() {
         tableView.reloadData()
         calendar.reloadData()
+        labelIsHidden()
     }
     
     func closeEditingController() {
         tableView.reloadData()
         calendar.reloadData()
+        labelIsHidden()
     }
 }
