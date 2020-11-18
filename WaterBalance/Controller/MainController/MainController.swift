@@ -42,6 +42,7 @@ class MainController: UIViewController {
         self.navigationItem.title = "Водный баланс"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
+        //для маленьких экранов????
         //        navigationController?.navigationBar.barTintColor = .darkGray
         //        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     }
