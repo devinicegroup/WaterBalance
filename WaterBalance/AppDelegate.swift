@@ -20,8 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Drink.saveDrinkables()
                 UserDefaults.standard.set(true, forKey: "firstRun")
                 
-                
-                //TODO переместить в стартовый контроллер
+                //TODO переместить в стартовый контроллер!
                 UserDefaultsService.shared.setSettingsForStart()
                 UserDefaults.standard.set(1500.0, forKey: "target")
             }
