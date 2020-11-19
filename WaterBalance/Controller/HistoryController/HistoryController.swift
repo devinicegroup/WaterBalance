@@ -38,7 +38,7 @@ class HistoryController: UIViewController {
         view.backgroundColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        dates = Date.getDate(date: Date())
+        dates = Date.getDatesForMonth(date: Date())
         drinkUpsForCalendar = StorageService.shared.getDataForMonth(date: Date())
         drinkUps = StorageService.shared.getDataForMonth(date: Date()).reversed()
         setupCalendar()
@@ -159,7 +159,7 @@ extension HistoryController: FSCalendarDelegate, FSCalendarDataSource {
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        dates = Date.getDate(date: calendar.currentPage)
+        dates = Date.getDatesForMonth(date: calendar.currentPage)
         drinkUpsForCalendar = StorageService.shared.getDataForMonth(date: calendar.currentPage)
         drinkUps = StorageService.shared.getDataForMonth(date: calendar.currentPage).reversed()
         changeNavTitle()

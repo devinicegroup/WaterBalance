@@ -35,7 +35,7 @@ class StorageService {
     
     func getDataForMonth(date: Date) -> [Results<DrinkUp>] {
         var drinkUps = [Results<DrinkUp>]()
-        let dates = Date.getDate(date: date)
+        let dates = Date.getDatesForMonth(date: date)
         dates.forEach { (date) in
             let todayStart = Calendar.current.startOfDay(for: date)
             let todayEnd: Date = {
@@ -56,6 +56,15 @@ class StorageService {
         }()
         drinkUps.append(realm.objects(DrinkUp.self).filter("time BETWEEN %@", [todayStart, todayEnd]).sorted(byKeyPath: "time", ascending: false))
         return drinkUps
+    }
+    
+    func getDataForOneDrink(from: Date, to: Date, drink: Drink) -> Results<DrinkUp> {
+        let drinkUps = realm.objects(DrinkUp.self).filter("time BETWEEN %@", [from, to]).filter("drink == %@", drink)
+        return drinkUps
+    }
+    
+    func getDrinks() -> Results<Drink> {
+        return realm.objects(Drink.self).sorted(byKeyPath: "id", ascending: true)
     }
     
     func getDailyTarget(date: Date) -> Results<DailyTarget> {

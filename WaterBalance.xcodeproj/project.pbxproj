@@ -46,6 +46,8 @@
 		D3B585482548236D002A4E96 /* DrinkStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B585472548236D002A4E96 /* DrinkStart.swift */; };
 		D3BB3B8D254702A0003ADA74 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BB3B8C254702A0003ADA74 /* UIColor + Extension.swift */; };
 		D3CB4F9F25519D6800108B55 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3CB4F9E25519D6800108B55 /* UIViewController + Extension.swift */; };
+		D3E0F4752566982B001F601A /* StatisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E0F4742566982B001F601A /* StatisticsCell.swift */; };
+		D3E0F4792566A5C2001F601A /* MyProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E0F4782566A5C2001F601A /* MyProgressView.swift */; };
 		D3EE13B125513505004D901A /* ContainerPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EE13B025513505004D901A /* ContainerPopUp.swift */; };
 		D3EE13B425513951004D901A /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EE13B325513951004D901A /* ContainerView.swift */; };
 		D3F9F1E925629055009CA76A /* EditingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9F1E825629055009CA76A /* EditingController.swift */; };
@@ -97,6 +99,8 @@
 		D3B585472548236D002A4E96 /* DrinkStart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkStart.swift; sourceTree = "<group>"; };
 		D3BB3B8C254702A0003ADA74 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
 		D3CB4F9E25519D6800108B55 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
+		D3E0F4742566982B001F601A /* StatisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCell.swift; sourceTree = "<group>"; };
+		D3E0F4782566A5C2001F601A /* MyProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProgressView.swift; sourceTree = "<group>"; };
 		D3EE13B025513505004D901A /* ContainerPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerPopUp.swift; sourceTree = "<group>"; };
 		D3EE13B325513951004D901A /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
 		D3F9F1E825629055009CA76A /* EditingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingController.swift; sourceTree = "<group>"; };
@@ -159,7 +163,7 @@
 				D38B977A253F1EC400EF0D5B /* MainTabBarController.swift */,
 				D3ACC2D4255C545800C16000 /* MainController */,
 				D3ACC2D6255C54CA00C16000 /* HistoryController */,
-				D38B9788253F2A0000EF0D5B /* StatisticsController.swift */,
+				D3E0F47125669800001F601A /* StatisticsController */,
 				D38B978C253F2A3200EF0D5B /* AchievementsController.swift */,
 				D38B9790253F2A5800EF0D5B /* SettingsController.swift */,
 				D38B9783253F1FE600EF0D5B /* Storyboard */,
@@ -264,6 +268,24 @@
 				D39C9F59254857DA003DB108 /* UILabel + Extension.swift */,
 			);
 			path = UIKit;
+			sourceTree = "<group>";
+		};
+		D3E0F47125669800001F601A /* StatisticsController */ = {
+			isa = PBXGroup;
+			children = (
+				D38B9788253F2A0000EF0D5B /* StatisticsController.swift */,
+				D3E0F47325669811001F601A /* Cell */,
+			);
+			path = StatisticsController;
+			sourceTree = "<group>";
+		};
+		D3E0F47325669811001F601A /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D3E0F4742566982B001F601A /* StatisticsCell.swift */,
+				D3E0F4782566A5C2001F601A /* MyProgressView.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		D3F9F1EB25629060009CA76A /* EditindDrink */ = {
@@ -418,11 +440,13 @@
 				D38B9791253F2A5800EF0D5B /* SettingsController.swift in Sources */,
 				D39694B825553634006FA89C /* Drink.swift in Sources */,
 				D3B585482548236D002A4E96 /* DrinkStart.swift in Sources */,
+				D3E0F4752566982B001F601A /* StatisticsCell.swift in Sources */,
 				D300987F255412CE00E920A1 /* String + Extension.swift in Sources */,
 				D30F10022562F32900F2F703 /* EditingDrinkCell.swift in Sources */,
 				D3EE13B425513951004D901A /* ContainerView.swift in Sources */,
 				D381C15C2564230C00356FA7 /* DailyTarget.swift in Sources */,
 				D326CC512563D26B001B71AA /* DatePickerView.swift in Sources */,
+				D3E0F4792566A5C2001F601A /* MyProgressView.swift in Sources */,
 				D38B9785253F29B300EF0D5B /* HistoryController.swift in Sources */,
 				D38B977F253F1F6700EF0D5B /* MainController.swift in Sources */,
 				D30710AB255C1610009B2425 /* CalendarCell.swift in Sources */,

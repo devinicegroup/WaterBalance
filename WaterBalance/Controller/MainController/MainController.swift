@@ -52,6 +52,7 @@ class MainController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .white
+        collectionView.isScrollEnabled = false
         view.addSubview(collectionView)
         
         collectionView.register(DrinkablesCell.self, forCellWithReuseIdentifier: DrinkablesCell.reuseId)

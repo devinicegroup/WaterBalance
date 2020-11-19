@@ -9,7 +9,9 @@
 import Foundation
 
 extension Date {
-    static func dates(from fromDate: Date, to toDate: Date) -> [Date] {
+    static func dates(from fromDate: Date?, to toDate: Date?) -> [Date] {
+        guard let fromDate = fromDate, let toDate = toDate else { return []}
+        
         var dates: [Date] = []
         var date = fromDate
         
@@ -21,11 +23,25 @@ extension Date {
         return dates
     }
     
-    static func getDate(date: Date) -> [Date] {
+    static func getDatesForMonth(date: Date) -> [Date] {
         let startDate = date.startOfMonth
         let endDate = date.endOfMonth
         let dates = Date.dates(from: startDate, to: endDate)
         return dates
+    }
+    
+    static func getDatesFor(date: Date, days: Int) -> [Date] {
+        let startDate = date
+        
+        if days >= 0 {
+            let endDate = Calendar.current.date(byAdding: .day, value: days - 1, to: date)
+            let dates = Date.dates(from: startDate, to: endDate)
+            return dates
+        } else {
+            let endDate = Calendar.current.date(byAdding: .day, value: days + 1, to: date)
+            let dates = Date.dates(from: endDate, to: startDate)
+            return dates
+        }
     }
 }
 

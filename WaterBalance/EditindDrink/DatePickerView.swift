@@ -54,7 +54,7 @@ class DatePickerView: UIView {
         let formatter = DateFormatter()
         formatter.timeStyle = .none
         formatter.dateStyle = .long
-        
+
         let minDate = formatter.date(from: UserDefaults.standard.string(forKey: UserDefaultsServiceEnum.firstDate.rawValue)!)
         datePicker.minimumDate = minDate
         datePicker.maximumDate = Date()
