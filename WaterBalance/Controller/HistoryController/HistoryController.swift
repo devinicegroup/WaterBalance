@@ -77,14 +77,19 @@ class HistoryController: UIViewController {
     }
     
     func setupLabel() {
-        labelTableViewIsEmpty.text = "ffffff"
+        labelTableViewIsEmpty.text = "Нет записей за данный период времени"
+        labelTableViewIsEmpty.numberOfLines = 0
+        labelTableViewIsEmpty.textAlignment = .center
+        labelTableViewIsEmpty.font = .bodyMedium()
+        labelTableViewIsEmpty.textColor = .typographySecondary()
         labelIsHidden()
         
         labelTableViewIsEmpty.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(labelTableViewIsEmpty)
         
         NSLayoutConstraint.activate([
-            labelTableViewIsEmpty.topAnchor.constraint(equalTo: tableView.topAnchor, constant: 16),
+            labelTableViewIsEmpty.topAnchor.constraint(equalTo: tableView.topAnchor, constant: 32),
+            labelTableViewIsEmpty.widthAnchor.constraint(equalToConstant: tableView.frame.width - 120),
             labelTableViewIsEmpty.centerXAnchor.constraint(equalTo: tableView.centerXAnchor)
         ])
     }

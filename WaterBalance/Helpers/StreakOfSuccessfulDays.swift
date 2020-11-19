@@ -24,16 +24,17 @@ class StreakOfSuccessfulDays {
         guard let lastDateString = UserDefaults.standard.string(forKey: UserDefaultsServiceEnum.lastDateForCheckingOfSuccessfulDays.rawValue) else { return }
         guard let lastDate = formatter.date(from: lastDateString) else { return }
         guard let today = Date().removeTimeStamp else { return }
+        guard let lastTodayDate = lastDate.tomorrow else { return }
         var currentStreak = UserDefaults.standard.integer(forKey: UserDefaultsServiceEnum.currentStreak.rawValue)
         var recordStreak = UserDefaults.standard.integer(forKey: UserDefaultsServiceEnum.currentStreak.rawValue)
         
-        if today > lastDate {
+        if lastTodayDate == today {
             guard let lastDrinkUp = StorageService.shared.getDataForDay(date: lastDate).first else { return }
             var volume = 0.0
             lastDrinkUp.forEach { (drinkUp) in
                 volume += drinkUp.hydrationVolume
             }
-            
+
             let targetVolume = UserDefaults.standard.double(forKey: "target")
             if volume >= targetVolume {
                 currentStreak += 1
@@ -45,6 +46,8 @@ class StreakOfSuccessfulDays {
             } else {
                 UserDefaults.standard.set(0, forKey: UserDefaultsServiceEnum.currentStreak.rawValue)
             }
+        } else if lastTodayDate < today {
+            UserDefaults.standard.set(0, forKey: UserDefaultsServiceEnum.currentStreak.rawValue)
         }
         
         let lastDateForCheckingOfSuccessfulDays = formatter.string(from: Date())

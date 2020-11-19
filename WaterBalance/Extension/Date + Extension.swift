@@ -37,6 +37,10 @@ extension Date {
         return date
     }
     
+    var tomorrow: Date? {
+        return Calendar.current.date(byAdding: .day, value: 1, to: self)
+    }
+    
     var startOfDay: Date {
         return Calendar.current.startOfDay(for: self)
     }
@@ -65,19 +69,5 @@ extension Date {
         let calendar = Calendar(identifier: .gregorian)
         let components = calendar.dateComponents([.weekday], from: self)
         return components.weekday == 2
-    }
-    
-    // This Month Start
-    func getThisMonthStart() -> Date? {
-        let components = Calendar.current.dateComponents([.year, .month], from: self)
-        return Calendar.current.date(from: components)!
-    }
-    
-    func getThisMonthEnd() -> Date? {
-        let components:NSDateComponents = Calendar.current.dateComponents([.year, .month], from: self) as NSDateComponents
-        components.month += 1
-        components.day = 1
-        components.day -= 1
-        return Calendar.current.date(from: components as DateComponents)!
     }
 }
