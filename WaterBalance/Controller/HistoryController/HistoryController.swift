@@ -159,6 +159,9 @@ extension HistoryController: FSCalendarDelegate, FSCalendarDataSource {
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        if calendar.selectedDate != nil {
+            calendar.deselect(calendar.selectedDate!)
+        }
         dates = Date.getDatesForMonth(date: calendar.currentPage)
         drinkUpsForCalendar = StorageService.shared.getDataForMonth(date: calendar.currentPage)
         drinkUps = StorageService.shared.getDataForMonth(date: calendar.currentPage).reversed()
@@ -170,7 +173,6 @@ extension HistoryController: FSCalendarDelegate, FSCalendarDataSource {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         formatter.dateFormat = "dd-MMMM-yyyy"
-        print("Date selected: \(formatter.string(from: date))")
         drinkUps = StorageService.shared.getDataForDay(date: date)
         tableView.reloadData()
         labelIsHidden()
@@ -202,13 +204,21 @@ extension HistoryController: UITableViewDelegate, UITableViewDataSource {
             let headerView = HistoryTableViewHeader()
             formatter.dateFormat = "dd MMMM"
             let date = drinkUps[section].first!.time
-            let StringDate = formatter.string(from: date)
+            var stringDate = formatter.string(from: date)
+            
+            if date.removeTimeStamp == Date().removeTimeStamp {
+                stringDate = "Сегодня"
+            } else if date.removeTimeStamp == Date().yesterday?.removeTimeStamp {
+                stringDate = "Вчера"
+            } else if date.removeTimeStamp == Date().tomorrow?.removeTimeStamp {
+                stringDate = "Завтра"
+            }
             
             let volume = countVolume(for: section, from: drinkUps)
             let dailyTarget = StorageService.shared.getDailyTarget(date: date).first?.target ?? 1
             let volumeText = "\(Int(volume)) / \(Int(dailyTarget)) МЛ"
             
-            headerView.configure(date: StringDate, volume: volumeText)
+            headerView.configure(date: stringDate, volume: volumeText)
             return headerView
         } else {
             return nil
@@ -217,7 +227,7 @@ extension HistoryController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if !drinkUps[section].isEmpty {
-            return 37
+            return 41
         }
         return 0
     }

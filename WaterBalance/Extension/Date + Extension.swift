@@ -57,6 +57,10 @@ extension Date {
         return Calendar.current.date(byAdding: .day, value: 1, to: self)
     }
     
+    var yesterday: Date? {
+        return Calendar.current.date(byAdding: .day, value: -1, to: self)
+    }
+    
     var startOfDay: Date {
         return Calendar.current.startOfDay(for: self)
     }

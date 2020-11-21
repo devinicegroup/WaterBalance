@@ -42,7 +42,7 @@ class CalendarCell: FSCalendarCell {
         if date >= Date().startOfDay {
             roundedProgress = RoundProgressBar(color: UIColor.mainWhite().cgColor)
         } else {
-            if date >= formatter.date(from: firstDate)! {
+            if date >= formatter.date(from: firstDate)! && dailyTarget > volume {
                 roundedProgress = RoundProgressBar(color: UIColor.pink().cgColor)
             } else {
                 roundedProgress = RoundProgressBar(color: UIColor.mainWhite().cgColor)

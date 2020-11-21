@@ -50,7 +50,7 @@ class HistoryTableViewHeader: UITableViewHeaderFooterView {
         ])
         
         NSLayoutConstraint.activate([
-            topView.topAnchor.constraint(equalTo: self.topAnchor),
+            topView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             topView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             topView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             topView.heightAnchor.constraint(equalToConstant: 33)

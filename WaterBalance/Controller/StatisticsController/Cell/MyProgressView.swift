@@ -50,7 +50,7 @@ class MyProgressView: UIView {
             fgView.widthAnchor.constraint(equalToConstant: width)
         ])
         
-        UIView.animate(withDuration: 2.5) {
+        UIView.animate(withDuration: 1.5) {
             self.layoutIfNeeded()
         }
     }
