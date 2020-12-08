@@ -33,7 +33,6 @@ class CalendarCell: FSCalendarCell {
     
     func configure(with volume: Double, date: Date) {
         let dailyTarget = StorageService.shared.getDailyTarget(date: date).first?.target ?? 1
-        
         let firstDate = UserDefaults.standard.string(forKey: UserDefaultsServiceEnum.firstDate.rawValue)!
         let formatter = DateFormatter()
         formatter.timeStyle = .none

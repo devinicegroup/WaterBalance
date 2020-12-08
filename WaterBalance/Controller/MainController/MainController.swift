@@ -125,7 +125,6 @@ class MainController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(tabBarController?.tabBar.frame.height)! + 16),
             collectionView.heightAnchor.constraint(equalToConstant: collectionViewHight)
         ])
-
     }
 }
 

@@ -25,6 +25,12 @@ class StatisticsController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewHightConstraint: NSLayoutConstraint!
     
+    var segmentegControl: UISegmentedControl!
+    var previousDatesButton = UIButton(type: .system)
+    var nextDatesButton = UIButton(type: .system)
+    var datesLabel = UILabel()
+    
+    var formatter = DateFormatter()
     var dates: [Date]!
     var drinksVolume = [StatisticVolume]()
     var allValue = 0.0
@@ -42,13 +48,143 @@ class StatisticsController: UIViewController {
         self.navigationItem.title = "Статистика"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        dates = Date.getDatesFor(date: Date(), days: -7)
+        topViewHightConstraint.constant = 300
+        
+        let monday = Date.today().previous(.monday, considerToday: true)
+        dates = Date.getDatesFor(date: monday.removeTimeStamp ?? Date.today(), days: 7)
+        
         getDrinksVolume()
+        setupSegmentedControl()
+        setupTopElements()
         setupTableView()
+        setupConstraints()
+    }
+    
+    private func setupSegmentedControl() {
+        let items = ["Неделя", "30 дней"]
+        segmentegControl = UISegmentedControl(items: items)
+        segmentegControl.selectedSegmentIndex = 0
+        segmentegControl.backgroundColor = .mainWhite()
+        
+        let titleTextAttributesForNormal = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary(), NSAttributedString.Key.font: UIFont.bodyRegularMin1()]
+        segmentegControl.setTitleTextAttributes(titleTextAttributesForNormal, for:.normal)
+    
+        let titleTextAttributesForSelected = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary(), NSAttributedString.Key.font: UIFont.bodyMediumMin1()]
+        segmentegControl.setTitleTextAttributes(titleTextAttributesForSelected, for:.selected)
+        
+        segmentegControl.addTarget(self, action: #selector(countDaysDidChange), for: .valueChanged)
+    }
+    
+    private func setupTopElements() {
+        datesLabel.textColor = .typographyPrimary()
+        datesLabel.font = .bodyMediumMin1()
+        datesLabel.textAlignment = .center
+        setDatesLabel()
+        
+        let leftImage = UIImage(named: "left")?.withTintColor(.mainDark()).withRenderingMode(.alwaysOriginal)
+        previousDatesButton.setImage(leftImage, for: .normal)
+        previousDatesButton.addTarget(self, action: #selector(previousDatesButtonTapped), for: .touchUpInside)
+        
+        let rightImage = UIImage(named: "right")?.withTintColor(.mainDark()).withRenderingMode(.alwaysOriginal)
+        nextDatesButton.setImage(rightImage, for: .normal)
+        nextDatesButton.addTarget(self, action: #selector(nextDatesButtonTapped), for: .touchUpInside)
+    }
+    
+    private func setDatesLabel() {
+        formatter.dateFormat = "dd MMM"
+        let firstDate = formatter.string(from: dates.first!)
+        let lastDate = formatter.string(from: dates.last!)
+        datesLabel.text = "\(firstDate) - \(lastDate)"
+    }
+    
+    @objc private func countDaysDidChange(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            let date = dates.last ?? Date.today()
+            let monday = date.previous(.monday, considerToday: true)
+            didChangeDates(date: monday, count: 7)
+        case 1:
+            let date = dates.last ?? Date.today()
+            didChangeDates(date: date, count: -30)
+        default:
+            break
+        }
+    }
+    
+    @objc private func previousDatesButtonTapped() {
+        switch segmentegControl.selectedSegmentIndex {
+        case 0:
+            let date = dates.first ?? Date.today()
+            let monday = date.previous(.monday, considerToday: true)
+            didChangeDates(date: monday, count: 7)
+        case 1:
+            let date = dates.first ?? Date.today()
+            didChangeDates(date: date, count: -30)
+        default:
+            break
+        }
+    }
+    
+    @objc private func nextDatesButtonTapped() {
+        switch segmentegControl.selectedSegmentIndex {
+        case 0:
+            let date = dates.first ?? Date.today()
+            let monday = date.next(.monday, considerToday: true)
+            didChangeDates(date: monday, count: 7)
+        case 1:
+            let date = dates.last ?? Date.today()
+            didChangeDates(date: date, count: 30)
+        default:
+            break
+        }
+    }
+    
+    private func didChangeDates(date: Date, count: Int) {
+        dates = Date.getDatesFor(date: date, days: count)
+        getDrinksVolume()
+        setDatesLabel()
+        tableView.reloadData()
+    }
+    
+    private func setupConstraints() {
+        segmentegControl.translatesAutoresizingMaskIntoConstraints = false
+        topView.addSubview(segmentegControl)
+        
+        datesLabel.translatesAutoresizingMaskIntoConstraints = false
+        topView.addSubview(datesLabel)
+        
+        nextDatesButton.translatesAutoresizingMaskIntoConstraints = false
+        topView.addSubview(nextDatesButton)
+        
+        previousDatesButton.translatesAutoresizingMaskIntoConstraints = false
+        topView.addSubview(previousDatesButton)
+        
+        NSLayoutConstraint.activate([
+            segmentegControl.topAnchor.constraint(equalTo: topView.topAnchor, constant: 16),
+            segmentegControl.leadingAnchor.constraint(equalTo: topView.leadingAnchor, constant: 16),
+            segmentegControl.trailingAnchor.constraint(equalTo: topView.trailingAnchor, constant: -16),
+        ])
+        
+        NSLayoutConstraint.activate([
+            datesLabel.topAnchor.constraint(equalTo: segmentegControl.bottomAnchor, constant: 19),
+            datesLabel.centerXAnchor.constraint(equalTo: topView.centerXAnchor),
+            datesLabel.widthAnchor.constraint(equalToConstant: 140)
+        ])
+        
+        NSLayoutConstraint.activate([
+            previousDatesButton.trailingAnchor.constraint(equalTo: datesLabel.leadingAnchor, constant: -27),
+            previousDatesButton.centerYAnchor.constraint(equalTo: datesLabel.centerYAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            nextDatesButton.leadingAnchor.constraint(equalTo: datesLabel.trailingAnchor, constant: 27),
+            nextDatesButton.centerYAnchor.constraint(equalTo: datesLabel.centerYAnchor)
+        ])
     }
      
     func getDrinksVolume() {
         guard !dates.isEmpty else { return }
+        drinksVolume = []
         let drinks = StorageService.shared.getDrinks()
         
         drinks.forEach { (drink) in
