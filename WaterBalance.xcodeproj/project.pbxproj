@@ -26,8 +26,6 @@
 		D38B9787253F29BE00EF0D5B /* HistoryController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D38B9786253F29BE00EF0D5B /* HistoryController.storyboard */; };
 		D38B9789253F2A0000EF0D5B /* StatisticsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38B9788253F2A0000EF0D5B /* StatisticsController.swift */; };
 		D38B978B253F2A0D00EF0D5B /* StatisticsController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D38B978A253F2A0D00EF0D5B /* StatisticsController.storyboard */; };
-		D38B978D253F2A3200EF0D5B /* AchievementsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38B978C253F2A3200EF0D5B /* AchievementsController.swift */; };
-		D38B978F253F2A3900EF0D5B /* AchievementsController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D38B978E253F2A3900EF0D5B /* AchievementsController.storyboard */; };
 		D38B9791253F2A5800EF0D5B /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38B9790253F2A5800EF0D5B /* SettingsController.swift */; };
 		D38B9793253F2A5F00EF0D5B /* SettingsController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D38B9792253F2A5F00EF0D5B /* SettingsController.storyboard */; };
 		D39473A52565150C00188592 /* StreakOfSuccessfulDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39473A42565150C00188592 /* StreakOfSuccessfulDays.swift */; };
@@ -48,8 +46,13 @@
 		D3CB4F9F25519D6800108B55 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3CB4F9E25519D6800108B55 /* UIViewController + Extension.swift */; };
 		D3E0F4752566982B001F601A /* StatisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E0F4742566982B001F601A /* StatisticsCell.swift */; };
 		D3E0F4792566A5C2001F601A /* MyProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E0F4782566A5C2001F601A /* MyProgressView.swift */; };
+		D3E47FDF2580C574003CD518 /* SettingsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E47FDE2580C574003CD518 /* SettingsData.swift */; };
 		D3EE13B125513505004D901A /* ContainerPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EE13B025513505004D901A /* ContainerPopUp.swift */; };
 		D3EE13B425513951004D901A /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EE13B325513951004D901A /* ContainerView.swift */; };
+		D3F06A0B2580DF4900F56EE4 /* SettingsStandardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F06A0A2580DF4900F56EE4 /* SettingsStandardCell.swift */; };
+		D3F06A0F2580E8A100F56EE4 /* SettingsSublabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F06A0E2580E8A100F56EE4 /* SettingsSublabelCell.swift */; };
+		D3F06A122580E8C400F56EE4 /* SettingsToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F06A112580E8C400F56EE4 /* SettingsToggleCell.swift */; };
+		D3F06A192580F97600F56EE4 /* SettingsTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F06A182580F97600F56EE4 /* SettingsTableViewHeader.swift */; };
 		D3F9F1E925629055009CA76A /* EditingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9F1E825629055009CA76A /* EditingController.swift */; };
 /* End PBXBuildFile section */
 
@@ -77,8 +80,6 @@
 		D38B9786253F29BE00EF0D5B /* HistoryController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HistoryController.storyboard; sourceTree = "<group>"; };
 		D38B9788253F2A0000EF0D5B /* StatisticsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsController.swift; sourceTree = "<group>"; };
 		D38B978A253F2A0D00EF0D5B /* StatisticsController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = StatisticsController.storyboard; sourceTree = "<group>"; };
-		D38B978C253F2A3200EF0D5B /* AchievementsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsController.swift; sourceTree = "<group>"; };
-		D38B978E253F2A3900EF0D5B /* AchievementsController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AchievementsController.storyboard; sourceTree = "<group>"; };
 		D38B9790253F2A5800EF0D5B /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		D38B9792253F2A5F00EF0D5B /* SettingsController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsController.storyboard; sourceTree = "<group>"; };
 		D39473A42565150C00188592 /* StreakOfSuccessfulDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakOfSuccessfulDays.swift; sourceTree = "<group>"; };
@@ -101,8 +102,13 @@
 		D3CB4F9E25519D6800108B55 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
 		D3E0F4742566982B001F601A /* StatisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCell.swift; sourceTree = "<group>"; };
 		D3E0F4782566A5C2001F601A /* MyProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProgressView.swift; sourceTree = "<group>"; };
+		D3E47FDE2580C574003CD518 /* SettingsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsData.swift; sourceTree = "<group>"; };
 		D3EE13B025513505004D901A /* ContainerPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerPopUp.swift; sourceTree = "<group>"; };
 		D3EE13B325513951004D901A /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
+		D3F06A0A2580DF4900F56EE4 /* SettingsStandardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStandardCell.swift; sourceTree = "<group>"; };
+		D3F06A0E2580E8A100F56EE4 /* SettingsSublabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSublabelCell.swift; sourceTree = "<group>"; };
+		D3F06A112580E8C400F56EE4 /* SettingsToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsToggleCell.swift; sourceTree = "<group>"; };
+		D3F06A182580F97600F56EE4 /* SettingsTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewHeader.swift; sourceTree = "<group>"; };
 		D3F9F1E825629055009CA76A /* EditingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -164,8 +170,7 @@
 				D3ACC2D4255C545800C16000 /* MainController */,
 				D3ACC2D6255C54CA00C16000 /* HistoryController */,
 				D3E0F47125669800001F601A /* StatisticsController */,
-				D38B978C253F2A3200EF0D5B /* AchievementsController.swift */,
-				D38B9790253F2A5800EF0D5B /* SettingsController.swift */,
+				D3E47FDD2580C54E003CD518 /* SettingsController */,
 				D38B9783253F1FE600EF0D5B /* Storyboard */,
 			);
 			path = Controller;
@@ -177,7 +182,6 @@
 				D38B9781253F1F9C00EF0D5B /* MainController.storyboard */,
 				D38B9786253F29BE00EF0D5B /* HistoryController.storyboard */,
 				D38B978A253F2A0D00EF0D5B /* StatisticsController.storyboard */,
-				D38B978E253F2A3900EF0D5B /* AchievementsController.storyboard */,
 				D38B9792253F2A5F00EF0D5B /* SettingsController.storyboard */,
 			);
 			path = Storyboard;
@@ -288,6 +292,27 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		D3E47FDD2580C54E003CD518 /* SettingsController */ = {
+			isa = PBXGroup;
+			children = (
+				D38B9790253F2A5800EF0D5B /* SettingsController.swift */,
+				D3F06A182580F97600F56EE4 /* SettingsTableViewHeader.swift */,
+				D3E47FDE2580C574003CD518 /* SettingsData.swift */,
+				D3F06A092580DED400F56EE4 /* Cell */,
+			);
+			path = SettingsController;
+			sourceTree = "<group>";
+		};
+		D3F06A092580DED400F56EE4 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D3F06A0A2580DF4900F56EE4 /* SettingsStandardCell.swift */,
+				D3F06A0E2580E8A100F56EE4 /* SettingsSublabelCell.swift */,
+				D3F06A112580E8C400F56EE4 /* SettingsToggleCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		D3F9F1EB25629060009CA76A /* EditindDrink */ = {
 			isa = PBXGroup;
 			children = (
@@ -383,7 +408,6 @@
 				D38B978B253F2A0D00EF0D5B /* StatisticsController.storyboard in Resources */,
 				D38B9793253F2A5F00EF0D5B /* SettingsController.storyboard in Resources */,
 				D38B9782253F1F9C00EF0D5B /* MainController.storyboard in Resources */,
-				D38B978F253F2A3900EF0D5B /* AchievementsController.storyboard in Resources */,
 				D39D6031253F10B0001B75E1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -450,7 +474,6 @@
 				D38B9785253F29B300EF0D5B /* HistoryController.swift in Sources */,
 				D38B977F253F1F6700EF0D5B /* MainController.swift in Sources */,
 				D30710AB255C1610009B2425 /* CalendarCell.swift in Sources */,
-				D38B978D253F2A3200EF0D5B /* AchievementsController.swift in Sources */,
 				D39C9F57254856D8003DB108 /* UIFont + Extension.swift in Sources */,
 				D39694BC255548FF006FA89C /* StorageService.swift in Sources */,
 				D30F0FFE2562F11B00F2F703 /* EditingDrinkController.swift in Sources */,
@@ -460,9 +483,13 @@
 				D30710A9255BF703009B2425 /* DrinkUpCell.swift in Sources */,
 				D39D602A253F10B0001B75E1 /* SceneDelegate.swift in Sources */,
 				D38B9789253F2A0000EF0D5B /* StatisticsController.swift in Sources */,
+				D3F06A0B2580DF4900F56EE4 /* SettingsStandardCell.swift in Sources */,
 				D39C9F5A254857DA003DB108 /* UILabel + Extension.swift in Sources */,
 				D3899129255D8A6500C08BD1 /* Date + Extension.swift in Sources */,
+				D3F06A192580F97600F56EE4 /* SettingsTableViewHeader.swift in Sources */,
+				D3E47FDF2580C574003CD518 /* SettingsData.swift in Sources */,
 				D399AF9F254FDFAE006CD60D /* UserDefaultsService.swift in Sources */,
+				D3F06A0F2580E8A100F56EE4 /* SettingsSublabelCell.swift in Sources */,
 				D3F9F1E925629055009CA76A /* EditingController.swift in Sources */,
 				D3EE13B125513505004D901A /* ContainerPopUp.swift in Sources */,
 				D3CB4F9F25519D6800108B55 /* UIViewController + Extension.swift in Sources */,
@@ -472,6 +499,7 @@
 				D38B977B253F1EC400EF0D5B /* MainTabBarController.swift in Sources */,
 				D326CC552563D465001B71AA /* EKAttributesPopUp.swift in Sources */,
 				D32AF14C25484BF300305677 /* DrinkablesCell.swift in Sources */,
+				D3F06A122580E8C400F56EE4 /* SettingsToggleCell.swift in Sources */,
 				D3BB3B8D254702A0003ADA74 /* UIColor + Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

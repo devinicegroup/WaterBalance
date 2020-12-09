@@ -29,4 +29,8 @@ extension UIFont {
     static func bodyRegularMin1() -> UIFont {
         return UIFont.systemFont(ofSize: 15, weight: .regular)
     }
+    
+    static func bodyRegularMin2() -> UIFont {
+        return UIFont.systemFont(ofSize: 13, weight: .regular)
+    }
 }

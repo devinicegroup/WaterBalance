@@ -23,10 +23,9 @@ class MainTabBarController: UITabBarController {
         let mainVC = createViewController(viewController: MainController(), image: UIImage(named: "Main")!, navigationTitle: "Водный баланс", tabBarTitle: "Главная")
         let historyVC = createViewController(viewController: HistoryController(), image: UIImage(named: "History")!, navigationTitle: "История", tabBarTitle: "История")
         let statisticsVC = createViewController(viewController: StatisticsController(), image: UIImage(named: "Statistics")!, navigationTitle: "Статистика", tabBarTitle: "Статистика")
-        let achievementsVC = createViewController(viewController: AchievementsController(), image: UIImage(named: "Achievements")!, navigationTitle: "Достижения", tabBarTitle: "Достижения")
         let settingsVC = createViewController(viewController: SettingsController(), image: UIImage(named: "Settings")!, navigationTitle: "Настройки", tabBarTitle: "Настройки")
         
-        viewControllers = [mainVC, historyVC, statisticsVC, achievementsVC, settingsVC]
+        viewControllers = [mainVC, historyVC, statisticsVC, settingsVC]
     }
     
     private func setTabBarItemColors(_ itemAppearance: UITabBarItemAppearance) {
