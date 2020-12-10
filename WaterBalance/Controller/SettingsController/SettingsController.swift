@@ -130,6 +130,8 @@ extension SettingsController: UITableViewDelegate, UITableViewDataSource {
         selectedIndexPath = indexPath
         
         switch indexPath {
+        case IndexPath(row: 0, section: 0):
+            RateService.showRatesController(delay: false)
         case IndexPath(row: 3, section: 2):
             self.navigationController?.pushViewController(VolumesController(), animated: true)
         case IndexPath(row: 4, section: 2):

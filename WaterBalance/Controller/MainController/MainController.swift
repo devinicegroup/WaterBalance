@@ -23,6 +23,10 @@ class MainController: UIViewController {
     
     var collectionViewHight: CGFloat!
     
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

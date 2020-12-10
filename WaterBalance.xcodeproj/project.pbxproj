@@ -19,6 +19,7 @@
 		D32DBAE925811B4E0072343C /* VolumesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32DBAE825811B4E0072343C /* VolumesController.swift */; };
 		D332F752255557F50047A370 /* DrinkUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D332F751255557F50047A370 /* DrinkUp.swift */; };
 		D359B385258210890046FC02 /* SettingsPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D359B384258210890046FC02 /* SettingsPopUp.swift */; };
+		D37A6BAE258275B600A9DCFA /* RateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37A6BAD258275B600A9DCFA /* RateService.swift */; };
 		D381C15C2564230C00356FA7 /* DailyTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D381C15B2564230C00356FA7 /* DailyTarget.swift */; };
 		D3899129255D8A6500C08BD1 /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3899128255D8A6500C08BD1 /* Date + Extension.swift */; };
 		D38B977B253F1EC400EF0D5B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38B977A253F1EC400EF0D5B /* MainTabBarController.swift */; };
@@ -75,6 +76,7 @@
 		D33A7CE4255F112A00BC5B7F /* WaterBalance.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WaterBalance.entitlements; sourceTree = "<group>"; };
 		D359B384258210890046FC02 /* SettingsPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPopUp.swift; sourceTree = "<group>"; };
 		D35A7448256432D3004A1960 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		D37A6BAD258275B600A9DCFA /* RateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateService.swift; sourceTree = "<group>"; };
 		D381C15B2564230C00356FA7 /* DailyTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTarget.swift; sourceTree = "<group>"; };
 		D3899128255D8A6500C08BD1 /* Date + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
 		D38B977A253F1EC400EF0D5B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 			children = (
 				D399AF9E254FDFAE006CD60D /* UserDefaultsService.swift */,
 				D39694BB255548FF006FA89C /* StorageService.swift */,
+				D37A6BAD258275B600A9DCFA /* RateService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 				D39694B825553634006FA89C /* Drink.swift in Sources */,
 				D3B585482548236D002A4E96 /* DrinkStart.swift in Sources */,
 				D3E0F4752566982B001F601A /* StatisticsCell.swift in Sources */,
+				D37A6BAE258275B600A9DCFA /* RateService.swift in Sources */,
 				D300987F255412CE00E920A1 /* String + Extension.swift in Sources */,
 				D30F10022562F32900F2F703 /* EditingDrinkCell.swift in Sources */,
 				D3EE13B425513951004D901A /* ContainerView.swift in Sources */,
