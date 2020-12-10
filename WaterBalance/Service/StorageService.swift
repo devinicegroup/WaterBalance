@@ -98,4 +98,10 @@ class StorageService {
             drinkUp.caffeine = drinkUp.volume * drinkUp.drink!.caffeine
         }
     }
+    
+    func updateDailyTarget(dailyTarget: DailyTarget, volume: Double) {
+        try! realm.write {
+            dailyTarget.target = volume
+        }
+    }
 }

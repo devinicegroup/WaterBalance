@@ -16,7 +16,9 @@
 		D326CC512563D26B001B71AA /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D326CC502563D26B001B71AA /* DatePickerView.swift */; };
 		D326CC552563D465001B71AA /* EKAttributesPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D326CC542563D465001B71AA /* EKAttributesPopUp.swift */; };
 		D32AF14C25484BF300305677 /* DrinkablesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32AF14B25484BF300305677 /* DrinkablesCell.swift */; };
+		D32DBAE925811B4E0072343C /* VolumesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32DBAE825811B4E0072343C /* VolumesController.swift */; };
 		D332F752255557F50047A370 /* DrinkUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D332F751255557F50047A370 /* DrinkUp.swift */; };
+		D359B385258210890046FC02 /* SettingsPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D359B384258210890046FC02 /* SettingsPopUp.swift */; };
 		D381C15C2564230C00356FA7 /* DailyTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D381C15B2564230C00356FA7 /* DailyTarget.swift */; };
 		D3899129255D8A6500C08BD1 /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3899128255D8A6500C08BD1 /* Date + Extension.swift */; };
 		D38B977B253F1EC400EF0D5B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38B977A253F1EC400EF0D5B /* MainTabBarController.swift */; };
@@ -68,8 +70,10 @@
 		D326CC502563D26B001B71AA /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		D326CC542563D465001B71AA /* EKAttributesPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKAttributesPopUp.swift; sourceTree = "<group>"; };
 		D32AF14B25484BF300305677 /* DrinkablesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkablesCell.swift; sourceTree = "<group>"; };
+		D32DBAE825811B4E0072343C /* VolumesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumesController.swift; sourceTree = "<group>"; };
 		D332F751255557F50047A370 /* DrinkUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkUp.swift; sourceTree = "<group>"; };
 		D33A7CE4255F112A00BC5B7F /* WaterBalance.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WaterBalance.entitlements; sourceTree = "<group>"; };
+		D359B384258210890046FC02 /* SettingsPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPopUp.swift; sourceTree = "<group>"; };
 		D35A7448256432D3004A1960 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		D381C15B2564230C00356FA7 /* DailyTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTarget.swift; sourceTree = "<group>"; };
 		D3899128255D8A6500C08BD1 /* Date + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
@@ -296,8 +300,10 @@
 			isa = PBXGroup;
 			children = (
 				D38B9790253F2A5800EF0D5B /* SettingsController.swift */,
+				D32DBAE825811B4E0072343C /* VolumesController.swift */,
 				D3F06A182580F97600F56EE4 /* SettingsTableViewHeader.swift */,
 				D3E47FDE2580C574003CD518 /* SettingsData.swift */,
+				D359B384258210890046FC02 /* SettingsPopUp.swift */,
 				D3F06A092580DED400F56EE4 /* Cell */,
 			);
 			path = SettingsController;
@@ -462,6 +468,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D38B9791253F2A5800EF0D5B /* SettingsController.swift in Sources */,
+				D359B385258210890046FC02 /* SettingsPopUp.swift in Sources */,
 				D39694B825553634006FA89C /* Drink.swift in Sources */,
 				D3B585482548236D002A4E96 /* DrinkStart.swift in Sources */,
 				D3E0F4752566982B001F601A /* StatisticsCell.swift in Sources */,
@@ -491,6 +498,7 @@
 				D399AF9F254FDFAE006CD60D /* UserDefaultsService.swift in Sources */,
 				D3F06A0F2580E8A100F56EE4 /* SettingsSublabelCell.swift in Sources */,
 				D3F9F1E925629055009CA76A /* EditingController.swift in Sources */,
+				D32DBAE925811B4E0072343C /* VolumesController.swift in Sources */,
 				D3EE13B125513505004D901A /* ContainerPopUp.swift in Sources */,
 				D3CB4F9F25519D6800108B55 /* UIViewController + Extension.swift in Sources */,
 				D39473A825653E0300188592 /* HistoryTableViewHeader.swift in Sources */,

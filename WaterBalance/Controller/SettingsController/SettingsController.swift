@@ -7,10 +7,18 @@
 //
 
 import UIKit
+import SwiftEntryKit
+
+enum SettingsChangeType {
+    case changeDailyTarget
+    case changeTrainingTarget
+    case changeContainerVolume
+}
 
 class SettingsController: UIViewController {
     
     var tableView: UITableView!
+    var selectedIndexPath: IndexPath!
     
     var settingsData: [[SettingsModel]]!
     var settings = Settings()
@@ -24,12 +32,11 @@ class SettingsController: UIViewController {
         setupConstraints()
 
         view.backgroundColor = .systemIndigo
-        self.navigationItem.title = "Настройки"
         self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     private func setupTableView() {
-        tableView = UITableView()
+        tableView = UITableView(frame: CGRect(), style: .grouped)
         tableView.backgroundColor = .mainWhite()
         tableView.tableFooterView = UIView()
         tableView.delegate = self
@@ -120,11 +127,56 @@ extension SettingsController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        selectedIndexPath = indexPath
+        
+        switch indexPath {
+        case IndexPath(row: 3, section: 2):
+            self.navigationController?.pushViewController(VolumesController(), animated: true)
+        case IndexPath(row: 4, section: 2):
+            showSettingsPopUpWithPickerView(type: .changeDailyTarget)
+        case IndexPath(row: 5, section: 2):
+            showSettingsPopUpWithPickerView(type: .changeTrainingTarget)
+        default:
+            print(indexPath)
+            break
+        }
     }
     
     private func createAccessoryView(cell: SettingsStandardCell) {
         let image = UIImage(named: "right")?.withTintColor(.typographySecondary())
         let imageView = UIImageView(image: image)
         cell.accessoryView = imageView
+    }
+    
+    private func showSettingsPopUpWithPickerView(type: SettingsChangeType) {
+        let height = (view.frame.width / 2.4) + 22 + 11 + 50
+        let settingsPopUp = SettingsPopUp(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: height), type: type)
+        settingsPopUp.delegate = self
+        SwiftEntryKit.display(entry: settingsPopUp, using: EKAttributesPopUp.createAttributes())
+    }
+}
+
+
+//MARK: - SettingsPopUpProtocol
+extension SettingsController: SettingsPopUpProtocol {
+    func dailyTargetChanged(value: Double) {
+        UserDefaults.standard.set(value, forKey: "target")
+        let dailyTarget = StorageService.shared.getDailyTarget(date: Date()).first
+        let newDailyTarget = DailyTarget(target: value, date: Date())
+        
+        if dailyTarget != nil {
+            StorageService.shared.updateDailyTarget(dailyTarget: dailyTarget!, volume: value)
+        } else {
+            StorageService.shared.saveDailyTarget(dailyTarget: newDailyTarget)
+        }
+        
+        settingsData[selectedIndexPath.section][selectedIndexPath.row].subtitle = "\(Int(value))"
+        tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
+    }
+    
+    func dailyTrainingChanged(value: Double) {
+        UserDefaults.standard.set(value, forKey: "training")
+        settingsData[selectedIndexPath.section][selectedIndexPath.row].subtitle = "\(Int(value))"
+        tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
     }
 }

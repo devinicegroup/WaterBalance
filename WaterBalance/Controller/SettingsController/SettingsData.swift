@@ -75,7 +75,7 @@ struct SettingsModel {
     let imageString: String
     let type: SettingsCellType
     let id: Int
-    let subtitle: String?
+    var subtitle: String?
     let toggle: Bool?
 }
 
@@ -172,14 +172,14 @@ struct Settings {
                      imageString: SettingsImageString.dailyTarget.rawValue,
                      type: .sublabel,
                      id: 11,
-                     subtitle: "456",
+                     subtitle: "\(Int(UserDefaults.standard.double(forKey: "target"))) мл",
                      toggle: nil),
         SettingsModel(name: SettingsName.training.rawValue,
                      nameForUser: SettingsNameForUser.training.rawValue,
                      imageString: SettingsImageString.training.rawValue,
                      type: .sublabel,
                      id: 12,
-                     subtitle: "456",
+                     subtitle: "\(Int(UserDefaults.standard.double(forKey: "training"))) мл",
                      toggle: nil),
     ]
 }

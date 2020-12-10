@@ -84,4 +84,18 @@ class SettingsSublabelCell: UITableViewCell {
         rightLabel.font = .bodyMedium()
         rightLabel.textAlignment = .right
     }
+    
+    func configure(with value: Container) {
+        iconView.backgroundColor = .mainLight2()
+        iconImageView.image = UIImage(named: value.imageString)
+        
+        leftLabel.text = value.nameForUser
+        leftLabel.textColor = .typographyPrimary()
+        leftLabel.font = .bodyMedium()
+        
+        rightLabel.text = "\(Int(value.value)) мл"
+        rightLabel.textColor = .typographySecondary()
+        rightLabel.font = .bodyMedium()
+        rightLabel.textAlignment = .right
+    }
 }
