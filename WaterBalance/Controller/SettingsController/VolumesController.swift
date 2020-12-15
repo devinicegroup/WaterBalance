@@ -22,16 +22,13 @@ class VolumesController: UITableViewController {
         tableView = UITableView(frame: CGRect.zero, style: .grouped)
         tableView.register(SettingsSublabelCell.self, forCellReuseIdentifier: SettingsSublabelCell.reuseId)
         tableView.tableFooterView = UIView()
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 62, bottom: 0, right: 0)
+
         
         view.backgroundColor = .mainWhite()
         self.navigationItem.title = "Объемы"
         self.navigationController?.navigationBar.prefersLargeTitles = true
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        containers.forEach { (container) in
-            print(container)
-        }
+        self.navigationController?.navigationBar.tintColor = .typographySecondary()
     }
 }
 

@@ -18,6 +18,7 @@
 		D32AF14C25484BF300305677 /* DrinkablesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32AF14B25484BF300305677 /* DrinkablesCell.swift */; };
 		D32DBAE925811B4E0072343C /* VolumesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32DBAE825811B4E0072343C /* VolumesController.swift */; };
 		D332F752255557F50047A370 /* DrinkUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D332F751255557F50047A370 /* DrinkUp.swift */; };
+		D335D7362588AA98008342E9 /* DailyProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D335D7352588AA98008342E9 /* DailyProgressBar.swift */; };
 		D359B385258210890046FC02 /* SettingsPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D359B384258210890046FC02 /* SettingsPopUp.swift */; };
 		D37A6BAE258275B600A9DCFA /* RateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37A6BAD258275B600A9DCFA /* RateService.swift */; };
 		D381C15C2564230C00356FA7 /* DailyTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D381C15B2564230C00356FA7 /* DailyTarget.swift */; };
@@ -73,6 +74,7 @@
 		D32AF14B25484BF300305677 /* DrinkablesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkablesCell.swift; sourceTree = "<group>"; };
 		D32DBAE825811B4E0072343C /* VolumesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumesController.swift; sourceTree = "<group>"; };
 		D332F751255557F50047A370 /* DrinkUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkUp.swift; sourceTree = "<group>"; };
+		D335D7352588AA98008342E9 /* DailyProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyProgressBar.swift; sourceTree = "<group>"; };
 		D33A7CE4255F112A00BC5B7F /* WaterBalance.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WaterBalance.entitlements; sourceTree = "<group>"; };
 		D359B384258210890046FC02 /* SettingsPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPopUp.swift; sourceTree = "<group>"; };
 		D35A7448256432D3004A1960 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				D38B977E253F1F6700EF0D5B /* MainController.swift */,
+				D335D7352588AA98008342E9 /* DailyProgressBar.swift */,
 				D3EE13B025513505004D901A /* ContainerPopUp.swift */,
 				D3ACC2D5255C54BC00C16000 /* Cell */,
 			);
@@ -472,6 +475,7 @@
 			files = (
 				D38B9791253F2A5800EF0D5B /* SettingsController.swift in Sources */,
 				D359B385258210890046FC02 /* SettingsPopUp.swift in Sources */,
+				D335D7362588AA98008342E9 /* DailyProgressBar.swift in Sources */,
 				D39694B825553634006FA89C /* Drink.swift in Sources */,
 				D3B585482548236D002A4E96 /* DrinkStart.swift in Sources */,
 				D3E0F4752566982B001F601A /* StatisticsCell.swift in Sources */,

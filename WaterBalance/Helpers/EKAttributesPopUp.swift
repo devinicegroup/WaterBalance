@@ -20,7 +20,7 @@ class EKAttributesPopUp {
                                                 dark: UIColor(white: 50.0/255.0, alpha: 0.3)))
         attributes.shadow = .active(with: .init(
                                         color: .black,
-                                        opacity: 0.3,
+                                        opacity: 0.05,
                                         radius: 8))
         attributes.screenInteraction = .dismiss
         attributes.entryInteraction = .absorbTouches

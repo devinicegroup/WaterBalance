@@ -48,6 +48,14 @@ class ContainerPopUp: UIView {
         setupAction()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.clipsToBounds = true
+        self.layer.cornerRadius = 10
+        self.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+    }
+    
     private func setupAction() {
         volume0.button.tag = 0
         volume0.button.addTarget(self, action: #selector(containerTapped(sender:)), for: .touchUpInside)

@@ -17,11 +17,20 @@ class MainController: UIViewController {
     }
     
     var collectionView: UICollectionView!
+    var collectionViewHight: CGFloat!
+    var widthButton: CGFloat!
+    var heightDailyProgressBar: CGFloat!
+    
+    var drinkInDay = 0.0
+    var targetInDay = UserDefaults.standard.double(forKey: "target")
     
     var drinkables = DrinkStart.drinkables
     var dataSource: UICollectionViewDiffableDataSource<Section, DrinkStart>?
     
-    var collectionViewHight: CGFloat!
+    let workoutButton = UIButton(type: .system)
+    let trashButton = UIButton(type: .system)
+    let addButton = UIButton(type: .system)
+    var dailyProgressBar: DailyProgressBar!
     
 //    override func viewWillAppear(_ animated: Bool) {
 //        super.viewWillAppear(animated)
@@ -29,12 +38,16 @@ class MainController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        widthButton = (self.view.frame.width - 16 * 3) / 3
         
         view.backgroundColor = .white
         setupNavigationController()
         setupCollectionView()
+        setupButtons()
         createDataSource()
         reloadData()
+        setupDailyProgressBar()
         setupConstraints()
         
         if UserDefaults.standard.string(forKey: UserDefaultsServiceEnum.lastDateForCheckingOfSuccessfulDays.rawValue) != nil {
@@ -48,6 +61,81 @@ class MainController: UIViewController {
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
         //        navigationController?.navigationBar.barTintColor = .darkGray
         //        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+    }
+    
+    private func setupDailyProgressBar() {
+        let width = self.view.frame.width - 32
+        heightDailyProgressBar = self.view.frame.height - ((tabBarController?.tabBar.frame.height)! + (navigationController?.navigationBar.frame.height)!)
+        heightDailyProgressBar -= collectionViewHight
+        heightDailyProgressBar -= (30 + 16 + 16 + 16)
+        dailyProgressBar = DailyProgressBar(frame: CGRect(x: 0, y: 0, width: width, height: heightDailyProgressBar))
+        
+        view.addSubview(dailyProgressBar)
+        dailyProgressBar.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private func setupButtons() {
+        view.addSubview(workoutButton)
+        view.addSubview(trashButton)
+        view.addSubview(addButton)
+        
+        workoutButton.translatesAutoresizingMaskIntoConstraints = false
+        trashButton.translatesAutoresizingMaskIntoConstraints = false
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let workoutImage = UIImage(named: "workout")
+        workoutButton.tintColor = .mainDark()
+        workoutButton.setImage(workoutImage, for: .normal)
+        workoutButton.addTarget(self, action: #selector(workoutTapped), for: .touchUpInside)
+        
+        let trashImage = UIImage(named: "trash")
+        trashButton.tintColor = .mainDark()
+        trashButton.setImage(trashImage, for: .normal)
+        trashButton.addTarget(self, action: #selector(deleteLastDrinkUp), for: .touchUpInside)
+        trashButton.backgroundColor = .green
+        
+        let addImage = UIImage(named: "add")
+        addButton.tintColor = .mainDark()
+        addButton.setImage(addImage, for: .normal)
+        addButton.addTarget(self, action: #selector(addLastDrinkUp), for: .touchUpInside)
+    }
+    
+    @objc private func deleteLastDrinkUp() {
+        
+    }
+    
+    @objc private func workoutTapped() {
+        addTrain(volume: 1000)
+    }
+    
+    @objc private func addLastDrinkUp() {
+        addDrink(volume: 500)
+    }
+    
+    private func addDrink(volume: Double) {
+        let basicAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        let from = drinkInDay / targetInDay
+        let to = volume / targetInDay + from
+        basicAnimation.fromValue = from
+        basicAnimation.toValue = to
+        basicAnimation.duration = 1
+        basicAnimation.fillMode = .forwards
+        basicAnimation.isRemovedOnCompletion = false
+        dailyProgressBar.fgLayer.add(basicAnimation, forKey: "drink")
+        drinkInDay += volume
+    }
+    
+    private func addTrain(volume: Double) {
+        let basicAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        let from = drinkInDay / targetInDay
+        basicAnimation.fromValue = from
+        targetInDay += volume
+        let to = drinkInDay / targetInDay
+        basicAnimation.toValue = to
+        basicAnimation.duration = 1
+        basicAnimation.fillMode = .forwards
+        basicAnimation.isRemovedOnCompletion = false
+        dailyProgressBar.fgLayer.add(basicAnimation, forKey: "drink")
     }
     
     func setupCollectionView() {
@@ -128,6 +216,34 @@ class MainController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(tabBarController?.tabBar.frame.height)! + 16),
             collectionView.heightAnchor.constraint(equalToConstant: collectionViewHight)
+        ])
+        
+        NSLayoutConstraint.activate([
+            trashButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            trashButton.bottomAnchor.constraint(equalTo: collectionView.topAnchor),
+            trashButton.widthAnchor.constraint(equalToConstant: widthButton),
+            trashButton.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        NSLayoutConstraint.activate([
+            workoutButton.trailingAnchor.constraint(equalTo: trashButton.leadingAnchor, constant: -8),
+            workoutButton.bottomAnchor.constraint(equalTo: trashButton.bottomAnchor),
+            workoutButton.widthAnchor.constraint(equalToConstant: widthButton),
+            workoutButton.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        NSLayoutConstraint.activate([
+            addButton.leadingAnchor.constraint(equalTo: trashButton.trailingAnchor, constant: 8),
+            addButton.bottomAnchor.constraint(equalTo: trashButton.bottomAnchor),
+            addButton.widthAnchor.constraint(equalToConstant: widthButton),
+            addButton.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        NSLayoutConstraint.activate([
+            dailyProgressBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            dailyProgressBar.bottomAnchor.constraint(equalTo: trashButton.topAnchor, constant: -16),
+            dailyProgressBar.heightAnchor.constraint(equalToConstant: heightDailyProgressBar),
+            dailyProgressBar.widthAnchor.constraint(equalToConstant: self.view.frame.width - 32)
         ])
     }
 }

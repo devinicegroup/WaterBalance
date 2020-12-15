@@ -41,6 +41,7 @@ class SettingsController: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 62, bottom: 0, right: 0)
         
         tableView.register(SettingsTableViewHeader.self, forHeaderFooterViewReuseIdentifier: SettingsTableViewHeader.reuseId)
         

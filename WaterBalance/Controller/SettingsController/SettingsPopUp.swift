@@ -54,6 +54,14 @@ class SettingsPopUp: UIView {
         setupConstraints()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.clipsToBounds = true
+        self.layer.cornerRadius = 10
+        self.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+    }
+    
     private func createButtons() {
         let cancelImage = UIImage(named: "close")
         cancelButton.tintColor = .mainDark()
