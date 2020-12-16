@@ -58,8 +58,5 @@ class StreakOfSuccessfulDays {
         
         let lastDateForCheckingOfSuccessfulDays = formatter.string(from: Date())
         UserDefaults.standard.set(lastDateForCheckingOfSuccessfulDays, forKey: UserDefaultsServiceEnum.lastDateForCheckingOfSuccessfulDays.rawValue)
-        
-        print("Current streak: \(currentStreak)")
-        print("Record streak: \(recordStreak)")
     }
 }

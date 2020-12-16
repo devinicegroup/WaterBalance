@@ -181,5 +181,8 @@ extension SettingsController: SettingsPopUpProtocol {
         UserDefaults.standard.set(value, forKey: "training")
         settingsData[selectedIndexPath.section][selectedIndexPath.row].subtitle = "\(Int(value))"
         tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
+        
+        guard let training = StorageService.shared.getTraining(date: Date()).first else { return }
+        StorageService.shared.updateTraining(training: training, volume: value)
     }
 }

@@ -22,7 +22,8 @@ class MainController: UIViewController {
     var heightDailyProgressBar: CGFloat!
     
     var drinkInDay = 0.0
-    var targetInDay = UserDefaults.standard.double(forKey: "target")
+    var targetInDay = 0.0
+    var drinkUps: Results<DrinkUp>!
     
     var drinkables = DrinkStart.drinkables
     var dataSource: UICollectionViewDiffableDataSource<Section, DrinkStart>?
@@ -32,14 +33,27 @@ class MainController: UIViewController {
     let addButton = UIButton(type: .system)
     var dailyProgressBar: DailyProgressBar!
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        targetInDay = UserDefaults.standard.double(forKey: "target") + (StorageService.shared.getTraining(date: Date()).first?.volume ?? 0)
+        countVolume()
+        addVolume(volume: 0)
+        isActiveButtons()
+    }
+    
+    private func countVolume() {
+        drinkInDay = 0
+        drinkUps.forEach { (drinkUp) in
+            drinkInDay += drinkUp.hydrationVolume
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         widthButton = (self.view.frame.width - 16 * 3) / 3
+        drinkUps = StorageService.shared.getDataForDay(date: Date.today()).first
         
         view.backgroundColor = .white
         setupNavigationController()
@@ -92,7 +106,6 @@ class MainController: UIViewController {
         trashButton.tintColor = .mainDark()
         trashButton.setImage(trashImage, for: .normal)
         trashButton.addTarget(self, action: #selector(deleteLastDrinkUp), for: .touchUpInside)
-        trashButton.backgroundColor = .green
         
         let addImage = UIImage(named: "add")
         addButton.tintColor = .mainDark()
@@ -100,19 +113,45 @@ class MainController: UIViewController {
         addButton.addTarget(self, action: #selector(addLastDrinkUp), for: .touchUpInside)
     }
     
+    private func isActiveButtons() {
+        if drinkUps.isEmpty {
+            trashButton.isEnabled = false
+            addButton.isEnabled = false
+        } else {
+            trashButton.isEnabled = true
+            addButton.isEnabled = true
+        }
+    }
+    
     @objc private func deleteLastDrinkUp() {
-        
+        guard let drinkUp = drinkUps.first else { return }
+        addVolume(volume: -drinkUp.hydrationVolume)
+        StorageService.shared.deleteObject(object: drinkUp)
+        isActiveButtons()
     }
     
     @objc private func workoutTapped() {
-        addTrain(volume: 1000)
+        let training = StorageService.shared.getTraining(date: Date()).first
+        if training == nil {
+            StorageService.shared.saveTraining(training: createTraining())
+            let training = StorageService.shared.getTraining(date: Date()).first
+            
+            addTrain(volume: training!.volume)
+        } else {
+            addTrain(volume: -training!.volume)
+            StorageService.shared.deleteObject(object: training!)
+        }
     }
     
     @objc private func addLastDrinkUp() {
-        addDrink(volume: 500)
+        guard let drinkUp = drinkUps.first else { return }
+        let newDrinkUp = createDrinkUp(drink: drinkUp.drink!, volume: drinkUp.volume)
+        addVolume(volume: newDrinkUp.hydrationVolume)
+        StorageService.shared.saveDrinkUp(drinkUp: newDrinkUp)
+        isActiveButtons()
     }
     
-    private func addDrink(volume: Double) {
+    private func addVolume(volume: Double) {
         let basicAnimation = CABasicAnimation(keyPath: "strokeEnd")
         let from = drinkInDay / targetInDay
         let to = volume / targetInDay + from
@@ -123,6 +162,15 @@ class MainController: UIViewController {
         basicAnimation.isRemovedOnCompletion = false
         dailyProgressBar.fgLayer.add(basicAnimation, forKey: "drink")
         drinkInDay += volume
+        updateLabeles()
+    }
+    
+    private func updateLabeles() {
+        let topText = "\(Int(drinkInDay / (targetInDay / 100)))%"
+        dailyProgressBar.topLabel.text = topText
+        
+        let bottomText = "\(Int(drinkInDay)) / \(Int(targetInDay))"
+        dailyProgressBar.bottomLabel.text = bottomText
     }
     
     private func addTrain(volume: Double) {
@@ -136,6 +184,7 @@ class MainController: UIViewController {
         basicAnimation.fillMode = .forwards
         basicAnimation.isRemovedOnCompletion = false
         dailyProgressBar.fgLayer.add(basicAnimation, forKey: "drink")
+        updateLabeles()
     }
     
     func setupCollectionView() {
@@ -276,17 +325,26 @@ extension MainController : ContainerPopUpProtocol {
             showAllert(with: drink.nameForUser, and: "Укажите кол-во выпитой жидкости") { (volume) in
                 let drinkUp = self.createDrinkUp(drink: drink, volume: volume)
                 StorageService.shared.saveDrinkUp(drinkUp: drinkUp)
+                self.addVolume(volume: drinkUp.hydrationVolume)
             }
         } else {
             let drinkUp = createDrinkUp(drink: drink, volume: volume)
             StorageService.shared.saveDrinkUp(drinkUp: drinkUp)
+            addVolume(volume: drinkUp.hydrationVolume)
         }
+        isActiveButtons()
     }
     
     func createDailyTarget() -> DailyTarget {
         let target = UserDefaults.standard.double(forKey: "target")
         let dailyTarget = DailyTarget(target: target, date: Date())
         return dailyTarget
+    }
+    
+    func createTraining() -> Training {
+        let trainingVolume = UserDefaults.standard.double(forKey: "training")
+        let training = Training(volume: trainingVolume, date: Date())
+        return training
     }
     
     func createDrinkUp(drink: Drink, volume: Double) -> DrinkUp {

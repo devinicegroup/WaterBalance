@@ -33,4 +33,12 @@ extension UIFont {
     static func bodyRegularMin2() -> UIFont {
         return UIFont.systemFont(ofSize: 13, weight: .regular)
     }
+    
+    static func header1() -> UIFont {
+        return UIFont.systemFont(ofSize: 34, weight: .bold)
+    }
+    
+    static func header2() -> UIFont {
+        return UIFont.systemFont(ofSize: 17, weight: .medium)
+    }
 }

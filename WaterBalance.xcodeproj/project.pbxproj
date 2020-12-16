@@ -36,6 +36,7 @@
 		D39473A825653E0300188592 /* HistoryTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39473A725653E0300188592 /* HistoryTableViewHeader.swift */; };
 		D39694B825553634006FA89C /* Drink.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39694B725553634006FA89C /* Drink.swift */; };
 		D39694BC255548FF006FA89C /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39694BB255548FF006FA89C /* StorageService.swift */; };
+		D398BFBC258A106100CBF678 /* Training.swift in Sources */ = {isa = PBXBuildFile; fileRef = D398BFBB258A106100CBF678 /* Training.swift */; };
 		D399AF9D254FDBFF006CD60D /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = D399AF9C254FDBFF006CD60D /* Container.swift */; };
 		D399AF9F254FDFAE006CD60D /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D399AF9E254FDFAE006CD60D /* UserDefaultsService.swift */; };
 		D39C9F57254856D8003DB108 /* UIFont + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39C9F56254856D8003DB108 /* UIFont + Extension.swift */; };
@@ -94,6 +95,7 @@
 		D39473A725653E0300188592 /* HistoryTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewHeader.swift; sourceTree = "<group>"; };
 		D39694B725553634006FA89C /* Drink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drink.swift; sourceTree = "<group>"; };
 		D39694BB255548FF006FA89C /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		D398BFBB258A106100CBF678 /* Training.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Training.swift; sourceTree = "<group>"; };
 		D399AF9C254FDBFF006CD60D /* Container.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
 		D399AF9E254FDFAE006CD60D /* UserDefaultsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
 		D39C9F56254856D8003DB108 /* UIFont + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + Extension.swift"; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				D39694B725553634006FA89C /* Drink.swift */,
 				D332F751255557F50047A370 /* DrinkUp.swift */,
 				D381C15B2564230C00356FA7 /* DailyTarget.swift */,
+				D398BFBB258A106100CBF678 /* Training.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				D3F06A0F2580E8A100F56EE4 /* SettingsSublabelCell.swift in Sources */,
 				D3F9F1E925629055009CA76A /* EditingController.swift in Sources */,
 				D32DBAE925811B4E0072343C /* VolumesController.swift in Sources */,
+				D398BFBC258A106100CBF678 /* Training.swift in Sources */,
 				D3EE13B125513505004D901A /* ContainerPopUp.swift in Sources */,
 				D3CB4F9F25519D6800108B55 /* UIViewController + Extension.swift in Sources */,
 				D39473A825653E0300188592 /* HistoryTableViewHeader.swift in Sources */,

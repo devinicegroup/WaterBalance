@@ -8,7 +8,6 @@
 
 import UIKit
 import SwiftEntryKit
-import RealmSwift
 
 protocol EditingControllerProtocol : NSObjectProtocol{
     func deleteDrinkUp()
@@ -43,9 +42,7 @@ class EditingController: UITableViewController, UIAdaptivePresentationController
     }
     
     @objc private func deleteDrinkUp() {
-        try! realm.write {
-            realm.delete(drinkUp)
-        }
+        StorageService.shared.deleteObject(object: drinkUp)
         delegate?.deleteDrinkUp()
         dismiss(animated: true, completion: nil)
     }

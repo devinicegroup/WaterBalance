@@ -15,6 +15,12 @@ class StorageService {
     
     static let shared = StorageService()
     
+    func deleteObject(object: Object) {
+        try! realm.write {
+            realm.delete(object)
+        }
+    }
+    
     func saveDrink(drink: Drink) {
         try! realm.write {
             realm.add(drink)
@@ -30,6 +36,12 @@ class StorageService {
     func saveDailyTarget(dailyTarget: DailyTarget) {
         try! realm.write {
             realm.add(dailyTarget)
+        }
+    }
+    
+    func saveTraining(training: Training) {
+        try! realm.write {
+            realm.add(training)
         }
     }
     
@@ -77,6 +89,16 @@ class StorageService {
         return dailyTarget
     }
     
+    func getTraining(date: Date) -> Results<Training> {
+        let todayStart = Calendar.current.startOfDay(for: date)
+        let todayEnd: Date = {
+            let components = DateComponents(day: 1, second: -1)
+            return Calendar.current.date(byAdding: components, to: todayStart)!
+        }()
+        let training = realm.objects(Training.self).filter("date BETWEEN %@", [todayStart, todayEnd])
+        return training
+    }
+    
     func updateDrink(drinkUp: DrinkUp, drink: Drink) {
         try! realm.write {
             drinkUp.drink = drink
@@ -102,6 +124,12 @@ class StorageService {
     func updateDailyTarget(dailyTarget: DailyTarget, volume: Double) {
         try! realm.write {
             dailyTarget.target = volume
+        }
+    }
+    
+    func updateTraining(training: Training, volume: Double) {
+        try! realm.write {
+            training.volume = volume
         }
     }
 }
