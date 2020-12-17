@@ -11,6 +11,8 @@
 		D300987F255412CE00E920A1 /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300987E255412CE00E920A1 /* String + Extension.swift */; };
 		D30710A9255BF703009B2425 /* DrinkUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30710A8255BF703009B2425 /* DrinkUpCell.swift */; };
 		D30710AB255C1610009B2425 /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30710AA255C1610009B2425 /* CalendarCell.swift */; };
+		D3077AD0258B74D200B55643 /* UIDevice + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3077ACF258B74D200B55643 /* UIDevice + Extension.swift */; };
+		D3077AD3258B860400B55643 /* AboutApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3077AD2258B860400B55643 /* AboutApp.swift */; };
 		D30F0FFE2562F11B00F2F703 /* EditingDrinkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30F0FFD2562F11B00F2F703 /* EditingDrinkController.swift */; };
 		D30F10022562F32900F2F703 /* EditingDrinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30F10012562F32900F2F703 /* EditingDrinkCell.swift */; };
 		D326CC512563D26B001B71AA /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D326CC502563D26B001B71AA /* DatePickerView.swift */; };
@@ -68,6 +70,8 @@
 		D300987E255412CE00E920A1 /* String + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
 		D30710A8255BF703009B2425 /* DrinkUpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkUpCell.swift; sourceTree = "<group>"; };
 		D30710AA255C1610009B2425 /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
+		D3077ACF258B74D200B55643 /* UIDevice + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice + Extension.swift"; sourceTree = "<group>"; };
+		D3077AD2258B860400B55643 /* AboutApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutApp.swift; sourceTree = "<group>"; };
 		D30F0FFD2562F11B00F2F703 /* EditingDrinkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingDrinkController.swift; sourceTree = "<group>"; };
 		D30F10012562F32900F2F703 /* EditingDrinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingDrinkCell.swift; sourceTree = "<group>"; };
 		D326CC502563D26B001B71AA /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 			children = (
 				D326CC542563D465001B71AA /* EKAttributesPopUp.swift */,
 				D39473A42565150C00188592 /* StreakOfSuccessfulDays.swift */,
+				D3077AD2258B860400B55643 /* AboutApp.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -203,6 +208,7 @@
 			children = (
 				D3EE13B325513951004D901A /* ContainerView.swift */,
 				D300987E255412CE00E920A1 /* String + Extension.swift */,
+				D3077ACF258B74D200B55643 /* UIDevice + Extension.swift */,
 				D3899128255D8A6500C08BD1 /* Date + Extension.swift */,
 				D3BB3B8E254702B7003ADA74 /* UIKit */,
 			);
@@ -476,7 +482,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3077AD3258B860400B55643 /* AboutApp.swift in Sources */,
 				D38B9791253F2A5800EF0D5B /* SettingsController.swift in Sources */,
+				D3077AD0258B74D200B55643 /* UIDevice + Extension.swift in Sources */,
 				D359B385258210890046FC02 /* SettingsPopUp.swift in Sources */,
 				D335D7362588AA98008342E9 /* DailyProgressBar.swift in Sources */,
 				D39694B825553634006FA89C /* Drink.swift in Sources */,

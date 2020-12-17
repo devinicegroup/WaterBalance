@@ -26,11 +26,14 @@ class StatisticsController: UIViewController {
     @IBOutlet weak var tableViewHightConstraint: NSLayoutConstraint!
     
     var segmentegControl: UISegmentedControl!
-    var previousDatesButton = UIButton(type: .system)
-    var nextDatesButton = UIButton(type: .system)
-    var datesLabel = UILabel()
+    let previousDatesButton = UIButton(type: .system)
+    let nextDatesButton = UIButton(type: .system)
+    let datesLabel = UILabel()
+    let dayAverageLabel = UILabel()
+    let allVolumeLabel = UILabel()
     
-    var formatter = DateFormatter()
+    
+    let formatter = DateFormatter()
     var dates: [Date]!
     var drinksVolume = [StatisticVolume]()
     var allValue = 0.0
@@ -88,6 +91,17 @@ class StatisticsController: UIViewController {
         let rightImage = UIImage(named: "right")?.withTintColor(.mainDark()).withRenderingMode(.alwaysOriginal)
         nextDatesButton.setImage(rightImage, for: .normal)
         nextDatesButton.addTarget(self, action: #selector(nextDatesButtonTapped), for: .touchUpInside)
+        
+        dayAverageLabel.textColor = .typographySecondary()
+        dayAverageLabel.font = .bodyMediumMin2()
+        dayAverageLabel.text = "Среднее за день: 2,1 л"
+        dayAverageLabel.backgroundColor = .green
+        
+        allVolumeLabel.textColor = .typographySecondary()
+        allVolumeLabel.font = .bodyMediumMin2()
+        allVolumeLabel.textAlignment = .right
+        allVolumeLabel.text = "Всего: 128,6 л"
+        allVolumeLabel.backgroundColor = .red
     }
     
     private func setDatesLabel() {
@@ -159,6 +173,12 @@ class StatisticsController: UIViewController {
         previousDatesButton.translatesAutoresizingMaskIntoConstraints = false
         topView.addSubview(previousDatesButton)
         
+        dayAverageLabel.translatesAutoresizingMaskIntoConstraints = false
+        topView.addSubview(dayAverageLabel)
+        
+        allVolumeLabel.translatesAutoresizingMaskIntoConstraints = false
+        topView.addSubview(allVolumeLabel)
+        
         NSLayoutConstraint.activate([
             segmentegControl.topAnchor.constraint(equalTo: topView.topAnchor, constant: 16),
             segmentegControl.leadingAnchor.constraint(equalTo: topView.leadingAnchor, constant: 16),
@@ -179,6 +199,18 @@ class StatisticsController: UIViewController {
         NSLayoutConstraint.activate([
             nextDatesButton.leadingAnchor.constraint(equalTo: datesLabel.trailingAnchor, constant: 27),
             nextDatesButton.centerYAnchor.constraint(equalTo: datesLabel.centerYAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            dayAverageLabel.leadingAnchor.constraint(equalTo: topView.leadingAnchor, constant: 16),
+            dayAverageLabel.topAnchor.constraint(equalTo: datesLabel.bottomAnchor, constant: 16),
+            dayAverageLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 1.85)
+        ])
+        
+        NSLayoutConstraint.activate([
+            allVolumeLabel.trailingAnchor.constraint(equalTo: topView.trailingAnchor, constant: -16),
+            allVolumeLabel.topAnchor.constraint(equalTo: datesLabel.bottomAnchor, constant: 16),
+            allVolumeLabel.leadingAnchor.constraint(equalTo: dayAverageLabel.trailingAnchor, constant: 8)
         ])
     }
      

@@ -18,6 +18,10 @@ extension UIFont {
         return UIFont.systemFont(ofSize: 15, weight: .medium)
     }
     
+    static func bodyMediumMin2() -> UIFont {
+        return UIFont.systemFont(ofSize: 13, weight: .medium)
+    }
+    
     static func bodyMediumMin3() -> UIFont {
         return UIFont.systemFont(ofSize: 10, weight: .medium)
     }

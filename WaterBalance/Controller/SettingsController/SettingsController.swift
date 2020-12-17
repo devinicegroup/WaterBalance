@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftEntryKit
+import MessageUI
 
 enum SettingsChangeType {
     case changeDailyTarget
@@ -15,7 +16,7 @@ enum SettingsChangeType {
     case changeContainerVolume
 }
 
-class SettingsController: UIViewController {
+class SettingsController: UIViewController, MFMailComposeViewControllerDelegate {
     
     var tableView: UITableView!
     var selectedIndexPath: IndexPath!
@@ -50,6 +51,44 @@ class SettingsController: UIViewController {
         tableView.register(SettingsToggleCell.self, forCellReuseIdentifier: SettingsToggleCell.reuseId)
     }
     
+    private func showSettingsPopUpWithPickerView(type: SettingsChangeType) {
+        let height = (view.frame.width / 2.4) + 22 + 11 + 50
+        let settingsPopUp = SettingsPopUp(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: height), type: type)
+        settingsPopUp.delegate = self
+        SwiftEntryKit.display(entry: settingsPopUp, using: EKAttributesPopUp.createAttributes())
+    }
+    
+    private func shareApp() {
+        if let urlStr = URL(string: "https://www.google.ru/") {
+            let objectsToShare = [urlStr]
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                if let popup = activityVC.popoverPresentationController {
+                    popup.sourceView = self.view
+                    popup.sourceRect = CGRect(x: self.view.frame.size.width / 2, y: self.view.frame.size.height / 4, width: 0, height: 0)
+                }
+            }
+
+            self.present(activityVC, animated: true, completion: nil)
+        }
+    }
+    
+    private func sendEmail() {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["s.polivanov@icloud.com"])
+            mail.setSubject("Водный баланс")
+            mail.setMessageBody("\(AboutApp().createSupportMessage())", isHTML: false)
+            present(mail, animated: true)
+        }
+    }
+
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
+    
     private func setupConstraints() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
@@ -61,17 +100,6 @@ class SettingsController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 //MARK: - UITableViewDelegate, UITableViewDataSource
@@ -133,6 +161,10 @@ extension SettingsController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath {
         case IndexPath(row: 0, section: 0):
             RateService.showRatesController(delay: false)
+        case IndexPath(row: 1, section: 0):
+            shareApp()
+        case IndexPath(row: 2, section: 0):
+            sendEmail()
         case IndexPath(row: 3, section: 2):
             self.navigationController?.pushViewController(VolumesController(), animated: true)
         case IndexPath(row: 4, section: 2):
@@ -149,13 +181,6 @@ extension SettingsController: UITableViewDelegate, UITableViewDataSource {
         let image = UIImage(named: "right")?.withTintColor(.typographySecondary())
         let imageView = UIImageView(image: image)
         cell.accessoryView = imageView
-    }
-    
-    private func showSettingsPopUpWithPickerView(type: SettingsChangeType) {
-        let height = (view.frame.width / 2.4) + 22 + 11 + 50
-        let settingsPopUp = SettingsPopUp(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: height), type: type)
-        settingsPopUp.delegate = self
-        SwiftEntryKit.display(entry: settingsPopUp, using: EKAttributesPopUp.createAttributes())
     }
 }
 

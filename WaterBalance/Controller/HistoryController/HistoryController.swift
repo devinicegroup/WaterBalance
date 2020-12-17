@@ -216,7 +216,7 @@ extension HistoryController: UITableViewDelegate, UITableViewDataSource {
             
             let volume = countVolume(for: section, from: drinkUps)
             let dailyTarget = StorageService.shared.getDailyTarget(date: date).first?.target ?? 1
-            let volumeText = "\(Int(volume)) / \(Int(dailyTarget)) МЛ"
+            let volumeText = "\(Int(volume)) / \(Int(dailyTarget + (StorageService.shared.getTraining(date: date).first?.volume ?? 0))) МЛ"
             
             headerView.configure(date: stringDate, volume: volumeText)
             return headerView
