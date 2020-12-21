@@ -8,15 +8,7 @@
 
 import UIKit
 import RealmSwift
-
-struct StatisticVolume {
-    let name: String
-    let nameForUser: String
-    let imageString: String
-    var caffeine: Double
-    var volume: Double
-    var hydrationVolume: Double
-}
+import Charts
 
 class StatisticsController: UIViewController {
 
@@ -31,8 +23,8 @@ class StatisticsController: UIViewController {
     let datesLabel = UILabel()
     let dayAverageLabel = UILabel()
     let allVolumeLabel = UILabel()
-    
-    
+    let chartView = ChartView()
+        
     let formatter = DateFormatter()
     var dates: [Date]!
     var drinksVolume = [StatisticVolume]()
@@ -41,7 +33,10 @@ class StatisticsController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tableView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
+        getDrinksVolume()
+        setVolumeLabeles()
         tableView.reloadData()
+        chartView.setChartData(dates: dates)
     }
     
     override func viewDidLoad() {
@@ -51,15 +46,16 @@ class StatisticsController: UIViewController {
         self.navigationItem.title = "Статистика"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        topViewHightConstraint.constant = 300
+        topViewHightConstraint.constant = 350
         
         let monday = Date.today().previous(.monday, considerToday: true)
         dates = Date.getDatesFor(date: monday.removeTimeStamp ?? Date.today(), days: 7)
         
-        getDrinksVolume()
         setupSegmentedControl()
         setupTopElements()
         setupTableView()
+        chartView.setupChartView()
+        chartView.setChartData(dates: dates)
         setupConstraints()
     }
     
@@ -68,6 +64,7 @@ class StatisticsController: UIViewController {
         segmentegControl = UISegmentedControl(items: items)
         segmentegControl.selectedSegmentIndex = 0
         segmentegControl.backgroundColor = .mainWhite()
+        fixBackgroundSegmentedControl(segmentegControl)
         
         let titleTextAttributesForNormal = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary(), NSAttributedString.Key.font: UIFont.bodyRegularMin1()]
         segmentegControl.setTitleTextAttributes(titleTextAttributesForNormal, for:.normal)
@@ -76,6 +73,14 @@ class StatisticsController: UIViewController {
         segmentegControl.setTitleTextAttributes(titleTextAttributesForSelected, for:.selected)
         
         segmentegControl.addTarget(self, action: #selector(countDaysDidChange), for: .valueChanged)
+    }
+    
+    private func fixBackgroundSegmentedControl(_ segmentControl: UISegmentedControl) {
+        DispatchQueue.main.async() {
+            for i in 0...(segmentControl.numberOfSegments-1)  {
+                segmentControl.subviews[i].isHidden = true
+            }
+        }
     }
     
     private func setupTopElements() {
@@ -94,14 +99,28 @@ class StatisticsController: UIViewController {
         
         dayAverageLabel.textColor = .typographySecondary()
         dayAverageLabel.font = .bodyMediumMin2()
-        dayAverageLabel.text = "Среднее за день: 2,1 л"
-        dayAverageLabel.backgroundColor = .green
         
         allVolumeLabel.textColor = .typographySecondary()
         allVolumeLabel.font = .bodyMediumMin2()
         allVolumeLabel.textAlignment = .right
-        allVolumeLabel.text = "Всего: 128,6 л"
-        allVolumeLabel.backgroundColor = .red
+    }
+    
+    private func setVolumeLabeles() {
+        var activeDates: [Date] = []
+        
+        dates.forEach { (date) in
+            guard let date = date.removeTimeStamp else { return }
+            if (date >= (UserDefaults.standard.object(forKey: UserDefaultsServiceEnum.firstDate.rawValue) as! Date).removeTimeStamp!) && date <= Date.today().removeTimeStamp! {
+                activeDates.append(date)
+            }
+        }
+        
+        var dayAverage = 0.0
+        if activeDates.count > 0 { dayAverage = (allValue / Double(activeDates.count)) / 1000 }
+        dayAverageLabel.text = "Среднее за день: \(dayAverage.rounded(toPlaces: 2)) л"
+        
+        let allVolume = allValue / 1000
+        allVolumeLabel.text = "Всего: \(allVolume.rounded(toPlaces: 2)) л"
     }
     
     private func setDatesLabel() {
@@ -157,27 +176,28 @@ class StatisticsController: UIViewController {
         dates = Date.getDatesFor(date: date, days: count)
         getDrinksVolume()
         setDatesLabel()
+        setVolumeLabeles()
+        ChartView.dates = dates
+        chartView.setChartData(dates: dates)
         tableView.reloadData()
     }
     
     private func setupConstraints() {
         segmentegControl.translatesAutoresizingMaskIntoConstraints = false
-        topView.addSubview(segmentegControl)
-        
         datesLabel.translatesAutoresizingMaskIntoConstraints = false
-        topView.addSubview(datesLabel)
-        
         nextDatesButton.translatesAutoresizingMaskIntoConstraints = false
-        topView.addSubview(nextDatesButton)
-        
         previousDatesButton.translatesAutoresizingMaskIntoConstraints = false
-        topView.addSubview(previousDatesButton)
-        
         dayAverageLabel.translatesAutoresizingMaskIntoConstraints = false
-        topView.addSubview(dayAverageLabel)
-        
         allVolumeLabel.translatesAutoresizingMaskIntoConstraints = false
+        chartView.translatesAutoresizingMaskIntoConstraints = false
+
+        topView.addSubview(segmentegControl)
+        topView.addSubview(datesLabel)
+        topView.addSubview(nextDatesButton)
+        topView.addSubview(previousDatesButton)
+        topView.addSubview(dayAverageLabel)
         topView.addSubview(allVolumeLabel)
+        topView.addSubview(chartView)
         
         NSLayoutConstraint.activate([
             segmentegControl.topAnchor.constraint(equalTo: topView.topAnchor, constant: 16),
@@ -212,11 +232,19 @@ class StatisticsController: UIViewController {
             allVolumeLabel.topAnchor.constraint(equalTo: datesLabel.bottomAnchor, constant: 16),
             allVolumeLabel.leadingAnchor.constraint(equalTo: dayAverageLabel.trailingAnchor, constant: 8)
         ])
+        
+        NSLayoutConstraint.activate([
+            chartView.topAnchor.constraint(equalTo: dayAverageLabel.bottomAnchor, constant: 0),
+            chartView.leadingAnchor.constraint(equalTo: topView.leadingAnchor, constant: 16),
+            chartView.trailingAnchor.constraint(equalTo: topView.trailingAnchor, constant: -16),
+            chartView.bottomAnchor.constraint(equalTo: topView.bottomAnchor, constant: 0)
+        ])
     }
      
     func getDrinksVolume() {
         guard !dates.isEmpty else { return }
         drinksVolume = []
+        allValue = 0
         let drinks = StorageService.shared.getDrinks()
         
         drinks.forEach { (drink) in
@@ -248,6 +276,7 @@ class StatisticsController: UIViewController {
     
     func setupTableView() {
         tableView.register(StatisticsCell.self, forCellReuseIdentifier: StatisticsCell.reuseId)
+        tableView.isUserInteractionEnabled = false
         tableView.separatorColor = UIColor.clear
     }
     
@@ -269,6 +298,7 @@ extension StatisticsController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: StatisticsCell.reuseId, for: indexPath) as! StatisticsCell
         let drinkVolume = drinksVolume[indexPath.row]
         let percent = drinkVolume.volume / allValue
+        
         cell.configure(with: drinkVolume, percent: percent)
         return cell
     }

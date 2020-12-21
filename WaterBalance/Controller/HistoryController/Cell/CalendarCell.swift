@@ -33,7 +33,7 @@ class CalendarCell: FSCalendarCell {
     
     func configure(with volume: Double, date: Date) {
         let dailyTarget = (StorageService.shared.getDailyTarget(date: date).first?.target ?? 1) + (StorageService.shared.getTraining(date: date).first?.volume ?? 0)
-        let firstDate = UserDefaults.standard.string(forKey: UserDefaultsServiceEnum.firstDate.rawValue)!
+        guard let firstDate = UserDefaults.standard.object(forKey: UserDefaultsServiceEnum.firstDate.rawValue) as? Date else { return }
         let formatter = DateFormatter()
         formatter.timeStyle = .none
         formatter.dateStyle = .long
@@ -41,7 +41,7 @@ class CalendarCell: FSCalendarCell {
         if date >= Date().startOfDay {
             roundedProgress = RoundProgressBar(color: UIColor.mainWhite().cgColor)
         } else {
-            if date >= formatter.date(from: firstDate)! && dailyTarget > volume {
+            if date.removeTimeStamp! >= firstDate.removeTimeStamp! && dailyTarget > volume {
                 roundedProgress = RoundProgressBar(color: UIColor.pink().cgColor)
             } else {
                 roundedProgress = RoundProgressBar(color: UIColor.mainWhite().cgColor)

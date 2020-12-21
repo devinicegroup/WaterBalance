@@ -1,4 +1,7 @@
 PODS:
+  - Charts (3.6.0):
+    - Charts/Core (= 3.6.0)
+  - Charts/Core (3.6.0)
   - FSCalendar (2.8.1)
   - QuickLayout (3.0.0)
   - Realm (10.1.1):
@@ -10,12 +13,14 @@ PODS:
     - QuickLayout (= 3.0.0)
 
 DEPENDENCIES:
+  - Charts
   - FSCalendar
   - RealmSwift
   - SwiftEntryKit
 
 SPEC REPOS:
   trunk:
+    - Charts
     - FSCalendar
     - QuickLayout
     - Realm
@@ -23,12 +28,13 @@ SPEC REPOS:
     - SwiftEntryKit
 
 SPEC CHECKSUMS:
+  Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
   FSCalendar: 5245140456fcbcac5824c203b98bd8068bdfee1a
   QuickLayout: 07b45a72b10083fee3f095990cfed1c1e7b27f0a
   Realm: 784ca1da1453e31a9c9adc14445421a81f316119
   RealmSwift: cc52fe0dcea56387274dff36e19219e055a3bb84
   SwiftEntryKit: 340713c2e4a6662c5149629990bf1088bf5f0389
 
-PODFILE CHECKSUM: ebae103ce640b24fbb34a6a37efc2d0aa60365e7
+PODFILE CHECKSUM: a4015a80b08ca1001562572b4264a22d17c2b4ad
 
 COCOAPODS: 1.10.0

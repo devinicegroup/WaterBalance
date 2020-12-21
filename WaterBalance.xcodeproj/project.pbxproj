@@ -15,6 +15,7 @@
 		D3077AD3258B860400B55643 /* AboutApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3077AD2258B860400B55643 /* AboutApp.swift */; };
 		D30F0FFE2562F11B00F2F703 /* EditingDrinkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30F0FFD2562F11B00F2F703 /* EditingDrinkController.swift */; };
 		D30F10022562F32900F2F703 /* EditingDrinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30F10012562F32900F2F703 /* EditingDrinkCell.swift */; };
+		D323C27B258CB0C600A3A07C /* ViewForStartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D323C27A258CB0C600A3A07C /* ViewForStartController.swift */; };
 		D326CC512563D26B001B71AA /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D326CC502563D26B001B71AA /* DatePickerView.swift */; };
 		D326CC552563D465001B71AA /* EKAttributesPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D326CC542563D465001B71AA /* EKAttributesPopUp.swift */; };
 		D32AF14C25484BF300305677 /* DrinkablesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32AF14B25484BF300305677 /* DrinkablesCell.swift */; };
@@ -53,6 +54,9 @@
 		D3CB4F9F25519D6800108B55 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3CB4F9E25519D6800108B55 /* UIViewController + Extension.swift */; };
 		D3E0F4752566982B001F601A /* StatisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E0F4742566982B001F601A /* StatisticsCell.swift */; };
 		D3E0F4792566A5C2001F601A /* MyProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E0F4782566A5C2001F601A /* MyProgressView.swift */; };
+		D3E447242590E08A00FE63DE /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E447232590E08A00FE63DE /* ChartView.swift */; };
+		D3E447272590E39000FE63DE /* Double + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E447262590E39000FE63DE /* Double + Extension.swift */; };
+		D3E4472C25910D8900FE63DE /* StatisticVolume.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E4472B25910D8900FE63DE /* StatisticVolume.swift */; };
 		D3E47FDF2580C574003CD518 /* SettingsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E47FDE2580C574003CD518 /* SettingsData.swift */; };
 		D3EE13B125513505004D901A /* ContainerPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EE13B025513505004D901A /* ContainerPopUp.swift */; };
 		D3EE13B425513951004D901A /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EE13B325513951004D901A /* ContainerView.swift */; };
@@ -61,6 +65,7 @@
 		D3F06A122580E8C400F56EE4 /* SettingsToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F06A112580E8C400F56EE4 /* SettingsToggleCell.swift */; };
 		D3F06A192580F97600F56EE4 /* SettingsTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F06A182580F97600F56EE4 /* SettingsTableViewHeader.swift */; };
 		D3F9F1E925629055009CA76A /* EditingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9F1E825629055009CA76A /* EditingController.swift */; };
+		D3FBBF8E258CABF700231D3B /* StartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FBBF8D258CABF700231D3B /* StartController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +79,7 @@
 		D3077AD2258B860400B55643 /* AboutApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutApp.swift; sourceTree = "<group>"; };
 		D30F0FFD2562F11B00F2F703 /* EditingDrinkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingDrinkController.swift; sourceTree = "<group>"; };
 		D30F10012562F32900F2F703 /* EditingDrinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingDrinkCell.swift; sourceTree = "<group>"; };
+		D323C27A258CB0C600A3A07C /* ViewForStartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewForStartController.swift; sourceTree = "<group>"; };
 		D326CC502563D26B001B71AA /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		D326CC542563D465001B71AA /* EKAttributesPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKAttributesPopUp.swift; sourceTree = "<group>"; };
 		D32AF14B25484BF300305677 /* DrinkablesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkablesCell.swift; sourceTree = "<group>"; };
@@ -116,6 +122,9 @@
 		D3CB4F9E25519D6800108B55 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
 		D3E0F4742566982B001F601A /* StatisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCell.swift; sourceTree = "<group>"; };
 		D3E0F4782566A5C2001F601A /* MyProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProgressView.swift; sourceTree = "<group>"; };
+		D3E447232590E08A00FE63DE /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		D3E447262590E39000FE63DE /* Double + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double + Extension.swift"; sourceTree = "<group>"; };
+		D3E4472B25910D8900FE63DE /* StatisticVolume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticVolume.swift; sourceTree = "<group>"; };
 		D3E47FDE2580C574003CD518 /* SettingsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsData.swift; sourceTree = "<group>"; };
 		D3EE13B025513505004D901A /* ContainerPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerPopUp.swift; sourceTree = "<group>"; };
 		D3EE13B325513951004D901A /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
@@ -124,6 +133,7 @@
 		D3F06A112580E8C400F56EE4 /* SettingsToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsToggleCell.swift; sourceTree = "<group>"; };
 		D3F06A182580F97600F56EE4 /* SettingsTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewHeader.swift; sourceTree = "<group>"; };
 		D3F9F1E825629055009CA76A /* EditingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingController.swift; sourceTree = "<group>"; };
+		D3FBBF8D258CABF700231D3B /* StartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +157,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		D323C274258CB01300A3A07C /* StartController */ = {
+			isa = PBXGroup;
+			children = (
+				D3FBBF8D258CABF700231D3B /* StartController.swift */,
+				D323C27A258CB0C600A3A07C /* ViewForStartController.swift */,
+			);
+			path = StartController;
+			sourceTree = "<group>";
+		};
 		D326CC572563D514001B71AA /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +179,7 @@
 		D32AF14A254845E700305677 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D3E4472B25910D8900FE63DE /* StatisticVolume.swift */,
 				D3B585472548236D002A4E96 /* DrinkStart.swift */,
 				D399AF9C254FDBFF006CD60D /* Container.swift */,
 				D39694B725553634006FA89C /* Drink.swift */,
@@ -183,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				D38B977A253F1EC400EF0D5B /* MainTabBarController.swift */,
+				D323C274258CB01300A3A07C /* StartController */,
 				D3ACC2D4255C545800C16000 /* MainController */,
 				D3ACC2D6255C54CA00C16000 /* HistoryController */,
 				D3E0F47125669800001F601A /* StatisticsController */,
@@ -208,6 +229,7 @@
 			children = (
 				D3EE13B325513951004D901A /* ContainerView.swift */,
 				D300987E255412CE00E920A1 /* String + Extension.swift */,
+				D3E447262590E39000FE63DE /* Double + Extension.swift */,
 				D3077ACF258B74D200B55643 /* UIDevice + Extension.swift */,
 				D3899128255D8A6500C08BD1 /* Date + Extension.swift */,
 				D3BB3B8E254702B7003ADA74 /* UIKit */,
@@ -296,6 +318,7 @@
 			isa = PBXGroup;
 			children = (
 				D38B9788253F2A0000EF0D5B /* StatisticsController.swift */,
+				D3E447232590E08A00FE63DE /* ChartView.swift */,
 				D3E0F47325669811001F601A /* Cell */,
 			);
 			path = StatisticsController;
@@ -482,8 +505,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3E4472C25910D8900FE63DE /* StatisticVolume.swift in Sources */,
 				D3077AD3258B860400B55643 /* AboutApp.swift in Sources */,
 				D38B9791253F2A5800EF0D5B /* SettingsController.swift in Sources */,
+				D3FBBF8E258CABF700231D3B /* StartController.swift in Sources */,
 				D3077AD0258B74D200B55643 /* UIDevice + Extension.swift in Sources */,
 				D359B385258210890046FC02 /* SettingsPopUp.swift in Sources */,
 				D335D7362588AA98008342E9 /* DailyProgressBar.swift in Sources */,
@@ -504,6 +529,7 @@
 				D39694BC255548FF006FA89C /* StorageService.swift in Sources */,
 				D30F0FFE2562F11B00F2F703 /* EditingDrinkController.swift in Sources */,
 				D332F752255557F50047A370 /* DrinkUp.swift in Sources */,
+				D3E447242590E08A00FE63DE /* ChartView.swift in Sources */,
 				D399AF9D254FDBFF006CD60D /* Container.swift in Sources */,
 				D39D6028253F10B0001B75E1 /* AppDelegate.swift in Sources */,
 				D30710A9255BF703009B2425 /* DrinkUpCell.swift in Sources */,
@@ -527,7 +553,9 @@
 				D38B977B253F1EC400EF0D5B /* MainTabBarController.swift in Sources */,
 				D326CC552563D465001B71AA /* EKAttributesPopUp.swift in Sources */,
 				D32AF14C25484BF300305677 /* DrinkablesCell.swift in Sources */,
+				D323C27B258CB0C600A3A07C /* ViewForStartController.swift in Sources */,
 				D3F06A122580E8C400F56EE4 /* SettingsToggleCell.swift in Sources */,
+				D3E447272590E39000FE63DE /* Double + Extension.swift in Sources */,
 				D3BB3B8D254702A0003ADA74 /* UIColor + Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

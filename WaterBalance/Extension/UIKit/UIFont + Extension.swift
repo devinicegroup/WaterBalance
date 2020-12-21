@@ -38,6 +38,11 @@ extension UIFont {
         return UIFont.systemFont(ofSize: 13, weight: .regular)
     }
     
+    static func bodyLightMin3() -> UIFont {
+        return UIFont.systemFont(ofSize: 10, weight: .light)
+    }
+    
+    
     static func header1() -> UIFont {
         return UIFont.systemFont(ofSize: 34, weight: .bold)
     }

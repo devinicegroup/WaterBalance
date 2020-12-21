@@ -12,5 +12,7 @@ target 'WaterBalance' do
 pod 'SwiftEntryKit'
 pod 'RealmSwift'
 pod 'FSCalendar'
+pod 'Charts'
+pod 'ChartsRealm'
 
 end

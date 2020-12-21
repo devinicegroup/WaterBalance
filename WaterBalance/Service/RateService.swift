@@ -11,7 +11,7 @@ import StoreKit
 
 class RateService {
     
-    private static let targetRunCount = 5
+    private static let targetRunCount = 15
     
     class func incrementCount() {
         let count = UserDefaults.standard.integer(forKey: "runCount")

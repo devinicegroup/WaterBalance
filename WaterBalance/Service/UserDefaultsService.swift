@@ -46,11 +46,11 @@ class UserDefaultsService {
     }
     
     func setSettingsForStart() {
-        formatter.timeStyle = .none
-        formatter.dateStyle = .long
-        
-        let stringDate = formatter.string(from: Date())
-        print(stringDate)
-        UserDefaults.standard.set(stringDate, forKey: UserDefaultsServiceEnum.firstDate.rawValue)
+//        formatter.timeStyle = .none
+//        formatter.dateStyle = .long
+//        
+//        let stringDate = formatter.string(from: Date())
+//        print(stringDate)
+        UserDefaults.standard.set(Date(), forKey: UserDefaultsServiceEnum.firstDate.rawValue)
     }
 }
