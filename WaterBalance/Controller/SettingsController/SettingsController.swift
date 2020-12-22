@@ -27,13 +27,23 @@ class SettingsController: UIViewController, MFMailComposeViewControllerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        settingsData = settings.settingsData
+        view.backgroundColor = .white
+        setupNavigationController()
         
+        settingsData = settings.settingsData
         setupTableView()
         setupConstraints()
-
-        view.backgroundColor = .systemIndigo
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    private func setupNavigationController() {
+        self.navigationItem.title = "Настройки"
+        if screenHeight/screenWidth > 2 {
+            self.navigationController?.navigationBar.prefersLargeTitles = true
+            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
+        } else {
+            navigationController?.navigationBar.barTintColor = .white
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
+        }
     }
     
     private func setupTableView() {
@@ -45,6 +55,10 @@ class SettingsController: UIViewController, MFMailComposeViewControllerDelegate 
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 62, bottom: 0, right: 0)
 //        tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0)
         
+        var frame = CGRect.zero
+        frame.size.height = .leastNormalMagnitude
+        tableView.tableHeaderView = UIView(frame: frame)
+        
         tableView.register(SettingsTableViewHeader.self, forHeaderFooterViewReuseIdentifier: SettingsTableViewHeader.reuseId)
         
         tableView.register(SettingsStandardCell.self, forCellReuseIdentifier: SettingsStandardCell.reuseId)
@@ -52,9 +66,9 @@ class SettingsController: UIViewController, MFMailComposeViewControllerDelegate 
         tableView.register(SettingsToggleCell.self, forCellReuseIdentifier: SettingsToggleCell.reuseId)
     }
     
-    private func showSettingsPopUpWithPickerView(type: SettingsChangeType) {
+    private func showSettingsPopUpWithPickerView(type: SettingsChangeType, name: String) {
         let height = (view.frame.width / 2.4) + 22 + 11 + 50
-        let settingsPopUp = SettingsPopUp(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: height), type: type)
+        let settingsPopUp = SettingsPopUp(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: height), type: type, name: name)
         settingsPopUp.delegate = self
         SwiftEntryKit.display(entry: settingsPopUp, using: EKAttributesPopUp.createAttributes())
     }
@@ -169,9 +183,11 @@ extension SettingsController: UITableViewDelegate, UITableViewDataSource {
         case IndexPath(row: 3, section: 2):
             self.navigationController?.pushViewController(VolumesController(), animated: true)
         case IndexPath(row: 4, section: 2):
-            showSettingsPopUpWithPickerView(type: .changeDailyTarget)
+            let name = settingsData[indexPath.section][indexPath.row].nameForUser
+            showSettingsPopUpWithPickerView(type: .changeDailyTarget, name: name)
         case IndexPath(row: 5, section: 2):
-            showSettingsPopUpWithPickerView(type: .changeTrainingTarget)
+            let name = settingsData[indexPath.section][indexPath.row].nameForUser
+            showSettingsPopUpWithPickerView(type: .changeTrainingTarget, name: name)
         default:
             print(indexPath)
             break

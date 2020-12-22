@@ -31,8 +31,14 @@ class EditingController: UITableViewController, UIAdaptivePresentationController
     private func setupNavigationController() {
         self.navigationController?.presentationController?.delegate = self
         navigationController?.navigationBar.tintColor = .mainDark()
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
         self.navigationItem.title = "Редактирование"
+        if screenHeight/screenWidth > 2 {
+            self.navigationController?.navigationBar.prefersLargeTitles = true
+            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
+        } else {
+            navigationController?.navigationBar.barTintColor = .white
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
+        }
         
         let leftImage = UIImage(named: "trash")
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: leftImage, style: .plain, target: self, action: #selector(deleteDrinkUp))

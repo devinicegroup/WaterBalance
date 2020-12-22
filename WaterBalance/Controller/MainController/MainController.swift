@@ -71,18 +71,22 @@ class MainController: UIViewController {
     
     private func setupNavigationController() {
         self.navigationItem.title = "Водный баланс"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
-        //        navigationController?.navigationBar.barTintColor = .darkGray
-        //        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        if screenHeight/screenWidth > 2 {
+            self.navigationController?.navigationBar.prefersLargeTitles = true
+            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
+        } else {
+            navigationController?.navigationBar.barTintColor = .white
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
+        }
     }
     
     private func setupDailyProgressBar() {
-        let width = self.view.frame.width - 32
+//        let width = self.view.frame.width - 32
         heightDailyProgressBar = self.view.frame.height - ((tabBarController?.tabBar.frame.height)! + (navigationController?.navigationBar.frame.height)!)
         heightDailyProgressBar -= collectionViewHight
         heightDailyProgressBar -= (30 + 16 + 16 + 16)
-        dailyProgressBar = DailyProgressBar(frame: CGRect(x: 0, y: 0, width: width, height: heightDailyProgressBar))
+//        dailyProgressBar = DailyProgressBar(frame: CGRect(x: 0, y: 0, width: width, height: heightDailyProgressBar))
+        dailyProgressBar = DailyProgressBar(frame: CGRect(x: 0, y: 0, width: heightDailyProgressBar, height: heightDailyProgressBar))
         
         view.addSubview(dailyProgressBar)
         dailyProgressBar.translatesAutoresizingMaskIntoConstraints = false
@@ -288,12 +292,21 @@ class MainController: UIViewController {
             addButton.heightAnchor.constraint(equalToConstant: 30)
         ])
         
-        NSLayoutConstraint.activate([
-            dailyProgressBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            dailyProgressBar.bottomAnchor.constraint(equalTo: trashButton.topAnchor, constant: -16),
-            dailyProgressBar.heightAnchor.constraint(equalToConstant: heightDailyProgressBar),
-            dailyProgressBar.widthAnchor.constraint(equalToConstant: self.view.frame.width - 32)
-        ])
+        if screenHeight/screenWidth > 2 {
+            NSLayoutConstraint.activate([
+                dailyProgressBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                dailyProgressBar.bottomAnchor.constraint(equalTo: trashButton.topAnchor, constant: -16),
+                dailyProgressBar.heightAnchor.constraint(equalToConstant: heightDailyProgressBar - 8),
+                dailyProgressBar.widthAnchor.constraint(equalToConstant: heightDailyProgressBar - 8)
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                dailyProgressBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                dailyProgressBar.bottomAnchor.constraint(equalTo: trashButton.topAnchor, constant: -8),
+                dailyProgressBar.heightAnchor.constraint(equalToConstant: heightDailyProgressBar + 20),
+                dailyProgressBar.widthAnchor.constraint(equalToConstant: heightDailyProgressBar + 20)
+            ])
+        }
     }
 }
 

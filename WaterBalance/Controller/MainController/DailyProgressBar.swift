@@ -13,9 +13,14 @@ class DailyProgressBar: UIView {
     var bgLayer = CAShapeLayer()
     var fgLayer = CAShapeLayer()
     
-    let labelView = UIView()
     let topLabel = UILabel()
     let bottomLabel = UILabel()
+    
+    let screenWidth = UIScreen.main.bounds.size.width
+    let screenHeight = UIScreen.main.bounds.size.height
+    
+//    if screenHeight/screenWidth > 2 {
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,7 +32,11 @@ class DailyProgressBar: UIView {
     }
     
     func configureView() {
-        let progressBarWidth: CGFloat = 40.0
+        var progressBarWidth: CGFloat = 40.0
+        if UIDevice.modelName == "iPhone 5" || UIDevice.modelName == "iPhone 5c" || UIDevice.modelName == "iPhone 5s" || UIDevice.modelName == "iPhone SE" || UIDevice.modelName == "Simulator iPhone SE"{
+            progressBarWidth = 20
+        }
+        
         bgLayer.lineWidth = progressBarWidth
         bgLayer.fillColor = nil
         bgLayer.strokeEnd = CGFloat(1)
@@ -54,38 +63,35 @@ class DailyProgressBar: UIView {
     }
     
     private func setupConstraints() {
-        labelView.translatesAutoresizingMaskIntoConstraints = false
         topLabel.translatesAutoresizingMaskIntoConstraints = false
         bottomLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        addSubview(labelView)
-        labelView.addSubview(topLabel)
-        labelView.addSubview(bottomLabel)
+        addSubview(topLabel)
+        addSubview(bottomLabel)
         
         NSLayoutConstraint.activate([
-            labelView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            labelView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            labelView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5),
-            labelView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2)
+            topLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            topLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor,constant: -12),
+            topLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.6)
         ])
         
         NSLayoutConstraint.activate([
-            topLabel.centerXAnchor.constraint(equalTo: labelView.centerXAnchor),
-            topLabel.topAnchor.constraint(equalTo: labelView.topAnchor),
-            topLabel.widthAnchor.constraint(equalTo: labelView.widthAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            bottomLabel.centerXAnchor.constraint(equalTo: labelView.centerXAnchor),
-            bottomLabel.bottomAnchor.constraint(equalTo: labelView.bottomAnchor),
-            bottomLabel.widthAnchor.constraint(equalTo: labelView.widthAnchor)
+            bottomLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            bottomLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor,constant: 16),
+            bottomLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.6)
         ])
     }
     
     func setupCAShapeLayers(shapeLayer: CAShapeLayer, startAngle: CGFloat, endAngle: CGFloat) {
         shapeLayer.frame = self.bounds
         let center = CGPoint.init(x: self.frame.width/2, y: self.frame.height/2)
-        let radius = self.bounds.height < self.bounds.width ? (self.bounds.height / 2) - 20 : (self.bounds.width / 2) - 20
+//        let radius = self.bounds.height < self.bounds.width ? (self.bounds.height / 2) - 20 : (self.bounds.width / 2) - 20
+        
+        var radius = (self.bounds.height / 2) - 20
+        if UIDevice.modelName == "iPhone 5" || UIDevice.modelName == "iPhone 5c" || UIDevice.modelName == "iPhone 5s" || UIDevice.modelName == "iPhone SE" || UIDevice.modelName == "Simulator iPhone SE"{
+            radius = (self.bounds.height / 2) - 8
+        }
+
         let path = UIBezierPath.init(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
         shapeLayer.path = path.cgPath
     }

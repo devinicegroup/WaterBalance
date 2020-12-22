@@ -20,6 +20,7 @@ class DatePickerView: UIView {
     let datePicker = UIDatePicker()
     let cancelButton = UIButton(type: .system)
     let saveButton = UIButton(type: .system)
+    let nameLabel = UILabel()
     
     init(frame: CGRect, date: Date) {
         super.init(frame: frame)
@@ -29,6 +30,7 @@ class DatePickerView: UIView {
         
         setupConstraints()
         createButtons()
+        createLabel()
         createDatePicker(date: date)
     }
     
@@ -50,6 +52,13 @@ class DatePickerView: UIView {
         saveButton.tintColor = .mainDark()
         saveButton.setImage(saveImage, for: .normal)
         saveButton.addTarget(self, action: #selector(saveDate), for: .touchUpInside)
+    }
+    
+    private func createLabel() {
+        nameLabel.textAlignment = .center
+        nameLabel.textColor = .typographyLight()
+        nameLabel.font = .bodyMedium()
+        nameLabel.text = "Дата"
     }
     
     private func createDatePicker(date: Date) {
@@ -78,23 +87,31 @@ class DatePickerView: UIView {
         self.addSubview(cancelButton)
         self.addSubview(saveButton)
         self.addSubview(datePicker)
+        self.addSubview(nameLabel)
         
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         datePicker.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             cancelButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
             cancelButton.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            cancelButton.widthAnchor.constraint(equalToConstant: self.frame.width/2),
+            cancelButton.widthAnchor.constraint(equalToConstant: self.frame.width/3),
             cancelButton.heightAnchor.constraint(equalToConstant: 30)
         ])
         
         NSLayoutConstraint.activate([
             saveButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
             saveButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            saveButton.widthAnchor.constraint(equalToConstant: self.frame.width/2),
+            saveButton.widthAnchor.constraint(equalToConstant: self.frame.width/3),
             saveButton.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        NSLayoutConstraint.activate([
+            nameLabel.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor),
+            nameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            nameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16)
         ])
         
         NSLayoutConstraint.activate([

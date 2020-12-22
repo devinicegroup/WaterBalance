@@ -36,7 +36,7 @@ class HistoryController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        setupNavigationController()
         
         dates = Date.getDatesForMonth(date: Date())
         drinkUpsForCalendar = StorageService.shared.getDataForMonth(date: Date())
@@ -44,6 +44,17 @@ class HistoryController: UIViewController {
         setupCalendar()
         setupTableView()
         setupLabel()
+    }
+    
+    private func setupNavigationController() {
+        self.navigationItem.title = "История"
+        if screenHeight/screenWidth > 2 {
+            self.navigationController?.navigationBar.prefersLargeTitles = true
+            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
+        } else {
+            navigationController?.navigationBar.barTintColor = .white
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
+        }
     }
     
     func setupCalendar() {

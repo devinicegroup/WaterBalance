@@ -7,6 +7,13 @@
 //
 
 import UIKit
+import SwiftEntryKit
+
+enum StartChangeType {
+    case changeDailyTarget
+    case changeTrainingTarget
+    case changeWeight
+}
 
 class StartController: UIViewController {
     
@@ -14,13 +21,23 @@ class StartController: UIViewController {
     var dailyTargetView: ViewForStartController!
     var weightView: ViewForStartController!
     var healthView: ViewForStartController!
-
+    
+    let forwardButton = UIButton()
+    let maleButton = UIButton()
+    let femaleButton = UIButton()
+    let nameLabel = UILabel()
+    let mainIconImageView = UIImageView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.backgroundColor = .white
         
+        setupForwardButton()
         setupBottomView()
+        setupSexButtons()
+        setupLabel()
+        setupImageView()
         setupConstraints()
     }
     
@@ -37,7 +54,7 @@ class StartController: UIViewController {
         
         let weightImageString = "weight"
         let weightText = "Вес"
-        weightView = ViewForStartController(imageString: weightImageString, leftText: weightText, rightText: "0 кг")
+        weightView = ViewForStartController(imageString: weightImageString, leftText: weightText, rightText: "50 кг")
         weightView.button.addTarget(self, action: #selector(weightTapped), for: .touchUpInside)
         
         let healthImageString = "health"
@@ -47,20 +64,94 @@ class StartController: UIViewController {
         healthView.toggle.addTarget(self, action: #selector(healthChanged), for: .valueChanged)
     }
     
-    @objc private func trainingTapped() {
+    private func setupForwardButton() {
+        forwardButton.backgroundColor = .blue()
+        forwardButton.layer.cornerRadius = 35
+        forwardButton.clipsToBounds = true
+        forwardButton.setImage(UIImage(named: "forward"), for: .normal)
+        forwardButton.addTarget(self, action: #selector(forwardTapped), for: .touchUpInside)
+        forwardButton.isEnabled = false
+        forwardButton.alpha = 0.3
+    }
+    
+    private func setupSexButtons() {
+        maleButton.backgroundColor = .mainLight()
+        maleButton.layer.cornerRadius = 35
+        maleButton.clipsToBounds = true
+        maleButton.tag = 0
+        maleButton.layer.borderColor = UIColor.blue().cgColor
+        maleButton.setImage(UIImage(named: "male"), for: .normal)
+        maleButton.addTarget(self, action: #selector(sexTapped), for: .touchUpInside)
+        
+        femaleButton.backgroundColor = .mainLight()
+        femaleButton.layer.cornerRadius = 35
+        femaleButton.clipsToBounds = true
+        femaleButton.tag = 1
+        femaleButton.layer.borderColor = UIColor.pink().cgColor
+        femaleButton.setImage(UIImage(named: "female"), for: .normal)
+        femaleButton.addTarget(self, action: #selector(sexTapped), for: .touchUpInside)
+    }
+    
+    private func setupLabel() {
+        nameLabel.textAlignment = .center
+        nameLabel.font = .header1()
+        nameLabel.textColor = .typographyPrimary()
+        nameLabel.text = "Водный баланс"
+    }
+    
+    private func setupImageView() {
+        mainIconImageView.image = UIImage(named: "mainIcon")
+        mainIconImageView.contentMode = .scaleAspectFit
+    }
+    
+    @objc private func forwardTapped() {
         print(123123123)
+    }
+    
+    @objc private func trainingTapped() {
+        guard let name = dailyTargetView.leftLabel.text else { return }
+        guard let currentTrainingTarget = trainingView.rightLabel.text?.filter("0123456789.".contains) else { return }
+        showSettingsPopUpWithPickerView(type: .changeTrainingTarget, name: name, currentValue: currentTrainingTarget)
     }
     
     @objc private func dailyTargetTapped() {
-        print(123123123)
+        guard let name = dailyTargetView.leftLabel.text else { return }
+        guard let currentDailyTarget = dailyTargetView.rightLabel.text?.filter("0123456789.".contains) else { return }
+        showSettingsPopUpWithPickerView(type: .changeDailyTarget, name: name, currentValue: currentDailyTarget)
     }
     
     @objc private func weightTapped() {
-        print(123123123)
+        guard let name = weightView.leftLabel.text else { return }
+        guard let currentWeight = weightView.rightLabel.text?.filter("0123456789.".contains) else { return }
+        showSettingsPopUpWithPickerView(type: .changeWeight, name: name, currentValue: currentWeight)
     }
     
     @objc private func healthChanged(_ sender: UISwitch) {
         print(sender.isOn)
+    }
+    
+    @objc private func sexTapped(_ sender: UIButton) {
+        switch sender.tag {
+        case 0:
+            maleButton.backgroundColor = .mainWhite()
+            femaleButton.backgroundColor = .mainLight()
+            maleButton.layer.borderWidth = 2
+            femaleButton.layer.borderWidth = 0
+        case 1:
+            maleButton.backgroundColor = .mainLight()
+            femaleButton.backgroundColor = .mainWhite()
+            maleButton.layer.borderWidth = 0
+            femaleButton.layer.borderWidth = 2
+        default:
+            break
+        }
+    }
+    
+    private func showSettingsPopUpWithPickerView(type: StartChangeType, name: String, currentValue: String) {
+        let height = (view.frame.width / 2.4) + 22 + 11 + 50
+        let startPopUp = StartPopUp(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: height), type: type, name: name, currentValue: currentValue)
+        startPopUp.delegate = self
+        SwiftEntryKit.display(entry: startPopUp, using: EKAttributesPopUp.createAttributes())
     }
     
     private func setupConstraints() {
@@ -68,16 +159,33 @@ class StartController: UIViewController {
         dailyTargetView.translatesAutoresizingMaskIntoConstraints = false
         weightView.translatesAutoresizingMaskIntoConstraints = false
         healthView.translatesAutoresizingMaskIntoConstraints = false
+        forwardButton.translatesAutoresizingMaskIntoConstraints = false
+        maleButton.translatesAutoresizingMaskIntoConstraints = false
+        femaleButton.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        mainIconImageView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(trainingView)
         view.addSubview(dailyTargetView)
         view.addSubview(weightView)
         view.addSubview(healthView)
-
+        view.addSubview(forwardButton)
+        view.addSubview(maleButton)
+        view.addSubview(femaleButton)
+        view.addSubview(nameLabel)
+        view.addSubview(mainIconImageView)
+        
+        NSLayoutConstraint.activate([
+            forwardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -self.view.frame.height/15),
+            forwardButton.heightAnchor.constraint(equalToConstant: 70),
+            forwardButton.widthAnchor.constraint(equalToConstant: 70),
+            forwardButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        ])
+        
         NSLayoutConstraint.activate([
             trainingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             trainingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            trainingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -150)
+            trainingView.bottomAnchor.constraint(equalTo: forwardButton.topAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
@@ -97,5 +205,54 @@ class StartController: UIViewController {
             healthView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             healthView.bottomAnchor.constraint(equalTo: weightView.topAnchor, constant: -10)
         ])
+        
+        NSLayoutConstraint.activate([
+            maleButton.bottomAnchor.constraint(equalTo: healthView.topAnchor, constant: -30),
+            maleButton.heightAnchor.constraint(equalToConstant: 70),
+            maleButton.widthAnchor.constraint(equalToConstant: 70),
+            maleButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -70)
+        ])
+        
+        NSLayoutConstraint.activate([
+            femaleButton.bottomAnchor.constraint(equalTo: healthView.topAnchor, constant: -30),
+            femaleButton.heightAnchor.constraint(equalToConstant: 70),
+            femaleButton.widthAnchor.constraint(equalToConstant: 70),
+            femaleButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 70)
+        ])
+        
+        NSLayoutConstraint.activate([
+            nameLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: self.view.frame.height/10),
+            nameLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        ])
+        
+        if screenHeight/screenWidth > 2 {
+            NSLayoutConstraint.activate([
+                mainIconImageView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 0),
+                mainIconImageView.bottomAnchor.constraint(equalTo: maleButton.topAnchor, constant: -30),
+                mainIconImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                mainIconImageView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 0),
+                mainIconImageView.bottomAnchor.constraint(equalTo: maleButton.topAnchor, constant: 0),
+                mainIconImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+            ])
+        }
+    }
+}
+
+
+//MARK: - StartPopUpProtocol
+extension StartController: StartPopUpProtocol {
+    func dailyTrainingChanged(value: Double) {
+        print(value)
+    }
+    
+    func dailyTargetChanged(value: Double) {
+        print(value)
+    }
+    
+    func weightChanged(value: Int) {
+        print(value)
     }
 }

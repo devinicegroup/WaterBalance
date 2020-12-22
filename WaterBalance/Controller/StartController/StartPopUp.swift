@@ -1,39 +1,35 @@
 //
-//  SettingsPopUp.swift
+//  StartPopUp.swift
 //  WaterBalance
 //
-//  Created by Sergei Polivanov on 10.12.2020.
+//  Created by Sergei Polivanov on 22.12.2020.
 //  Copyright © 2020 Sergei Polivanov. All rights reserved.
 //
 
 import UIKit
 import SwiftEntryKit
 
-protocol SettingsPopUpProtocol : NSObjectProtocol{
+protocol StartPopUpProtocol: NSObjectProtocol {
     func dailyTargetChanged(value: Double)
     func dailyTrainingChanged(value: Double)
+    func weightChanged(value: Int)
 }
 
-protocol VolumesPopUpProtocol : NSObjectProtocol{
-    func volumesChanged(value: Double)
-}
-
-class SettingsPopUp: UIView {
+class StartPopUp: UIView {
     
-    weak var delegate: SettingsPopUpProtocol?
-    weak var volumesDelegate: VolumesPopUpProtocol?
-    var type: SettingsChangeType
+    weak var delegate: StartPopUpProtocol?
+    var type: StartChangeType
     
     let cancelButton = UIButton(type: .system)
     let saveButton = UIButton(type: .system)
     let nameLabel = UILabel()
     let pickerView = UIPickerView()
     
+    let weightData = Array(stride(from: 10, through: 300, by: 1))
     let dailyTargetData = Array(stride(from: 500, through: 5000, by: 5))
-    let dailyTrainingData = Array(stride(from: 50, through: 1500, by: 5))
-    let containerData = Array(stride(from: 10, through: 1000, by: 5))
+    let trainingData = Array(stride(from: 50, through: 1500, by: 5))
     
-    init(frame: CGRect, type: SettingsChangeType, name: String) {
+    init(frame: CGRect, type: StartChangeType, name: String, currentValue: String) {
         self.type = type
         super.init(frame: frame)
         
@@ -44,16 +40,16 @@ class SettingsPopUp: UIView {
         createButtons()
         createPickerView()
         createLabel()
-        
+
         switch type {
         case .changeDailyTarget:
-            changeDailyTarget()
+            changeDailyTarget(currentDailyTarget: currentValue)
         case .changeTrainingTarget:
-            changeTrainingTarget()
-        case .changeContainerVolume:
-            changeContainerVolume()
+            changeTrainingTarget(currentTrainingTarget: currentValue)
+        case .changeWeight:
+            changeWeight(currentWeight: currentValue)
         }
-        
+
         setupConstraints()
     }
     
@@ -77,36 +73,34 @@ class SettingsPopUp: UIView {
         saveButton.addTarget(self, action: #selector(saveDate), for: .touchUpInside)
     }
     
-    private func createLabel() {
-        nameLabel.textAlignment = .center
-        nameLabel.textColor = .typographyLight()
-        nameLabel.font = .bodyMedium()
-    }
-    
     private func createPickerView() {
         pickerView.delegate = self
         pickerView.dataSource = self
         pickerView.setValue(UIColor.mainDark(), forKeyPath: "textColor")
     }
     
-    //Change daily target
-    private func changeDailyTarget() {
-        let dailyTarget = Int(UserDefaults.standard.double(forKey: "target"))
-        guard let index = dailyTargetData.firstIndex(of: Int(dailyTarget)) else { return }
+    private func createLabel() {
+        nameLabel.textAlignment = .center
+        nameLabel.textColor = .typographyLight()
+        nameLabel.font = .bodyMedium()
+    }
+    
+    private func changeWeight(currentWeight: String) {
+        guard let weight = Int(currentWeight) else { return }
+        guard let index = weightData.firstIndex(of: weight) else { return }
         pickerView.selectRow(index, inComponent: 0, animated: true)
     }
     
-    //Change training target
-    private func changeTrainingTarget() {
-        let trainingTarget = Int(UserDefaults.standard.double(forKey: "training"))
-        guard let index = dailyTrainingData.firstIndex(of: Int(trainingTarget)) else { return }
+    private func changeDailyTarget(currentDailyTarget: String) {
+        guard var dailyTarget = Int(currentDailyTarget) else { return }
+        if dailyTarget == 0 { dailyTarget = 1500}
+        guard let index = dailyTargetData.firstIndex(of: dailyTarget) else { return }
         pickerView.selectRow(index, inComponent: 0, animated: true)
     }
     
-    //Change container volume
-    private func changeContainerVolume() {
-        guard let containerVolume = VolumesController.selectedContainer?.value else { return }
-        guard let index = containerData.firstIndex(of: Int(containerVolume)) else { return }
+    private func changeTrainingTarget(currentTrainingTarget: String) {
+        guard let trainingTarget = Int(currentTrainingTarget) else { return }
+        guard let index = trainingData.firstIndex(of: trainingTarget) else { return }
         pickerView.selectRow(index, inComponent: 0, animated: true)
     }
     
@@ -116,16 +110,19 @@ class SettingsPopUp: UIView {
     
     @objc private func saveDate() {
         let row = pickerView.selectedRow(inComponent: 0)
-        guard let volume = pickerView(pickerView, titleForRow: row, forComponent: 0)?.toDouble() else { return }
         
         switch type {
         case .changeDailyTarget:
-            delegate?.dailyTargetChanged(value: volume)
+            guard let dailyTargetString = pickerView(pickerView, titleForRow: row, forComponent: 0), let dailyTarget = dailyTargetString.toDouble() else { return }
+            delegate?.dailyTargetChanged(value: dailyTarget)
         case .changeTrainingTarget:
-            delegate?.dailyTrainingChanged(value: volume)
-        case .changeContainerVolume:
-            volumesDelegate?.volumesChanged(value: volume)
+            guard let trainingTargetString = pickerView(pickerView, titleForRow: row, forComponent: 0), let trainingTarget = trainingTargetString.toDouble() else { return }
+            delegate?.dailyTrainingChanged(value: trainingTarget)
+        case .changeWeight:
+            guard let weightString = pickerView(pickerView, titleForRow: row, forComponent: 0), let weight = Int(weightString) else { return }
+            delegate?.weightChanged(value: weight)
         }
+        
         SwiftEntryKit.dismiss()
     }
     
@@ -166,8 +163,6 @@ class SettingsPopUp: UIView {
             pickerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             pickerView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30)
         ])
-        
-        print(nameLabel)
     }
     
     required init?(coder: NSCoder) {
@@ -177,15 +172,15 @@ class SettingsPopUp: UIView {
 
 
 //MARK: - UIPickerViewDataSource, UIPickerViewDelegate
-extension SettingsPopUp: UIPickerViewDataSource, UIPickerViewDelegate {
+extension StartPopUp: UIPickerViewDataSource, UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch type {
         case .changeDailyTarget:
             return dailyTargetData.count
         case .changeTrainingTarget:
-            return dailyTrainingData.count
-        case .changeContainerVolume:
-            return containerData.count
+            return trainingData.count
+        case .changeWeight:
+            return weightData.count
         }
     }
     
@@ -198,9 +193,9 @@ extension SettingsPopUp: UIPickerViewDataSource, UIPickerViewDelegate {
         case .changeDailyTarget:
             return "\(dailyTargetData[row])"
         case .changeTrainingTarget:
-            return "\(dailyTrainingData[row])"
-        case .changeContainerVolume:
-            return "\(containerData[row])"
+            return "\(trainingData[row])"
+        case .changeWeight:
+            return "\(weightData[row])"
         }
     }
 }

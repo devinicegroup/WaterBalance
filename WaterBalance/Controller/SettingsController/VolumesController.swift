@@ -23,12 +23,25 @@ class VolumesController: UITableViewController {
         tableView.register(SettingsSublabelCell.self, forCellReuseIdentifier: SettingsSublabelCell.reuseId)
         tableView.tableFooterView = UIView()
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 62, bottom: 0, right: 0)
-
+        
+        var frame = CGRect.zero
+        frame.size.height = .leastNormalMagnitude
+        tableView.tableHeaderView = UIView(frame: frame)
         
         view.backgroundColor = .mainWhite()
+        setupNavigationController()
+    }
+    
+    private func setupNavigationController() {
         self.navigationItem.title = "Объемы"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.navigationBar.tintColor = .typographySecondary()
+        if screenHeight/screenWidth > 2 {
+            self.navigationController?.navigationBar.prefersLargeTitles = true
+            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
+        } else {
+            navigationController?.navigationBar.barTintColor = .white
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
+        }
     }
 }
 
@@ -49,12 +62,13 @@ extension VolumesController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         VolumesController.selectedContainer = containers[indexPath.row]
-        showSettingsPopUpWithPickerView(type: .changeContainerVolume)
+        let name = containers[indexPath.row].nameForUser
+        showSettingsPopUpWithPickerView(type: .changeContainerVolume, name: name)
     }
     
-    private func showSettingsPopUpWithPickerView(type: SettingsChangeType) {
+    private func showSettingsPopUpWithPickerView(type: SettingsChangeType, name: String) {
         let height = (view.frame.width / 2.4) + 22 + 11 + 50
-        let settingsPopUp = SettingsPopUp(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: height), type: type)
+        let settingsPopUp = SettingsPopUp(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: height), type: type, name: name)
         settingsPopUp.volumesDelegate = self
         SwiftEntryKit.display(entry: settingsPopUp, using: EKAttributesPopUp.createAttributes())
     }

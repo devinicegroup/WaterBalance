@@ -43,8 +43,7 @@ class StatisticsController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .white
-        self.navigationItem.title = "Статистика"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        setupNavigationController()
         
         topViewHightConstraint.constant = 350
         
@@ -57,6 +56,17 @@ class StatisticsController: UIViewController {
         chartView.setupChartView()
         chartView.setChartData(dates: dates)
         setupConstraints()
+    }
+    
+    private func setupNavigationController() {
+        self.navigationItem.title = "Статистика"
+        if screenHeight/screenWidth > 2 {
+            self.navigationController?.navigationBar.prefersLargeTitles = true
+            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
+        } else {
+            navigationController?.navigationBar.barTintColor = .white
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
+        }
     }
     
     private func setupSegmentedControl() {
