@@ -15,6 +15,11 @@ enum StartChangeType {
     case changeWeight
 }
 
+enum BiologicalSex: String {
+  case male = "Мужской"
+  case female = "Женский"
+}
+
 class StartController: UIViewController {
     
     var trainingView: ViewForStartController!
@@ -33,28 +38,41 @@ class StartController: UIViewController {
         
         view.backgroundColor = .white
         
-        setupForwardButton()
         setupBottomView()
         setupSexButtons()
         setupLabel()
         setupImageView()
+        setupForwardButton()
         setupConstraints()
+        
+        if let biologicalSex = UserDefaults.standard.string(forKey: "biologicalSex") {
+            if biologicalSex == BiologicalSex.male.rawValue {
+                maleButton.layer.borderWidth = 2
+            } else {
+                femaleButton.layer.borderWidth = 2
+            }
+        }
     }
     
     private func setupBottomView() {
         let trainingImageString = "training"
         let leftTrainingText = "Тренировка"
-        trainingView = ViewForStartController(imageString: trainingImageString, leftText: leftTrainingText, rightText: "300 мл")
+        var trainingTarget = UserDefaults.standard.double(forKey: "training")
+        if trainingTarget == 0.0 { trainingTarget = 300 }
+        trainingView = ViewForStartController(imageString: trainingImageString, leftText: leftTrainingText, rightText: "\(Int(trainingTarget)) мл")
         trainingView.button.addTarget(self, action: #selector(trainingTapped), for: .touchUpInside)
         
         let dailyTargetImageString = "target"
         let dailyTargetText = "Дневная норма"
-        dailyTargetView = ViewForStartController(imageString: dailyTargetImageString, leftText: dailyTargetText, rightText: "0 мл")
+        let dailyTarget = UserDefaults.standard.double(forKey: "target")
+        dailyTargetView = ViewForStartController(imageString: dailyTargetImageString, leftText: dailyTargetText, rightText: "\(Int(dailyTarget)) мл")
         dailyTargetView.button.addTarget(self, action: #selector(dailyTargetTapped), for: .touchUpInside)
         
         let weightImageString = "weight"
         let weightText = "Вес"
-        weightView = ViewForStartController(imageString: weightImageString, leftText: weightText, rightText: "50 кг")
+        var weight = UserDefaults.standard.integer(forKey: "weight")
+        if weight == 0 { weight = 50 }
+        weightView = ViewForStartController(imageString: weightImageString, leftText: weightText, rightText: "\(weight) кг")
         weightView.button.addTarget(self, action: #selector(weightTapped), for: .touchUpInside)
         
         let healthImageString = "health"
@@ -70,8 +88,7 @@ class StartController: UIViewController {
         forwardButton.clipsToBounds = true
         forwardButton.setImage(UIImage(named: "forward"), for: .normal)
         forwardButton.addTarget(self, action: #selector(forwardTapped), for: .touchUpInside)
-        forwardButton.isEnabled = false
-        forwardButton.alpha = 0.3
+        checkForwardButton()
     }
     
     private func setupSexButtons() {
@@ -104,6 +121,30 @@ class StartController: UIViewController {
         mainIconImageView.contentMode = .scaleAspectFit
     }
     
+    private func calculateDailyTarget() {
+        guard let biologicalSex = UserDefaults.standard.string(forKey: "biologicalSex") else { return }
+        guard let currentWeight = weightView.rightLabel.text?.filter("0123456789.".contains).toDouble() else { return }
+        var sexCoefficient = 1.0
+        if biologicalSex == BiologicalSex.male.rawValue { sexCoefficient = 1.1}
+        
+        let dailyTarget = 30 * currentWeight * sexCoefficient + 50
+        let dailyTargetRound = Int(dailyTarget) / 5 * 5
+        dailyTargetView.rightLabel.text = "\(dailyTargetRound) мл"
+        UserDefaults.standard.set(Double(dailyTargetRound), forKey: "target")
+        checkForwardButton()
+    }
+    
+    private func checkForwardButton() {
+        guard let currentDailyTarget = dailyTargetView.rightLabel.text?.filter("0123456789.".contains) else { return }
+        if currentDailyTarget != "0" {
+            forwardButton.isEnabled = true
+            forwardButton.alpha = 1
+        } else {
+            forwardButton.isEnabled = false
+            forwardButton.alpha = 0.3
+        }
+    }
+    
     @objc private func forwardTapped() {
         print(123123123)
     }
@@ -128,6 +169,21 @@ class StartController: UIViewController {
     
     @objc private func healthChanged(_ sender: UISwitch) {
         print(sender.isOn)
+        if sender.isOn {
+            HealthService.shared.authorizeHealthKit { (authorized, error) in
+                guard authorized else {
+                    let baseMessage = "HealthKit Authorization Failed"
+                    if let error = error {
+                        print("\(baseMessage). Reason: \(error.localizedDescription)")
+                    } else {
+                        print(baseMessage)
+                    }
+                    return
+                }
+                
+                print("HealthKit Successfully Authorized.")
+            }
+        }
     }
     
     @objc private func sexTapped(_ sender: UIButton) {
@@ -137,14 +193,17 @@ class StartController: UIViewController {
             femaleButton.backgroundColor = .mainLight()
             maleButton.layer.borderWidth = 2
             femaleButton.layer.borderWidth = 0
+            UserDefaults.standard.set(BiologicalSex.male.rawValue, forKey: "biologicalSex")
         case 1:
             maleButton.backgroundColor = .mainLight()
             femaleButton.backgroundColor = .mainWhite()
             maleButton.layer.borderWidth = 0
             femaleButton.layer.borderWidth = 2
+            UserDefaults.standard.set(BiologicalSex.female.rawValue, forKey: "biologicalSex")
         default:
             break
         }
+        calculateDailyTarget()
     }
     
     private func showSettingsPopUpWithPickerView(type: StartChangeType, name: String, currentValue: String) {
@@ -245,14 +304,18 @@ class StartController: UIViewController {
 //MARK: - StartPopUpProtocol
 extension StartController: StartPopUpProtocol {
     func dailyTrainingChanged(value: Double) {
-        print(value)
+        trainingView.rightLabel.text = "\(Int(value)) мл"
+        UserDefaults.standard.set(value, forKey: "training")
     }
     
     func dailyTargetChanged(value: Double) {
-        print(value)
+        dailyTargetView.rightLabel.text = "\(Int(value)) мл"
+        UserDefaults.standard.set(value, forKey: "target")
     }
     
     func weightChanged(value: Int) {
-        print(value)
+        weightView.rightLabel.text = "\(value) кг"
+        UserDefaults.standard.set(value, forKey: "weight")
+        calculateDailyTarget()
     }
 }

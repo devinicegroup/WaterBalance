@@ -22,6 +22,8 @@
 		D32DBAE925811B4E0072343C /* VolumesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32DBAE825811B4E0072343C /* VolumesController.swift */; };
 		D332F752255557F50047A370 /* DrinkUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D332F751255557F50047A370 /* DrinkUp.swift */; };
 		D335D7362588AA98008342E9 /* DailyProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D335D7352588AA98008342E9 /* DailyProgressBar.swift */; };
+		D34DFE8B25934B960003D397 /* HealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34DFE8A25934B960003D397 /* HealthService.swift */; };
+		D34DFE9025934D5D0003D397 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D34DFE8F25934D5D0003D397 /* HealthKit.framework */; };
 		D359B385258210890046FC02 /* SettingsPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D359B384258210890046FC02 /* SettingsPopUp.swift */; };
 		D37A6BAE258275B600A9DCFA /* RateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37A6BAD258275B600A9DCFA /* RateService.swift */; };
 		D381C15C2564230C00356FA7 /* DailyTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D381C15B2564230C00356FA7 /* DailyTarget.swift */; };
@@ -88,6 +90,8 @@
 		D332F751255557F50047A370 /* DrinkUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkUp.swift; sourceTree = "<group>"; };
 		D335D7352588AA98008342E9 /* DailyProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyProgressBar.swift; sourceTree = "<group>"; };
 		D33A7CE4255F112A00BC5B7F /* WaterBalance.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WaterBalance.entitlements; sourceTree = "<group>"; };
+		D34DFE8A25934B960003D397 /* HealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthService.swift; sourceTree = "<group>"; };
+		D34DFE8F25934D5D0003D397 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		D359B384258210890046FC02 /* SettingsPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPopUp.swift; sourceTree = "<group>"; };
 		D35A7448256432D3004A1960 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		D37A6BAD258275B600A9DCFA /* RateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateService.swift; sourceTree = "<group>"; };
@@ -144,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B94B8A1271C555B390CB9FC5 /* Pods_WaterBalance.framework in Frameworks */,
+				D34DFE9025934D5D0003D397 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +380,7 @@
 			isa = PBXGroup;
 			children = (
 				D399AF9E254FDFAE006CD60D /* UserDefaultsService.swift */,
+				D34DFE8A25934B960003D397 /* HealthService.swift */,
 				D39694BB255548FF006FA89C /* StorageService.swift */,
 				D37A6BAD258275B600A9DCFA /* RateService.swift */,
 			);
@@ -384,6 +390,7 @@
 		E30200DE5FF275994192C1DF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D34DFE8F25934D5D0003D397 /* HealthKit.framework */,
 				67728C2C1DC78471F8A876DE /* Pods_WaterBalance.framework */,
 			);
 			name = Frameworks;
@@ -537,6 +544,7 @@
 				D399AF9D254FDBFF006CD60D /* Container.swift in Sources */,
 				D39D6028253F10B0001B75E1 /* AppDelegate.swift in Sources */,
 				D30710A9255BF703009B2425 /* DrinkUpCell.swift in Sources */,
+				D34DFE8B25934B960003D397 /* HealthService.swift in Sources */,
 				D39D602A253F10B0001B75E1 /* SceneDelegate.swift in Sources */,
 				D38B9789253F2A0000EF0D5B /* StatisticsController.swift in Sources */,
 				D3F06A0B2580DF4900F56EE4 /* SettingsStandardCell.swift in Sources */,

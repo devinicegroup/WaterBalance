@@ -24,8 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             //TODO переместить в стартовый контроллер!!! аа
             UserDefaultsService.shared.setSettingsForStart()
-            UserDefaults.standard.set(1500.0, forKey: "target")
-            UserDefaults.standard.set(600.0, forKey: "training")
         }
         
         return true
