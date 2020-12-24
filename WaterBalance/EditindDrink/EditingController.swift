@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftEntryKit
+import HealthKit
 
 protocol EditingControllerProtocol : NSObjectProtocol{
     func deleteDrinkUp()
@@ -32,13 +33,8 @@ class EditingController: UITableViewController, UIAdaptivePresentationController
         self.navigationController?.presentationController?.delegate = self
         navigationController?.navigationBar.tintColor = .mainDark()
         self.navigationItem.title = "Редактирование"
-        if screenHeight/screenWidth > 2 {
-            self.navigationController?.navigationBar.prefersLargeTitles = true
-            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
-        } else {
-            navigationController?.navigationBar.barTintColor = .white
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
-        }
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.typographyPrimary()]
         
         let leftImage = UIImage(named: "trash")
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: leftImage, style: .plain, target: self, action: #selector(deleteDrinkUp))
@@ -48,6 +44,8 @@ class EditingController: UITableViewController, UIAdaptivePresentationController
     }
     
     @objc private func deleteDrinkUp() {
+        HealthService.shared.deleteSamples(drinkUp: drinkUp)
+        
         StorageService.shared.deleteObject(object: drinkUp)
         delegate?.deleteDrinkUp()
         dismiss(animated: true, completion: nil)
@@ -150,17 +148,61 @@ class EditingController: UITableViewController, UIAdaptivePresentationController
 extension EditingController: EditingDrinkControllerProtocol, DatePickerViewProtocol {
     
     func drinkChanged(drink: Drink) {
-        StorageService.shared.updateDrink(drinkUp: drinkUp, drink: drink)
+        let hydrationVolume = drinkUp.volume * drink.hydration
+        let caffeine = drinkUp.volume * drink.caffeine
+        let (dietaryWaterId, dietaryCaffeineId) = updateDrinkUpInHealthStore(hydrationVolume: hydrationVolume, caffeine: caffeine, date: drinkUp.time)
+        
+        StorageService.shared.updateDrink(drinkUp: drinkUp, drink: drink, dietaryWaterId: dietaryWaterId ?? "", dietaryCaffeineId: dietaryCaffeineId ?? "")
         tableView.reloadData()
     }
     
     func dateChanged(date: Date) {
-        StorageService.shared.updateDate(drinkUp: drinkUp, date: date)
+        let hydrationVolume = drinkUp.hydrationVolume
+        let caffeine = drinkUp.caffeine
+        let (dietaryWaterId, dietaryCaffeineId) = updateDrinkUpInHealthStore(hydrationVolume: hydrationVolume, caffeine: caffeine, date: date)
+
+        StorageService.shared.updateDate(drinkUp: drinkUp, date: date, dietaryWaterId: dietaryWaterId ?? "", dietaryCaffeineId: dietaryCaffeineId ?? "")
         tableView.reloadData()
     }
     
     func volumeChanged(volume: Double) {
-        StorageService.shared.updateVolume(drinkUp: drinkUp, volume: volume)
+        let hydrationVolume = volume * drinkUp.drink!.hydration
+        let caffeine = volume * drinkUp.drink!.caffeine
+        let (dietaryWaterId, dietaryCaffeineId) = updateDrinkUpInHealthStore(hydrationVolume: hydrationVolume, caffeine: caffeine, date: drinkUp.time)
+
+        StorageService.shared.updateVolume(drinkUp: drinkUp, volume: volume, dietaryWaterId: dietaryWaterId ?? "", dietaryCaffeineId: dietaryCaffeineId ?? "")
         tableView.reloadData()
+    }
+    
+    
+    private func updateDrinkUpInHealthStore(hydrationVolume: Double, caffeine: Double, date: Date) -> (dietaryWaterId: String?, dietaryCaffeineId: String?) {
+        HealthService.shared.deleteSamples(drinkUp: drinkUp)
+        
+        var dietaryWaterId = ""
+        var dietaryCaffeineId = ""
+        
+        let group = DispatchGroup()
+        group.enter()
+        HealthService.shared.saveDietaryWaterSample(volume: hydrationVolume, date: date) { (id) in
+            if id != nil {
+                dietaryWaterId = "\(id!)"
+            }
+            group.leave()
+        }
+        
+        group.enter()
+        if caffeine > 0 {
+            HealthService.shared.saveDietaryCaffeineSample(mg: caffeine, date: date) { (id) in
+                if id != nil {
+                    dietaryCaffeineId = "\(id!)"
+                }
+            }
+            group.leave()
+        } else {
+            group.leave()
+        }
+        
+        group.wait()
+        return (dietaryWaterId, dietaryCaffeineId)
     }
 }

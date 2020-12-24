@@ -99,25 +99,31 @@ class StorageService {
         return training
     }
     
-    func updateDrink(drinkUp: DrinkUp, drink: Drink) {
+    func updateDrink(drinkUp: DrinkUp, drink: Drink, dietaryWaterId: String, dietaryCaffeineId: String) {
         try! realm.write {
             drinkUp.drink = drink
             drinkUp.hydrationVolume = drinkUp.volume * drink.hydration
             drinkUp.caffeine = drinkUp.volume * drink.caffeine
+            drinkUp.dietaryWaterId = dietaryWaterId
+            drinkUp.dietaryCaffeineId = dietaryCaffeineId
         }
     }
     
-    func updateDate(drinkUp: DrinkUp, date: Date) {
+    func updateDate(drinkUp: DrinkUp, date: Date, dietaryWaterId: String, dietaryCaffeineId: String) {
         try! realm.write {
             drinkUp.time = date
+            drinkUp.dietaryWaterId = dietaryWaterId
+            drinkUp.dietaryCaffeineId = dietaryCaffeineId
         }
     }
     
-    func updateVolume(drinkUp: DrinkUp, volume: Double) {
+    func updateVolume(drinkUp: DrinkUp, volume: Double, dietaryWaterId: String, dietaryCaffeineId: String) {
         try! realm.write {
             drinkUp.volume = volume
             drinkUp.hydrationVolume = drinkUp.volume * drinkUp.drink!.hydration
             drinkUp.caffeine = drinkUp.volume * drinkUp.drink!.caffeine
+            drinkUp.dietaryWaterId = dietaryWaterId
+            drinkUp.dietaryCaffeineId = dietaryCaffeineId
         }
     }
     

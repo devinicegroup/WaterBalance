@@ -8,16 +8,12 @@
 
 import UIKit
 import SwiftEntryKit
+import HealthKit
 
 enum StartChangeType {
     case changeDailyTarget
     case changeTrainingTarget
     case changeWeight
-}
-
-enum BiologicalSex: String {
-  case male = "Мужской"
-  case female = "Женский"
 }
 
 class StartController: UIViewController {
@@ -45,6 +41,44 @@ class StartController: UIViewController {
         setupForwardButton()
         setupConstraints()
         
+        checkSexButtons()
+    }
+    
+    private func getSexFromHealthStore() {
+        do {
+            let userSex = try HealthService.shared.getSex()
+            if userSex.stringRepresentation != "" {
+                UserDefaults.standard.set(userSex.stringRepresentation, forKey: "biologicalSex")
+                DispatchQueue.main.async {
+                    self.checkSexButtons()
+                    self.calculateDailyTarget()
+                }
+            }
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    private func getSamplesFromHealthStore() {
+        guard let weightSampleType = HKSampleType.quantityType(forIdentifier: .bodyMass) else {
+          print("Body Mass Sample Type is no longer available in HealthKit")
+          return
+        }
+
+        let predicate = HealthService.shared.createPredicate(start: Date.distantPast, end: Date(), options: .strictEndDate)
+        HealthService.shared.getSample(for: weightSampleType, with: predicate) { (sample, error) in
+            guard let sample = sample else {
+                print(error?.localizedDescription ?? "error getSamplesFromHealthStore")
+                return
+            }
+            let weightInKilograms = Int(sample.quantity.doubleValue(for: HKUnit.gramUnit(with: .kilo)))
+            UserDefaults.standard.set(weightInKilograms, forKey: "weight")
+            self.weightView.rightLabel.text = "\(weightInKilograms) кг"
+            self.calculateDailyTarget()
+        }
+    }
+    
+    private func checkSexButtons() {
         if let biologicalSex = UserDefaults.standard.string(forKey: "biologicalSex") {
             if biologicalSex == BiologicalSex.male.rawValue {
                 maleButton.layer.borderWidth = 2
@@ -58,7 +92,10 @@ class StartController: UIViewController {
         let trainingImageString = "training"
         let leftTrainingText = "Тренировка"
         var trainingTarget = UserDefaults.standard.double(forKey: "training")
-        if trainingTarget == 0.0 { trainingTarget = 300 }
+        if trainingTarget == 0.0 {
+            trainingTarget = 300.0
+            UserDefaults.standard.set(300.0, forKey: "training")
+        }
         trainingView = ViewForStartController(imageString: trainingImageString, leftText: leftTrainingText, rightText: "\(Int(trainingTarget)) мл")
         trainingView.button.addTarget(self, action: #selector(trainingTapped), for: .touchUpInside)
         
@@ -71,7 +108,10 @@ class StartController: UIViewController {
         let weightImageString = "weight"
         let weightText = "Вес"
         var weight = UserDefaults.standard.integer(forKey: "weight")
-        if weight == 0 { weight = 50 }
+        if weight == 0 {
+            weight = 50
+            UserDefaults.standard.set(50, forKey: "weight")
+        }
         weightView = ViewForStartController(imageString: weightImageString, leftText: weightText, rightText: "\(weight) кг")
         weightView.button.addTarget(self, action: #selector(weightTapped), for: .touchUpInside)
         
@@ -79,6 +119,11 @@ class StartController: UIViewController {
         let healthText = "Apple Health"
         healthView = ViewForStartController(imageString: healthImageString, leftText: healthText, rightText: nil)
         healthView.toggle.isHidden = false
+        if UserDefaults.standard.bool(forKey: "health") {
+            healthView.toggle.isOn = true
+        } else {
+            healthView.toggle.isOn = false
+        }
         healthView.toggle.addTarget(self, action: #selector(healthChanged), for: .valueChanged)
     }
     
@@ -146,7 +191,18 @@ class StartController: UIViewController {
     }
     
     @objc private func forwardTapped() {
-        print(123123123)
+        UserDefaultsService.shared.setSettingsForStart()
+        UserDefaultsService.shared.setVolumes()
+        UserDefaults.standard.set(true, forKey: "firstRun")
+        Drink.saveDrinkables()
+        
+        if let currentWeight = weightView.rightLabel.text?.filter("0123456789.".contains).toDouble() {
+            HealthService.shared.saveBodyMassSample(kg: currentWeight, date: Date())
+        }
+        
+        let mainViewController = MainTabBarController()
+        mainViewController.modalPresentationStyle = .fullScreen
+        present(mainViewController, animated: true, completion: nil)
     }
     
     @objc private func trainingTapped() {
@@ -168,7 +224,6 @@ class StartController: UIViewController {
     }
     
     @objc private func healthChanged(_ sender: UISwitch) {
-        print(sender.isOn)
         if sender.isOn {
             HealthService.shared.authorizeHealthKit { (authorized, error) in
                 guard authorized else {
@@ -182,7 +237,12 @@ class StartController: UIViewController {
                 }
                 
                 print("HealthKit Successfully Authorized.")
+                self.getSexFromHealthStore()
+                self.getSamplesFromHealthStore()
+                UserDefaults.standard.set(true, forKey: "health")
             }
+        } else {
+            UserDefaults.standard.set(false, forKey: "health")
         }
     }
     

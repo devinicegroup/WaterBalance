@@ -25,6 +25,7 @@
 		D34DFE8B25934B960003D397 /* HealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34DFE8A25934B960003D397 /* HealthService.swift */; };
 		D34DFE9025934D5D0003D397 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D34DFE8F25934D5D0003D397 /* HealthKit.framework */; };
 		D359B385258210890046FC02 /* SettingsPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D359B384258210890046FC02 /* SettingsPopUp.swift */; };
+		D3701FE42594A314009B0ED6 /* HKBiologicalSex+StringRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3701FE32594A314009B0ED6 /* HKBiologicalSex+StringRepresentation.swift */; };
 		D37A6BAE258275B600A9DCFA /* RateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37A6BAD258275B600A9DCFA /* RateService.swift */; };
 		D381C15C2564230C00356FA7 /* DailyTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D381C15B2564230C00356FA7 /* DailyTarget.swift */; };
 		D3899129255D8A6500C08BD1 /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3899128255D8A6500C08BD1 /* Date + Extension.swift */; };
@@ -94,6 +95,7 @@
 		D34DFE8F25934D5D0003D397 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		D359B384258210890046FC02 /* SettingsPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPopUp.swift; sourceTree = "<group>"; };
 		D35A7448256432D3004A1960 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		D3701FE32594A314009B0ED6 /* HKBiologicalSex+StringRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKBiologicalSex+StringRepresentation.swift"; sourceTree = "<group>"; };
 		D37A6BAD258275B600A9DCFA /* RateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateService.swift; sourceTree = "<group>"; };
 		D381C15B2564230C00356FA7 /* DailyTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTarget.swift; sourceTree = "<group>"; };
 		D3899128255D8A6500C08BD1 /* Date + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				D3EE13B325513951004D901A /* ContainerView.swift */,
+				D3701FE32594A314009B0ED6 /* HKBiologicalSex+StringRepresentation.swift */,
 				D300987E255412CE00E920A1 /* String + Extension.swift */,
 				D3E447262590E39000FE63DE /* Double + Extension.swift */,
 				D3077ACF258B74D200B55643 /* UIDevice + Extension.swift */,
@@ -545,6 +548,7 @@
 				D39D6028253F10B0001B75E1 /* AppDelegate.swift in Sources */,
 				D30710A9255BF703009B2425 /* DrinkUpCell.swift in Sources */,
 				D34DFE8B25934B960003D397 /* HealthService.swift in Sources */,
+				D3701FE42594A314009B0ED6 /* HKBiologicalSex+StringRepresentation.swift in Sources */,
 				D39D602A253F10B0001B75E1 /* SceneDelegate.swift in Sources */,
 				D38B9789253F2A0000EF0D5B /* StatisticsController.swift in Sources */,
 				D3F06A0B2580DF4900F56EE4 /* SettingsStandardCell.swift in Sources */,

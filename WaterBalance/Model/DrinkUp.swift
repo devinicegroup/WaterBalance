@@ -17,8 +17,10 @@ class DrinkUp: Object {
     @objc dynamic var time: Date = Date()
     @objc dynamic var drink: Drink? = nil
     @objc dynamic var id: String = ""
+    @objc dynamic var dietaryWaterId: String = ""
+    @objc dynamic var dietaryCaffeineId: String = ""
     
-    convenience init(volume: Double, hydrationVolume: Double, caffeine: Double, time: Date, drink: Drink, id: String) {
+    convenience init(volume: Double, hydrationVolume: Double, caffeine: Double, time: Date, drink: Drink, id: String, dietaryWaterId: String, dietaryCaffeineId: String) {
         self.init()
         self.volume = volume
         self.hydrationVolume = hydrationVolume
@@ -26,5 +28,7 @@ class DrinkUp: Object {
         self.time = time
         self.drink = drink
         self.id = id
+        self.dietaryWaterId = dietaryWaterId
+        self.dietaryCaffeineId = dietaryCaffeineId
     }
 }

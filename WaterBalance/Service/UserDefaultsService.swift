@@ -35,22 +35,14 @@ class UserDefaultsService {
         defaults.set(0, forKey: ContainerEnum.hand.rawValue)
     }
     
-    func setSettingsForFirstRun() {
+    func setSettingsForStart() {
+        UserDefaults.standard.set(Date(), forKey: UserDefaultsServiceEnum.firstDate.rawValue)
+        
         formatter.timeStyle = .none
         formatter.dateStyle = .long
-        
         let lastDateForCheckingOfSuccessfulDays = formatter.string(from: Date())
         defaults.set(lastDateForCheckingOfSuccessfulDays, forKey: UserDefaultsServiceEnum.lastDateForCheckingOfSuccessfulDays.rawValue)
         defaults.set(0, forKey: UserDefaultsServiceEnum.currentStreak.rawValue)
         defaults.set(0, forKey: UserDefaultsServiceEnum.recordStreak.rawValue)
-    }
-    
-    func setSettingsForStart() {
-//        formatter.timeStyle = .none
-//        formatter.dateStyle = .long
-//        
-//        let stringDate = formatter.string(from: Date())
-//        print(stringDate)
-        UserDefaults.standard.set(Date(), forKey: UserDefaultsServiceEnum.firstDate.rawValue)
     }
 }

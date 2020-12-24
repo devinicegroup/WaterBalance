@@ -15,17 +15,6 @@ let screenHeight = UIScreen.main.bounds.size.height
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        if !UserDefaults.standard.bool(forKey: "firstRun") {
-            print("Первый запуск")
-            UserDefaultsService.shared.setVolumes()
-            UserDefaultsService.shared.setSettingsForFirstRun()
-            Drink.saveDrinkables()
-            UserDefaults.standard.set(true, forKey: "firstRun")
-            
-            //TODO переместить в стартовый контроллер!!! аа
-            UserDefaultsService.shared.setSettingsForStart()
-        }
-        
         return true
     }
     

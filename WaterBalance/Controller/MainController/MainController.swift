@@ -130,6 +130,7 @@ class MainController: UIViewController {
     @objc private func deleteLastDrinkUp() {
         guard let drinkUp = drinkUps.first else { return }
         addVolume(volume: -drinkUp.hydrationVolume)
+        HealthService.shared.deleteSamples(drinkUp: drinkUp)
         StorageService.shared.deleteObject(object: drinkUp)
         isActiveButtons()
     }
@@ -336,16 +337,18 @@ extension MainController : ContainerPopUpProtocol {
         
         if volume == 0 {
             showAllert(with: drink.nameForUser, and: "Укажите кол-во выпитой жидкости") { (volume) in
-                let drinkUp = self.createDrinkUp(drink: drink, volume: volume)
-                StorageService.shared.saveDrinkUp(drinkUp: drinkUp)
-                self.addVolume(volume: drinkUp.hydrationVolume)
+                self.saveDrinkUp(drink: drink, volume: volume)
             }
         } else {
-            let drinkUp = createDrinkUp(drink: drink, volume: volume)
-            StorageService.shared.saveDrinkUp(drinkUp: drinkUp)
-            addVolume(volume: drinkUp.hydrationVolume)
+            saveDrinkUp(drink: drink, volume: volume)
         }
         isActiveButtons()
+    }
+    
+    private func saveDrinkUp(drink: Drink, volume: Double) {
+        let drinkUp = self.createDrinkUp(drink: drink, volume: volume)
+        StorageService.shared.saveDrinkUp(drinkUp: drinkUp)
+        addVolume(volume: drinkUp.hydrationVolume)
     }
     
     func createDailyTarget() -> DailyTarget {
@@ -361,8 +364,35 @@ extension MainController : ContainerPopUpProtocol {
     }
     
     func createDrinkUp(drink: Drink, volume: Double) -> DrinkUp {
-        let drinkUp = DrinkUp(volume: volume, hydrationVolume: volume * drink.hydration, caffeine: volume * drink.caffeine, time: Date(), drink: drink, id: UUID().uuidString)
-        StorageService.shared.saveDrinkUp(drinkUp: drinkUp)
+        let hydrationVolume = volume * drink.hydration
+        let caffeine = volume * drink.caffeine
+        var dietaryWaterId = ""
+        var dietaryCaffeineId = ""
+        
+        let group = DispatchGroup()
+        
+        group.enter()
+        HealthService.shared.saveDietaryWaterSample(volume: hydrationVolume, date: Date()) { (id) in
+            if id != nil {
+                dietaryWaterId = "\(id!)"
+            }
+            group.leave()
+        }
+        
+        group.enter()
+        if caffeine > 0 {
+            HealthService.shared.saveDietaryCaffeineSample(mg: caffeine, date: Date()) { (id) in
+                if id != nil {
+                    dietaryCaffeineId = "\(id!)"
+                }
+            }
+            group.leave()
+        } else {
+            group.leave()
+        }
+        
+        group.wait()
+        let drinkUp = DrinkUp(volume: volume, hydrationVolume: volume * drink.hydration, caffeine: volume * drink.caffeine, time: Date(), drink: drink, id: UUID().uuidString, dietaryWaterId: dietaryWaterId, dietaryCaffeineId: dietaryCaffeineId)
         return drinkUp
     }
 }
