@@ -1,37 +1,61 @@
 //
-//  DatePickerView.swift
+//  SettingsPopUpDate.swift
 //  WaterBalance
 //
-//  Created by Sergei Polivanov on 17.11.2020.
+//  Created by Sergei Polivanov on 28.12.2020.
 //  Copyright © 2020 Sergei Polivanov. All rights reserved.
 //
 
 import UIKit
 import SwiftEntryKit
 
-protocol DatePickerViewProtocol : NSObjectProtocol{
-    func dateChanged(date: Date)
+protocol SettingsDatePopUpProtocol: NSObjectProtocol {
+    func startDateChanges(date: Date)
+    func endDateChanges(date: Date)
+    func timeIntervalChanges(timeInterval: TimeInterval)
 }
 
-class DatePickerView: UIView {
+enum DateNotificationsEnum: String {
+    case startDate = "startDate"
+    case endDate = "endDate"
+    case dateInterval = "dateInterval"
+    case stopNotification = "stopNotification"
+}
+
+class SettingsPopUpDate: UIView {
     
-    weak var delegate: DatePickerViewProtocol?
+    weak var delegate: SettingsDatePopUpProtocol?
+    var type: SettingsChangeDateType
     
-    let datePicker = UIDatePicker()
     let cancelButton = UIButton(type: .system)
     let saveButton = UIButton(type: .system)
     let nameLabel = UILabel()
+    let datePicker = UIDatePicker()
     
-    init(frame: CGRect, date: Date) {
+    let dateFormatter = DateFormatter()
+    
+    init(frame: CGRect, type: SettingsChangeDateType, name: String) {
+        self.type = type
         super.init(frame: frame)
         
         backgroundColor = .white
         heightAnchor.constraint(equalToConstant: frame.height).isActive = true
+        nameLabel.text = name
         
-        setupConstraints()
         createButtons()
         createLabel()
-        createDatePicker(date: date)
+        createDatePicker()
+        
+        switch type {
+        case .startDate:
+            changeStartDate()
+        case .endDate:
+            changeEndDate()
+        case .timeInterval:
+            changeTimeInterval()
+        }
+        
+        setupConstraints()
     }
     
     override func layoutSubviews() {
@@ -46,7 +70,7 @@ class DatePickerView: UIView {
         let cancelImage = UIImage(named: "close")
         cancelButton.tintColor = .mainDark()
         cancelButton.setImage(cancelImage, for: .normal)
-        cancelButton.addTarget(self, action: #selector(closeDatePickerView), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(closeSettingsPopUp), for: .touchUpInside)
         
         let saveImage = UIImage(named: "checkmark")
         saveButton.tintColor = .mainDark()
@@ -58,28 +82,62 @@ class DatePickerView: UIView {
         nameLabel.textAlignment = .center
         nameLabel.textColor = .typographyLight()
         nameLabel.font = .bodyMedium()
-        nameLabel.text = "Дата"
     }
     
-    private func createDatePicker(date: Date) {
+    private func createDatePicker() {
         if #available(iOS 13.4, *) {
-                datePicker.preferredDatePickerStyle = .wheels
-            }
-        datePicker.date = date
+            datePicker.preferredDatePickerStyle = .wheels
+        }
         datePicker.setValue(UIColor.mainDark(), forKeyPath: "textColor")
-
-        guard let minDate = UserDefaults.standard.object(forKey: UserDefaultsServiceEnum.firstDate.rawValue) as? Date else { return }
-        datePicker.minimumDate = minDate
-        datePicker.maximumDate = Date()
+        
+//        guard let minDate = UserDefaults.standard.object(forKey: UserDefaultsServiceEnum.firstDate.rawValue) as? Date else { return }
+//        datePicker.minimumDate = minDate
+//        datePicker.maximumDate = Date()
     }
     
-    @objc private func closeDatePickerView() {
+    //Change start date
+    private func changeStartDate() {
+        dateFormatter.dateFormat = "HH:mm"
+        guard let stringDate = UserDefaults.standard.string(forKey: DateNotificationsEnum.startDate.rawValue) else { return }
+        guard let startDateNotification = dateFormatter.date(from: stringDate) else { return }
+        
+        datePicker.datePickerMode = .time
+        datePicker.minuteInterval = 10
+        datePicker.date = startDateNotification
+    }
+    
+    //Change end date
+    private func changeEndDate() {
+        dateFormatter.dateFormat = "HH:mm"
+        guard let stringDate = UserDefaults.standard.string(forKey: DateNotificationsEnum.endDate.rawValue) else { return }
+        guard let endDateNotification = dateFormatter.date(from: stringDate) else { return }
+        
+        datePicker.datePickerMode = .time
+        datePicker.minuteInterval = 10
+        datePicker.date = endDateNotification
+    }
+    
+    //Change time interval
+    private func changeTimeInterval() {
+        datePicker.datePickerMode = .countDownTimer
+        datePicker.minuteInterval = 15
+        datePicker.countDownDuration = UserDefaults.standard.double(forKey: DateNotificationsEnum.dateInterval.rawValue)
+    }
+    
+    @objc private func closeSettingsPopUp() {
         SwiftEntryKit.dismiss()
     }
     
     @objc private func saveDate() {
         let date = datePicker.date
-        delegate?.dateChanged(date: date)
+        switch type {
+        case .startDate:
+            delegate?.startDateChanges(date: date)
+        case .endDate:
+            delegate?.endDateChanges(date: date)
+        case .timeInterval:
+            delegate?.timeIntervalChanges(timeInterval: datePicker.countDownDuration)
+        }
         SwiftEntryKit.dismiss()
     }
     

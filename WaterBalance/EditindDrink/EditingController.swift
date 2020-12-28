@@ -192,12 +192,13 @@ extension EditingController: EditingDrinkControllerProtocol, DatePickerViewProto
         
         group.enter()
         if caffeine > 0 {
+            print(caffeine)
             HealthService.shared.saveDietaryCaffeineSample(mg: caffeine, date: date) { (id) in
                 if id != nil {
                     dietaryCaffeineId = "\(id!)"
                 }
+                group.leave()
             }
-            group.leave()
         } else {
             group.leave()
         }

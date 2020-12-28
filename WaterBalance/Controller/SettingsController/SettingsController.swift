@@ -14,12 +14,21 @@ enum SettingsChangeType {
     case changeDailyTarget
     case changeTrainingTarget
     case changeContainerVolume
+    case changeBiologicalSex
+    case changeWeight
+}
+
+enum SettingsChangeDateType {
+    case startDate
+    case endDate
+    case timeInterval
 }
 
 class SettingsController: UIViewController, MFMailComposeViewControllerDelegate {
     
     var tableView: UITableView!
     var selectedIndexPath: IndexPath!
+    let dateFormatter = DateFormatter()
     
     var settingsData: [[SettingsModel]]!
     var settings = Settings()
@@ -73,6 +82,13 @@ class SettingsController: UIViewController, MFMailComposeViewControllerDelegate 
         SwiftEntryKit.display(entry: settingsPopUp, using: EKAttributesPopUp.createAttributes())
     }
     
+    private func showSettingsPopUpWithDatePicker(type: SettingsChangeDateType, name: String) {
+        let height = (view.frame.width / 2.4) + 22 + 11 + 50
+        let settingsPopUpDate = SettingsPopUpDate(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: height), type: type, name: name)
+        settingsPopUpDate.delegate = self
+        SwiftEntryKit.display(entry: settingsPopUpDate, using: EKAttributesPopUp.createAttributes())
+    }
+    
     private func shareApp() {
         if let urlStr = URL(string: "https://www.google.ru/") {
             let objectsToShare = [urlStr]
@@ -93,7 +109,7 @@ class SettingsController: UIViewController, MFMailComposeViewControllerDelegate 
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
-            mail.setToRecipients(["s.polivanov@icloud.com"])
+            mail.setToRecipients(["devinice.group.sup@icloud.com"])
             mail.setSubject("Водный баланс")
             mail.setMessageBody("\(AboutApp().createSupportMessage())", isHTML: false)
             present(mail, animated: true)
@@ -102,6 +118,24 @@ class SettingsController: UIViewController, MFMailComposeViewControllerDelegate 
 
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true)
+    }
+    
+    @objc private func healthChanged(_ sender: UISwitch) {
+        if sender.isOn {
+            HealthService.shared.authorizeHealthKit { (authorized, error) in
+                guard authorized else {
+                    print("HealthKit Authorization Failed. Reason: \(error?.localizedDescription ?? "Error NIL")")
+                    return
+                }
+                UserDefaults.standard.set(true, forKey: "health")
+            }
+        } else {
+            UserDefaults.standard.set(false, forKey: "health")
+        }
+    }
+    
+    @objc private func stopNotificationChanged(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: DateNotificationsEnum.stopNotification.rawValue)
     }
     
     private func setupConstraints() {
@@ -142,6 +176,12 @@ extension SettingsController: UITableViewDelegate, UITableViewDataSource {
         case .toggle:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsToggleCell.reuseId, for: indexPath) as! SettingsToggleCell
             cell.configure(with: dataForCell)
+            if dataForCell.id == 7 {
+                cell.toggle.addTarget(self, action: #selector(healthChanged), for: .valueChanged)
+            }
+            if dataForCell.id == 3 {
+                cell.toggle.addTarget(self, action: #selector(stopNotificationChanged), for: .valueChanged)
+            }
             return cell
         case .chevron:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsStandardCell.reuseId, for: indexPath) as! SettingsStandardCell
@@ -172,6 +212,7 @@ extension SettingsController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         selectedIndexPath = indexPath
+        let name = settingsData[indexPath.section][indexPath.row].nameForUser
         
         switch indexPath {
         case IndexPath(row: 0, section: 0):
@@ -180,13 +221,21 @@ extension SettingsController: UITableViewDelegate, UITableViewDataSource {
             shareApp()
         case IndexPath(row: 2, section: 0):
             sendEmail()
+        case IndexPath(row: 1, section: 1):
+            showSettingsPopUpWithDatePicker(type: .startDate, name: name)
+        case IndexPath(row: 2, section: 1):
+            showSettingsPopUpWithDatePicker(type: .endDate, name: name)
+        case IndexPath(row: 3, section: 1):
+            showSettingsPopUpWithDatePicker(type: .timeInterval, name: name)
+        case IndexPath(row: 1, section: 2):
+            showSettingsPopUpWithPickerView(type: .changeBiologicalSex, name: name)
+        case IndexPath(row: 2, section: 2):
+            showSettingsPopUpWithPickerView(type: .changeWeight, name: name)
         case IndexPath(row: 3, section: 2):
             self.navigationController?.pushViewController(VolumesController(), animated: true)
         case IndexPath(row: 4, section: 2):
-            let name = settingsData[indexPath.section][indexPath.row].nameForUser
             showSettingsPopUpWithPickerView(type: .changeDailyTarget, name: name)
         case IndexPath(row: 5, section: 2):
-            let name = settingsData[indexPath.section][indexPath.row].nameForUser
             showSettingsPopUpWithPickerView(type: .changeTrainingTarget, name: name)
         default:
             print(indexPath)
@@ -205,15 +254,7 @@ extension SettingsController: UITableViewDelegate, UITableViewDataSource {
 //MARK: - SettingsPopUpProtocol
 extension SettingsController: SettingsPopUpProtocol {
     func dailyTargetChanged(value: Double) {
-        UserDefaults.standard.set(value, forKey: "target")
-        let dailyTarget = StorageService.shared.getDailyTarget(date: Date()).first
-        let newDailyTarget = DailyTarget(target: value, date: Date())
-        
-        if dailyTarget != nil {
-            StorageService.shared.updateDailyTarget(dailyTarget: dailyTarget!, volume: value)
-        } else {
-            StorageService.shared.saveDailyTarget(dailyTarget: newDailyTarget)
-        }
+        updateDailyTarget(value: value)
         
         settingsData[selectedIndexPath.section][selectedIndexPath.row].subtitle = "\(Int(value))"
         tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
@@ -226,5 +267,80 @@ extension SettingsController: SettingsPopUpProtocol {
         
         guard let training = StorageService.shared.getTraining(date: Date()).first else { return }
         StorageService.shared.updateTraining(training: training, volume: value)
+    }
+    
+    func biologicalSexChanged(value: String) {
+        UserDefaults.standard.set(value, forKey: "biologicalSex")
+        settingsData[selectedIndexPath.section][selectedIndexPath.row].subtitle = value
+        tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
+        
+        let currentWeight = Double(UserDefaults.standard.integer(forKey: "weight"))
+        var sexCoefficient = 1.0
+        if value == BiologicalSex.male.rawValue { sexCoefficient = 1.1}
+        let dailyTarget = 30 * currentWeight * sexCoefficient + 50
+        let dailyTargetRound = Int(dailyTarget) / 5 * 5
+        updateDailyTarget(value: Double(dailyTargetRound))
+    }
+    
+    func weightChanged(value: Int) {
+        UserDefaults.standard.set(value, forKey: "weight")
+        settingsData[selectedIndexPath.section][selectedIndexPath.row].subtitle = "\(value)"
+        tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
+        
+        let biologicalSex = UserDefaults.standard.string(forKey: "biologicalSex")
+        var sexCoefficient = 1.0
+        if biologicalSex == BiologicalSex.male.rawValue { sexCoefficient = 1.1 }
+        let dailyTarget = 30 * Double(value) * sexCoefficient + 50
+        let dailyTargetRound = Int(dailyTarget) / 5 * 5
+        updateDailyTarget(value: Double(dailyTargetRound))
+        HealthService.shared.saveBodyMassSample(kg: Double(value), date: Date())
+    }
+    
+    private func updateDailyTarget(value: Double) {
+        UserDefaults.standard.set(value, forKey: "target")
+        let dailyTarget = StorageService.shared.getDailyTarget(date: Date()).first
+        let newDailyTarget = DailyTarget(target: value, date: Date())
+        
+        let indexPath = IndexPath(row: 4, section: 2)
+        settingsData[indexPath.section][indexPath.row].subtitle = "\(Int(value))"
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+        
+        if dailyTarget != nil {
+            StorageService.shared.updateDailyTarget(dailyTarget: dailyTarget!, volume: value)
+        } else {
+            StorageService.shared.saveDailyTarget(dailyTarget: newDailyTarget)
+        }
+    }
+}
+
+
+//MARK: - SettingsDatePopUpProtocol
+extension SettingsController: SettingsDatePopUpProtocol {
+    func startDateChanges(date: Date) {
+        dateFormatter.dateFormat = "HH:mm"
+        let startDate = dateFormatter.string(from: date)
+        UserDefaults.standard.set(startDate, forKey: DateNotificationsEnum.startDate.rawValue)
+        
+        settingsData[selectedIndexPath.section][selectedIndexPath.row].subtitle = startDate
+        tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
+        NotificationService.shared.createNotification()
+    }
+    
+    func endDateChanges(date: Date) {
+        dateFormatter.dateFormat = "HH:mm"
+        let endDate = dateFormatter.string(from: date)
+        UserDefaults.standard.set(endDate, forKey: DateNotificationsEnum.endDate.rawValue)
+        
+        settingsData[selectedIndexPath.section][selectedIndexPath.row].subtitle = endDate
+        tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
+        NotificationService.shared.createNotification()
+    }
+    
+    func timeIntervalChanges(timeInterval: TimeInterval) {
+        UserDefaults.standard.set(timeInterval, forKey: DateNotificationsEnum.dateInterval.rawValue)
+        
+        settingsData[selectedIndexPath.section][selectedIndexPath.row].subtitle = timeInterval.formatted
+        tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
+        NotificationService.shared.createNotification()
     }
 }

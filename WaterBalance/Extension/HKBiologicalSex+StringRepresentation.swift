@@ -9,7 +9,7 @@
 import Foundation
 import HealthKit
 
-enum BiologicalSex: String {
+enum BiologicalSex: String, CaseIterable {
   case male = "Мужской"
   case female = "Женский"
 }

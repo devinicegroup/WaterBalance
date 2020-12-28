@@ -28,8 +28,6 @@ class StreakOfSuccessfulDays {
         var currentStreak = UserDefaults.standard.integer(forKey: UserDefaultsServiceEnum.currentStreak.rawValue)
         var recordStreak = UserDefaults.standard.integer(forKey: UserDefaultsServiceEnum.recordStreak.rawValue)
         
-        print(lastTodayDate)
-        print(today)
         if lastTodayDate == today {
             guard let lastDrinkUp = StorageService.shared.getDataForDay(date: lastDate).first else { return }
             var volume = 0.0
@@ -54,6 +52,7 @@ class StreakOfSuccessfulDays {
             }
         } else if lastTodayDate < today {
             UserDefaults.standard.set(0, forKey: UserDefaultsServiceEnum.currentStreak.rawValue)
+            NotificationService.shared.createNotification()
         }
         
         let lastDateForCheckingOfSuccessfulDays = formatter.string(from: Date())

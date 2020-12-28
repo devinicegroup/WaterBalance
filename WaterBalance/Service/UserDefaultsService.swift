@@ -36,7 +36,8 @@ class UserDefaultsService {
     }
     
     func setSettingsForStart() {
-        UserDefaults.standard.set(Date(), forKey: UserDefaultsServiceEnum.firstDate.rawValue)
+        defaults.set(true, forKey: DateNotificationsEnum.stopNotification.rawValue)
+        defaults.set(Date(), forKey: UserDefaultsServiceEnum.firstDate.rawValue)
         
         formatter.timeStyle = .none
         formatter.dateStyle = .long
@@ -44,5 +45,13 @@ class UserDefaultsService {
         defaults.set(lastDateForCheckingOfSuccessfulDays, forKey: UserDefaultsServiceEnum.lastDateForCheckingOfSuccessfulDays.rawValue)
         defaults.set(0, forKey: UserDefaultsServiceEnum.currentStreak.rawValue)
         defaults.set(0, forKey: UserDefaultsServiceEnum.recordStreak.rawValue)
+    }
+    
+    func setDateForNotifications() {
+        defaults.set("10:00", forKey: DateNotificationsEnum.startDate.rawValue)
+        defaults.set("21:00", forKey: DateNotificationsEnum.endDate.rawValue)
+        
+        let timeInterval = TimeInterval(90*60)
+        defaults.set(timeInterval, forKey: DateNotificationsEnum.dateInterval.rawValue)
     }
 }

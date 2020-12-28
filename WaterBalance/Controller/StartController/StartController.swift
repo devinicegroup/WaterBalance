@@ -193,11 +193,16 @@ class StartController: UIViewController {
     @objc private func forwardTapped() {
         UserDefaultsService.shared.setSettingsForStart()
         UserDefaultsService.shared.setVolumes()
+        UserDefaultsService.shared.setDateForNotifications()
         UserDefaults.standard.set(true, forKey: "firstRun")
         Drink.saveDrinkables()
         
         if let currentWeight = weightView.rightLabel.text?.filter("0123456789.".contains).toDouble() {
             HealthService.shared.saveBodyMassSample(kg: currentWeight, date: Date())
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            NotificationService.shared.requestAuthorization()
         }
         
         let mainViewController = MainTabBarController()
@@ -227,16 +232,9 @@ class StartController: UIViewController {
         if sender.isOn {
             HealthService.shared.authorizeHealthKit { (authorized, error) in
                 guard authorized else {
-                    let baseMessage = "HealthKit Authorization Failed"
-                    if let error = error {
-                        print("\(baseMessage). Reason: \(error.localizedDescription)")
-                    } else {
-                        print(baseMessage)
-                    }
+                    print("HealthKit Authorization Failed. Reason: \(error?.localizedDescription ?? "Error NIL")")
                     return
                 }
-                
-                print("HealthKit Successfully Authorized.")
                 self.getSexFromHealthStore()
                 self.getSamplesFromHealthStore()
                 UserDefaults.standard.set(true, forKey: "health")

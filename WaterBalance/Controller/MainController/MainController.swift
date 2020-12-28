@@ -51,6 +51,7 @@ class MainController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationService.shared.notificationCenter.delegate = NotificationService.shared
 
         widthButton = (self.view.frame.width - 16 * 3) / 3
         drinkUps = StorageService.shared.getDataForDay(date: Date.today()).first
@@ -342,6 +343,7 @@ extension MainController : ContainerPopUpProtocol {
         } else {
             saveDrinkUp(drink: drink, volume: volume)
         }
+        NotificationService.shared.createNotification()
         isActiveButtons()
     }
     
@@ -370,25 +372,26 @@ extension MainController : ContainerPopUpProtocol {
         var dietaryCaffeineId = ""
         
         let group = DispatchGroup()
-        
-        group.enter()
-        HealthService.shared.saveDietaryWaterSample(volume: hydrationVolume, date: Date()) { (id) in
-            if id != nil {
-                dietaryWaterId = "\(id!)"
-            }
-            group.leave()
-        }
-        
-        group.enter()
-        if caffeine > 0 {
-            HealthService.shared.saveDietaryCaffeineSample(mg: caffeine, date: Date()) { (id) in
+        if UserDefaults.standard.bool(forKey: "health") {
+            group.enter()
+            HealthService.shared.saveDietaryWaterSample(volume: hydrationVolume, date: Date()) { (id) in
                 if id != nil {
-                    dietaryCaffeineId = "\(id!)"
+                    dietaryWaterId = "\(id!)"
                 }
+                group.leave()
             }
-            group.leave()
-        } else {
-            group.leave()
+            
+            group.enter()
+            if caffeine > 0 {
+                HealthService.shared.saveDietaryCaffeineSample(mg: caffeine, date: Date()) { (id) in
+                    if id != nil {
+                        dietaryCaffeineId = "\(id!)"
+                    }
+                    group.leave()
+                }
+            } else {
+                group.leave()
+            }
         }
         
         group.wait()

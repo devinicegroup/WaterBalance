@@ -12,6 +12,8 @@ import SwiftEntryKit
 protocol SettingsPopUpProtocol : NSObjectProtocol{
     func dailyTargetChanged(value: Double)
     func dailyTrainingChanged(value: Double)
+    func biologicalSexChanged(value: String)
+    func weightChanged(value: Int)
 }
 
 protocol VolumesPopUpProtocol : NSObjectProtocol{
@@ -32,6 +34,14 @@ class SettingsPopUp: UIView {
     let dailyTargetData = Array(stride(from: 500, through: 5000, by: 5))
     let dailyTrainingData = Array(stride(from: 50, through: 1500, by: 5))
     let containerData = Array(stride(from: 10, through: 1000, by: 5))
+    let weightData = Array(stride(from: 10, through: 300, by: 1))
+    let biologicalSexData: [String] = {
+        var allBiologicalSex = [String]()
+        for value in BiologicalSex.allCases {
+            allBiologicalSex.append(value.rawValue)
+        }
+        return allBiologicalSex
+    }()
     
     init(frame: CGRect, type: SettingsChangeType, name: String) {
         self.type = type
@@ -52,6 +62,10 @@ class SettingsPopUp: UIView {
             changeTrainingTarget()
         case .changeContainerVolume:
             changeContainerVolume()
+        case .changeBiologicalSex:
+            changeBiologicalSex()
+        case .changeWeight:
+            changeWeight()
         }
         
         setupConstraints()
@@ -110,21 +124,43 @@ class SettingsPopUp: UIView {
         pickerView.selectRow(index, inComponent: 0, animated: true)
     }
     
+    //Change biologicalSex
+    private func changeBiologicalSex() {
+        guard let biologicalSex = UserDefaults.standard.string(forKey: "biologicalSex") else { return }
+        guard let index = biologicalSexData.firstIndex(of: biologicalSex) else { return }
+        pickerView.selectRow(index, inComponent: 0, animated: true)
+    }
+    
+    //Change weight
+    private func changeWeight() {
+        let weight = UserDefaults.standard.integer(forKey: "weight")
+        guard let index = weightData.firstIndex(of: weight) else { return }
+        pickerView.selectRow(index, inComponent: 0, animated: true)
+    }
+    
     @objc private func closeSettingsPopUp() {
         SwiftEntryKit.dismiss()
     }
     
     @objc private func saveDate() {
         let row = pickerView.selectedRow(inComponent: 0)
-        guard let volume = pickerView(pickerView, titleForRow: row, forComponent: 0)?.toDouble() else { return }
         
         switch type {
         case .changeDailyTarget:
+            guard let volume = pickerView(pickerView, titleForRow: row, forComponent: 0)?.toDouble() else { return }
             delegate?.dailyTargetChanged(value: volume)
         case .changeTrainingTarget:
+            guard let volume = pickerView(pickerView, titleForRow: row, forComponent: 0)?.toDouble() else { return }
             delegate?.dailyTrainingChanged(value: volume)
         case .changeContainerVolume:
+            guard let volume = pickerView(pickerView, titleForRow: row, forComponent: 0)?.toDouble() else { return }
             volumesDelegate?.volumesChanged(value: volume)
+        case .changeBiologicalSex:
+            guard let value = pickerView(pickerView, titleForRow: row, forComponent: 0) else { return }
+            delegate?.biologicalSexChanged(value: value)
+        case .changeWeight:
+            guard let value = pickerView(pickerView, titleForRow: row, forComponent: 0) else { return }
+            delegate?.weightChanged(value: Int(value)!)
         }
         SwiftEntryKit.dismiss()
     }
@@ -186,6 +222,10 @@ extension SettingsPopUp: UIPickerViewDataSource, UIPickerViewDelegate {
             return dailyTrainingData.count
         case .changeContainerVolume:
             return containerData.count
+        case .changeBiologicalSex:
+            return biologicalSexData.count
+        case .changeWeight:
+            return weightData.count
         }
     }
     
@@ -201,6 +241,10 @@ extension SettingsPopUp: UIPickerViewDataSource, UIPickerViewDelegate {
             return "\(dailyTrainingData[row])"
         case .changeContainerVolume:
             return "\(containerData[row])"
+        case .changeBiologicalSex:
+            return biologicalSexData[row]
+        case .changeWeight:
+            return "\(weightData[row])"
         }
     }
 }
