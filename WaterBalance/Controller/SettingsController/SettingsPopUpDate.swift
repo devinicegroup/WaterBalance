@@ -20,6 +20,7 @@ enum DateNotificationsEnum: String {
     case endDate = "endDate"
     case dateInterval = "dateInterval"
     case stopNotification = "stopNotification"
+    case dailyTargetForNotification = "dailyTargetForNotification"
 }
 
 class SettingsPopUpDate: UIView {

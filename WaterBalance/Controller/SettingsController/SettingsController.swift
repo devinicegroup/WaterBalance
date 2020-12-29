@@ -136,6 +136,7 @@ class SettingsController: UIViewController, MFMailComposeViewControllerDelegate 
     
     @objc private func stopNotificationChanged(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: DateNotificationsEnum.stopNotification.rawValue)
+        NotificationService.shared.uploadNotifications()
     }
     
     private func setupConstraints() {
@@ -323,7 +324,7 @@ extension SettingsController: SettingsDatePopUpProtocol {
         
         settingsData[selectedIndexPath.section][selectedIndexPath.row].subtitle = startDate
         tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
-        NotificationService.shared.createNotification()
+        NotificationService.shared.uploadNotifications()
     }
     
     func endDateChanges(date: Date) {
@@ -333,7 +334,7 @@ extension SettingsController: SettingsDatePopUpProtocol {
         
         settingsData[selectedIndexPath.section][selectedIndexPath.row].subtitle = endDate
         tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
-        NotificationService.shared.createNotification()
+        NotificationService.shared.uploadNotifications()
     }
     
     func timeIntervalChanges(timeInterval: TimeInterval) {
@@ -341,6 +342,8 @@ extension SettingsController: SettingsDatePopUpProtocol {
         
         settingsData[selectedIndexPath.section][selectedIndexPath.row].subtitle = timeInterval.formatted
         tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
-        NotificationService.shared.createNotification()
+        NotificationService.shared.uploadNotifications()
     }
+    
+    
 }

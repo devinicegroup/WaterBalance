@@ -20,6 +20,7 @@ class NotificationService: NSObject {
         notificationCenter.requestAuthorization(options: [.alert, .sound]) { (success, error) in
             guard success else { return }
             self.getNotificationSettings()
+            self.createNotification()
         }
     }
     
@@ -38,12 +39,26 @@ class NotificationService: NSObject {
 //        }
     }
     
-    func createNotification() {
+    func uploadNotifications() {
+        if UserDefaults.standard.bool(forKey: DateNotificationsEnum.dailyTargetForNotification.rawValue) && UserDefaults.standard.bool(forKey: DateNotificationsEnum.stopNotification.rawValue) {
+            NotificationService.shared.createNotification(dailyTarget: true)
+        } else {
+            NotificationService.shared.createNotification()
+        }
+    }
+    
+    func createNotification(dailyTarget: Bool = false) {
         removeNotification()
         guard var startDate = getStartDate() else { return }
         guard var endDate = getEndDate(startDate: startDate) else { return }
         let timeInterval = TimeInterval(UserDefaults.standard.double(forKey: DateNotificationsEnum.dateInterval.rawValue))
         var dateNotification = Date(timeIntervalSinceNow: timeInterval)
+        
+        if dailyTarget {
+            startDate = startDate.tomorrow ?? Date()
+            endDate = endDate.tomorrow ?? Date()
+            dateNotification = startDate
+        }
         
         for _ in 0..<64 {
             scheduleNotification(date: dateNotification)

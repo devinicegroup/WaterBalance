@@ -47,6 +47,12 @@ class MainController: UIViewController {
         drinkUps.forEach { (drinkUp) in
             drinkInDay += drinkUp.hydrationVolume
         }
+
+        UserDefaults.standard.set(drinkInDay >= targetInDay , forKey: DateNotificationsEnum.dailyTargetForNotification.rawValue)
+    }
+    
+    static func saveDataForTodayExtension() {
+        print(123123)
     }
     
     override func viewDidLoad() {
@@ -147,6 +153,7 @@ class MainController: UIViewController {
             addTrain(volume: -training!.volume)
             StorageService.shared.deleteObject(object: training!)
         }
+        NotificationService.shared.uploadNotifications()
     }
     
     @objc private func addLastDrinkUp() {
@@ -169,6 +176,8 @@ class MainController: UIViewController {
         dailyProgressBar.fgLayer.add(basicAnimation, forKey: "drink")
         drinkInDay += volume
         updateLabeles()
+        UserDefaults.standard.set(drinkInDay >= targetInDay , forKey: DateNotificationsEnum.dailyTargetForNotification.rawValue)
+        NotificationService.shared.uploadNotifications()
     }
     
     private func updateLabeles() {
@@ -191,6 +200,8 @@ class MainController: UIViewController {
         basicAnimation.isRemovedOnCompletion = false
         dailyProgressBar.fgLayer.add(basicAnimation, forKey: "drink")
         updateLabeles()
+        UserDefaults.standard.set(drinkInDay >= targetInDay , forKey: DateNotificationsEnum.dailyTargetForNotification.rawValue)
+        NotificationService.shared.uploadNotifications()
     }
     
     func setupCollectionView() {
@@ -343,7 +354,6 @@ extension MainController : ContainerPopUpProtocol {
         } else {
             saveDrinkUp(drink: drink, volume: volume)
         }
-        NotificationService.shared.createNotification()
         isActiveButtons()
     }
     
