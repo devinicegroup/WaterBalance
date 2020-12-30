@@ -9,6 +9,7 @@
 import UIKit
 import SwiftEntryKit
 import RealmSwift
+import WidgetKit
 
 class MainController: UIViewController {
     
@@ -40,6 +41,7 @@ class MainController: UIViewController {
         countVolume()
         addVolume(volume: 0)
         isActiveButtons()
+        saveDataForTodayExtension()
     }
     
     private func countVolume() {
@@ -51,8 +53,11 @@ class MainController: UIViewController {
         UserDefaults.standard.set(drinkInDay >= targetInDay , forKey: DateNotificationsEnum.dailyTargetForNotification.rawValue)
     }
     
-    static func saveDataForTodayExtension() {
-        print(123123)
+    func saveDataForTodayExtension() {
+        if #available(iOS 14.0, *) {
+            UserDefaultsServiceForWidget.shared.setDataForTodayExtension(currentVolume: drinkInDay, targetVolume: targetInDay, tariningVolume: StorageService.shared.getTraining(date: Date()).first?.volume ?? 0)
+            WidgetCenter.shared.reloadTimelines(ofKind: "WaterBalanceWidget")
+        }
     }
     
     override func viewDidLoad() {
@@ -153,7 +158,6 @@ class MainController: UIViewController {
             addTrain(volume: -training!.volume)
             StorageService.shared.deleteObject(object: training!)
         }
-        NotificationService.shared.uploadNotifications()
     }
     
     @objc private func addLastDrinkUp() {
@@ -178,6 +182,7 @@ class MainController: UIViewController {
         updateLabeles()
         UserDefaults.standard.set(drinkInDay >= targetInDay , forKey: DateNotificationsEnum.dailyTargetForNotification.rawValue)
         NotificationService.shared.uploadNotifications()
+        saveDataForTodayExtension()
     }
     
     private func updateLabeles() {
@@ -202,6 +207,7 @@ class MainController: UIViewController {
         updateLabeles()
         UserDefaults.standard.set(drinkInDay >= targetInDay , forKey: DateNotificationsEnum.dailyTargetForNotification.rawValue)
         NotificationService.shared.uploadNotifications()
+        saveDataForTodayExtension()
     }
     
     func setupCollectionView() {

@@ -34,7 +34,6 @@ class HealthService {
         }
         
         let healthKitTypesToWrite: Set<HKSampleType> = [bodyMass, dietaryWater, dietaryCaffeine]
-        //Возможно удалить из массива dietaryWater, dietaryCaffeine (если это не потребуется при удалении или редактировании записи)
         let healthKitTypesToRead: Set<HKObjectType> = [biologicalSex, bodyMass, dietaryWater, dietaryCaffeine]
         
         HKHealthStore().requestAuthorization(toShare: healthKitTypesToWrite, read: healthKitTypesToRead) { (success, error) in

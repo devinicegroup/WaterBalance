@@ -15,24 +15,12 @@ enum UserDefaultsServiceEnum: String {
     case firstDate = "FirstDate"
 }
 
-enum UserDefaultsTodayExtension: String {
-    case todayDate = "todayDateForTodayExtension"
-    case nextDate = "nextDateForTodayExtension"
-    case currentVolume = "currentVolumeForTodayExtension"
-    case targetVolume = "targetVolumeForTodayExtension"
-    case tariningVolume = "tariningVolumeForTodayExtension"
-}
-
 class UserDefaultsService {
     
     static let shared = UserDefaultsService()
     
     let defaults = UserDefaults.standard
     private let formatter = DateFormatter()
-    
-    func setDataForTodayExtension() {
-        
-    }
     
     func setVolumes() {
         defaults.set(750, forKey: ContainerEnum.decanter.rawValue)

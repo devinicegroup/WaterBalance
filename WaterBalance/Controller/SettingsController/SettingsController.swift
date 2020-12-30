@@ -9,6 +9,7 @@
 import UIKit
 import SwiftEntryKit
 import MessageUI
+import WidgetKit
 
 enum SettingsChangeType {
     case changeDailyTarget
@@ -262,6 +263,13 @@ extension SettingsController: SettingsPopUpProtocol {
     }
     
     func dailyTrainingChanged(value: Double) {
+        if #available(iOS 14.0, *) {
+            if ((StorageService.shared.getTraining(date: Date()).first?.volume) != nil) {
+                let newTarget = UserDefaults.standard.double(forKey: "target") + value
+                UserDefaultsServiceForWidget.shared.setDataForTodayExtension(volume: nil, targetVolume: newTarget)
+                WidgetCenter.shared.reloadTimelines(ofKind: "WaterBalanceWidget")
+            }
+        }
         UserDefaults.standard.set(value, forKey: "training")
         settingsData[selectedIndexPath.section][selectedIndexPath.row].subtitle = "\(Int(value))"
         tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
@@ -310,6 +318,11 @@ extension SettingsController: SettingsPopUpProtocol {
             StorageService.shared.updateDailyTarget(dailyTarget: dailyTarget!, volume: value)
         } else {
             StorageService.shared.saveDailyTarget(dailyTarget: newDailyTarget)
+        }
+        
+        if #available(iOS 14.0, *) {
+            UserDefaultsServiceForWidget.shared.setDataForTodayExtension(volume: nil, targetVolume: value)
+            WidgetCenter.shared.reloadTimelines(ofKind: "WaterBalanceWidget")
         }
     }
 }

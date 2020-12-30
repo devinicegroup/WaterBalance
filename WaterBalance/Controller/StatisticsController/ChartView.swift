@@ -17,7 +17,7 @@ public class BotttomChartFormatter: NSObject, IAxisValueFormatter {
             return days[Int(value)]
         } else {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MM.dd"
+            dateFormatter.dateFormat = "dd.MM"
             let stringDate = dateFormatter.string(from: ChartView.dates[Int(value)])
             return stringDate
         }

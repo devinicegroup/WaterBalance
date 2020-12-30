@@ -9,6 +9,7 @@
 import UIKit
 import SwiftEntryKit
 import HealthKit
+import WidgetKit
 
 protocol EditingControllerProtocol : NSObjectProtocol{
     func deleteDrinkUp()
@@ -152,6 +153,11 @@ extension EditingController: EditingDrinkControllerProtocol, DatePickerViewProto
         let caffeine = drinkUp.volume * drink.caffeine
         let (dietaryWaterId, dietaryCaffeineId) = updateDrinkUpInHealthStore(hydrationVolume: hydrationVolume, caffeine: caffeine, date: drinkUp.time)
         
+        if drinkUp.time.removeTimeStamp == Date().removeTimeStamp {
+            let newVolume = hydrationVolume - drinkUp.hydrationVolume
+            saveDataForTodayExtension(volume: newVolume)
+        }
+        
         StorageService.shared.updateDrink(drinkUp: drinkUp, drink: drink, dietaryWaterId: dietaryWaterId ?? "", dietaryCaffeineId: dietaryCaffeineId ?? "")
         tableView.reloadData()
     }
@@ -160,6 +166,12 @@ extension EditingController: EditingDrinkControllerProtocol, DatePickerViewProto
         let hydrationVolume = drinkUp.hydrationVolume
         let caffeine = drinkUp.caffeine
         let (dietaryWaterId, dietaryCaffeineId) = updateDrinkUpInHealthStore(hydrationVolume: hydrationVolume, caffeine: caffeine, date: date)
+        
+        if drinkUp.time.removeTimeStamp == Date().removeTimeStamp && date.removeTimeStamp != Date().removeTimeStamp {
+            saveDataForTodayExtension(volume: -hydrationVolume)
+        } else if drinkUp.time.removeTimeStamp != Date().removeTimeStamp && date.removeTimeStamp == Date().removeTimeStamp {
+            saveDataForTodayExtension(volume: hydrationVolume)
+        }
 
         StorageService.shared.updateDate(drinkUp: drinkUp, date: date, dietaryWaterId: dietaryWaterId ?? "", dietaryCaffeineId: dietaryCaffeineId ?? "")
         tableView.reloadData()
@@ -169,11 +181,22 @@ extension EditingController: EditingDrinkControllerProtocol, DatePickerViewProto
         let hydrationVolume = volume * drinkUp.drink!.hydration
         let caffeine = volume * drinkUp.drink!.caffeine
         let (dietaryWaterId, dietaryCaffeineId) = updateDrinkUpInHealthStore(hydrationVolume: hydrationVolume, caffeine: caffeine, date: drinkUp.time)
+        
+        if drinkUp.time.removeTimeStamp == Date().removeTimeStamp {
+            let newVolume = hydrationVolume - drinkUp.hydrationVolume
+            saveDataForTodayExtension(volume: newVolume)
+        }
 
         StorageService.shared.updateVolume(drinkUp: drinkUp, volume: volume, dietaryWaterId: dietaryWaterId ?? "", dietaryCaffeineId: dietaryCaffeineId ?? "")
         tableView.reloadData()
     }
     
+    func saveDataForTodayExtension(volume: Double) {
+        if #available(iOS 14.0, *) {
+            UserDefaultsServiceForWidget.shared.setDataForTodayExtension(volume: volume, targetVolume: nil)
+            WidgetCenter.shared.reloadTimelines(ofKind: "WaterBalanceWidget")
+        }
+    }
     
     private func updateDrinkUpInHealthStore(hydrationVolume: Double, caffeine: Double, date: Date) -> (dietaryWaterId: String?, dietaryCaffeineId: String?) {
         HealthService.shared.deleteSamples(drinkUp: drinkUp)

@@ -41,6 +41,14 @@
 		D38B978B253F2A0D00EF0D5B /* StatisticsController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D38B978A253F2A0D00EF0D5B /* StatisticsController.storyboard */; };
 		D38B9791253F2A5800EF0D5B /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38B9790253F2A5800EF0D5B /* SettingsController.swift */; };
 		D38B9793253F2A5F00EF0D5B /* SettingsController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D38B9792253F2A5F00EF0D5B /* SettingsController.storyboard */; };
+		D38E81E6259C75D500270FEE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D38E81E5259C75D500270FEE /* WidgetKit.framework */; };
+		D38E81E8259C75D500270FEE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D38E81E7259C75D500270FEE /* SwiftUI.framework */; };
+		D38E81EB259C75D500270FEE /* WaterBalanceWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38E81EA259C75D500270FEE /* WaterBalanceWidget.swift */; };
+		D38E81ED259C75D600270FEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D38E81EC259C75D600270FEE /* Assets.xcassets */; };
+		D38E81F1259C75D600270FEE /* WaterBalanceWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D38E81E4259C75D500270FEE /* WaterBalanceWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D38E8201259C96D000270FEE /* UserDefaultsServiceForWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38E8200259C96D000270FEE /* UserDefaultsServiceForWidget.swift */; };
+		D38E8204259C976700270FEE /* UserDefaultsServiceForWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38E8200259C96D000270FEE /* UserDefaultsServiceForWidget.swift */; };
+		D38E8207259CA24200270FEE /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BB3B8C254702A0003ADA74 /* UIColor + Extension.swift */; };
 		D39473A52565150C00188592 /* StreakOfSuccessfulDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39473A42565150C00188592 /* StreakOfSuccessfulDays.swift */; };
 		D39473A825653E0300188592 /* HistoryTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39473A725653E0300188592 /* HistoryTableViewHeader.swift */; };
 		D39694B825553634006FA89C /* Drink.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39694B725553634006FA89C /* Drink.swift */; };
@@ -74,6 +82,30 @@
 		D3F9F1E925629055009CA76A /* EditingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9F1E825629055009CA76A /* EditingController.swift */; };
 		D3FBBF8E258CABF700231D3B /* StartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FBBF8D258CABF700231D3B /* StartController.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D38E81EF259C75D600270FEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D39D601C253F10B0001B75E1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D38E81E3259C75D500270FEE;
+			remoteInfo = WaterBalanceWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D38E81F2259C75D600270FEE /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D38E81F1259C75D600270FEE /* WaterBalanceWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		544595685F45A3F2E7163E71 /* Pods-WaterBalance.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WaterBalance.debug.xcconfig"; path = "Target Support Files/Pods-WaterBalance/Pods-WaterBalance.debug.xcconfig"; sourceTree = "<group>"; };
@@ -114,6 +146,14 @@
 		D38B978A253F2A0D00EF0D5B /* StatisticsController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = StatisticsController.storyboard; sourceTree = "<group>"; };
 		D38B9790253F2A5800EF0D5B /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		D38B9792253F2A5F00EF0D5B /* SettingsController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsController.storyboard; sourceTree = "<group>"; };
+		D38E81E4259C75D500270FEE /* WaterBalanceWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WaterBalanceWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D38E81E5259C75D500270FEE /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		D38E81E7259C75D500270FEE /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		D38E81EA259C75D500270FEE /* WaterBalanceWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterBalanceWidget.swift; sourceTree = "<group>"; };
+		D38E81EC259C75D600270FEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D38E81EE259C75D600270FEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D38E81F8259C769500270FEE /* WaterBalanceWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WaterBalanceWidgetExtension.entitlements; sourceTree = "<group>"; };
+		D38E8200259C96D000270FEE /* UserDefaultsServiceForWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsServiceForWidget.swift; sourceTree = "<group>"; };
 		D39473A42565150C00188592 /* StreakOfSuccessfulDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakOfSuccessfulDays.swift; sourceTree = "<group>"; };
 		D39473A725653E0300188592 /* HistoryTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewHeader.swift; sourceTree = "<group>"; };
 		D39694B725553634006FA89C /* Drink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drink.swift; sourceTree = "<group>"; };
@@ -151,6 +191,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D38E81E1259C75D500270FEE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D38E81E8259C75D500270FEE /* SwiftUI.framework in Frameworks */,
+				D38E81E6259C75D500270FEE /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D39D6021253F10B0001B75E1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -224,6 +273,7 @@
 				D3ACC2D6255C54CA00C16000 /* HistoryController */,
 				D3E0F47125669800001F601A /* StatisticsController */,
 				D3E47FDD2580C54E003CD518 /* SettingsController */,
+				D3F9F1EB25629060009CA76A /* EditindDrink */,
 				D38B9783253F1FE600EF0D5B /* Storyboard */,
 			);
 			path = Controller;
@@ -238,6 +288,16 @@
 				D38B9792253F2A5F00EF0D5B /* SettingsController.storyboard */,
 			);
 			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		D38E81E9259C75D500270FEE /* WaterBalanceWidget */ = {
+			isa = PBXGroup;
+			children = (
+				D38E81EA259C75D500270FEE /* WaterBalanceWidget.swift */,
+				D38E81EC259C75D600270FEE /* Assets.xcassets */,
+				D38E81EE259C75D600270FEE /* Info.plist */,
+			);
+			path = WaterBalanceWidget;
 			sourceTree = "<group>";
 		};
 		D39C9F58254857A8003DB108 /* Extension */ = {
@@ -258,7 +318,9 @@
 		D39D601B253F10B0001B75E1 = {
 			isa = PBXGroup;
 			children = (
+				D38E81F8259C769500270FEE /* WaterBalanceWidgetExtension.entitlements */,
 				D39D6026253F10B0001B75E1 /* WaterBalance */,
+				D38E81E9259C75D500270FEE /* WaterBalanceWidget */,
 				D39D6025253F10B0001B75E1 /* Products */,
 				30C5F41352FA17CD336F8523 /* Pods */,
 				E30200DE5FF275994192C1DF /* Frameworks */,
@@ -269,6 +331,7 @@
 			isa = PBXGroup;
 			children = (
 				D39D6024253F10B0001B75E1 /* WaterBalance.app */,
+				D38E81E4259C75D500270FEE /* WaterBalanceWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -283,7 +346,6 @@
 				D3FF0734255535000004B1FD /* Service */,
 				D32AF14A254845E700305677 /* Model */,
 				D38B9780253F1F7300EF0D5B /* Controller */,
-				D3F9F1EB25629060009CA76A /* EditindDrink */,
 				D39C9F58254857A8003DB108 /* Extension */,
 				D39D6030253F10B0001B75E1 /* Assets.xcassets */,
 				D39D6032253F10B0001B75E1 /* LaunchScreen.storyboard */,
@@ -391,6 +453,7 @@
 			isa = PBXGroup;
 			children = (
 				D399AF9E254FDFAE006CD60D /* UserDefaultsService.swift */,
+				D38E8200259C96D000270FEE /* UserDefaultsServiceForWidget.swift */,
 				D34DFE8A25934B960003D397 /* HealthService.swift */,
 				D39694BB255548FF006FA89C /* StorageService.swift */,
 				D37A6BAD258275B600A9DCFA /* RateService.swift */,
@@ -404,6 +467,8 @@
 			children = (
 				D34DFE8F25934D5D0003D397 /* HealthKit.framework */,
 				67728C2C1DC78471F8A876DE /* Pods_WaterBalance.framework */,
+				D38E81E5259C75D500270FEE /* WidgetKit.framework */,
+				D38E81E7259C75D500270FEE /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -411,6 +476,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D38E81E3259C75D500270FEE /* WaterBalanceWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D38E81F5259C75D600270FEE /* Build configuration list for PBXNativeTarget "WaterBalanceWidgetExtension" */;
+			buildPhases = (
+				D38E81E0259C75D500270FEE /* Sources */,
+				D38E81E1259C75D500270FEE /* Frameworks */,
+				D38E81E2259C75D500270FEE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WaterBalanceWidgetExtension;
+			productName = WaterBalanceWidgetExtension;
+			productReference = D38E81E4259C75D500270FEE /* WaterBalanceWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		D39D6023253F10B0001B75E1 /* WaterBalance */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D39D6038253F10B0001B75E1 /* Build configuration list for PBXNativeTarget "WaterBalance" */;
@@ -420,10 +502,12 @@
 				D39D6021253F10B0001B75E1 /* Frameworks */,
 				D39D6022253F10B0001B75E1 /* Resources */,
 				D09644456DC8F51ADB497FF4 /* [CP] Embed Pods Frameworks */,
+				D38E81F2259C75D600270FEE /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D38E81F0259C75D600270FEE /* PBXTargetDependency */,
 			);
 			name = WaterBalance;
 			productName = WaterBalance;
@@ -436,10 +520,13 @@
 		D39D601C253F10B0001B75E1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1170;
+				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "Sergei Polivanov";
 				TargetAttributes = {
+					D38E81E3259C75D500270FEE = {
+						CreatedOnToolsVersion = 12.3;
+					};
 					D39D6023253F10B0001B75E1 = {
 						CreatedOnToolsVersion = 11.7;
 					};
@@ -460,11 +547,20 @@
 			projectRoot = "";
 			targets = (
 				D39D6023253F10B0001B75E1 /* WaterBalance */,
+				D38E81E3259C75D500270FEE /* WaterBalanceWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D38E81E2259C75D500270FEE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D38E81ED259C75D600270FEE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D39D6022253F10B0001B75E1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -523,6 +619,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D38E81E0259C75D500270FEE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D38E8207259CA24200270FEE /* UIColor + Extension.swift in Sources */,
+				D38E8204259C976700270FEE /* UserDefaultsServiceForWidget.swift in Sources */,
+				D38E81EB259C75D500270FEE /* WaterBalanceWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D39D6020253F10B0001B75E1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -548,6 +654,7 @@
 				D38B9785253F29B300EF0D5B /* HistoryController.swift in Sources */,
 				D38B977F253F1F6700EF0D5B /* MainController.swift in Sources */,
 				D30710AB255C1610009B2425 /* CalendarCell.swift in Sources */,
+				D38E8201259C96D000270FEE /* UserDefaultsServiceForWidget.swift in Sources */,
 				D39C9F57254856D8003DB108 /* UIFont + Extension.swift in Sources */,
 				D39694BC255548FF006FA89C /* StorageService.swift in Sources */,
 				D30F0FFE2562F11B00F2F703 /* EditingDrinkController.swift in Sources */,
@@ -590,6 +697,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		D38E81F0259C75D600270FEE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D38E81E3259C75D500270FEE /* WaterBalanceWidgetExtension */;
+			targetProxy = D38E81EF259C75D600270FEE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		D39D6032253F10B0001B75E1 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -603,6 +718,52 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D38E81F3259C75D600270FEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = WaterBalanceWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = AUPZ6F8J7V;
+				INFOPLIST_FILE = WaterBalanceWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = devinice.WaterBalance.WaterBalanceWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D38E81F4259C75D600270FEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = WaterBalanceWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = AUPZ6F8J7V;
+				INFOPLIST_FILE = WaterBalanceWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = devinice.WaterBalance.WaterBalanceWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		D39D6036253F10B0001B75E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -725,6 +886,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 544595685F45A3F2E7163E71 /* Pods-WaterBalance.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = WaterBalance/WaterBalance.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -748,6 +910,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9FF6D333FF063C776E52C93A /* Pods-WaterBalance.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = WaterBalance/WaterBalance.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -770,6 +933,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D38E81F5259C75D600270FEE /* Build configuration list for PBXNativeTarget "WaterBalanceWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D38E81F3259C75D600270FEE /* Debug */,
+				D38E81F4259C75D600270FEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D39D601F253F10B0001B75E1 /* Build configuration list for PBXProject "WaterBalance" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
